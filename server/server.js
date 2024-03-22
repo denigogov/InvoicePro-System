@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(cors());
 app.use(compression());
 app.use(helmet());
-
 app.disable("x-powered-by");
 
 const port = process.env.SERVER_PORT || 4001;
@@ -25,4 +24,5 @@ app.listen(port, (err) => {
     ? "Something bad happen"
     : `Server is listening on http://localhost:${port}/`;
 });
+
 module.exports = { app };

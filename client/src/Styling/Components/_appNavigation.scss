@@ -1,0 +1,186 @@
+@use "../GlobalStyling/mixin";
+@use "../GlobalStyling/popUp";
+@use "../GlobalStyling/colors";
+@use "../GlobalStyling/general";
+
+.appNavigation {
+  .openNav {
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    ul {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      img {
+        display: none;
+      }
+
+      img.logoutIcon {
+        display: block;
+      }
+    }
+  }
+}
+
+.logo {
+  cursor: pointer;
+  display: flex;
+  // flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  img {
+    width: 60px;
+  }
+
+  p {
+    font-weight: 300;
+  }
+
+  .companyName {
+    color: colors.$font-Title;
+    text-align: center;
+    font-weight: 500;
+  }
+}
+
+.logoutIcon {
+  width: 30px;
+  cursor: pointer;
+  transition: general.$transition;
+  margin: 0 auto;
+  display: none;
+
+  &:hover {
+    filter: drop-shadow(8px 2px 3px rgb(0 0 0 / 0.5));
+  }
+}
+
+.mobile,
+.nav-footer {
+  display: none;
+}
+
+// Mobile View Start
+@media (max-width: general.$sm) {
+  .appNavigation {
+    .openNav {
+      position: fixed;
+      height: 100vh;
+      width: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      z-index: 3;
+      background: colors.$background-secondary;
+      transition: general.$transition;
+
+      nav {
+        width: 100%;
+
+        ul {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+
+          li {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            padding: 5px 20px;
+            gap: 25px;
+
+            img {
+              display: block;
+              width: 2rem;
+            }
+          }
+        }
+      }
+    }
+
+    .closeNav {
+      transition: general.$transition;
+      transform: translateX(-240px);
+    }
+  }
+
+  .logoutIcon {
+    display: block;
+  }
+
+  .logo {
+    flex-direction: column;
+
+    p {
+      text-align: center;
+      font-weight: 300;
+    }
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .nav-footer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .nav-footer__icon {
+    display: flex;
+    gap: 10px;
+    img {
+      width: 35px;
+    }
+  }
+
+  //   .overlay {
+  //     @include mixin.overlay();
+  //   }
+
+  // // Hamburger Menu Icon
+  .navIcon {
+    z-index: 2;
+    position: fixed;
+    top: 0px;
+    left: 25px;
+    transform: translate(-50%, 50%) rotate(90deg);
+    cursor: pointer;
+
+    span {
+      cursor: pointer;
+      font-size: 15px;
+      border-left: 3px solid #ff8080;
+      padding: 3px;
+      font-size: 6px;
+
+      &:first-child {
+        border-color: #ff8080;
+        font-size: 18px;
+      }
+
+      &:nth-child(2) {
+        border-color: #ff8080;
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+.active {
+  color: colors.$font-Title;
+  line-height: 1.5;
+  border-bottom: 1px solid colors.$font-Title;
+  transition: border-bottom-width 0.5s ease-in-out;
+}

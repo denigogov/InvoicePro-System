@@ -1,0 +1,368 @@
+@use "../GlobalStyling/colors";
+@use "../GlobalStyling/general";
+
+@mixin button() {
+  padding: 15px 50px;
+  border-radius: 25px;
+  color: white;
+  background: colors.$button;
+  border: none;
+  outline: none;
+  transition: general.$transition;
+  cursor: pointer;
+  &:hover {
+    background: colors.$button-dark;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@mixin gradientBackground--btn-action(
+  $background1: colors.$actionBtn__background--1,
+  $background2: colors.$actionBtn__background--2,
+  $background-hover-1: colors.$actionBtn__background--hover-1,
+  $background-hover-2: colors.$actionBtn__background--hover-2
+) {
+  color: colors.$background-secondary;
+  @include button;
+
+  background-image: repeating-linear-gradient(
+      135deg,
+      rgba(68, 68, 68, 0.07) 0px,
+      rgba(68, 68, 68, 0.07) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(68, 68, 68, 0.07) 0px,
+      rgba(68, 68, 68, 0.07) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    linear-gradient(90deg, #{$background1}, #{$background2});
+
+  &:hover {
+    background-image: repeating-linear-gradient(
+        135deg,
+        rgba(68, 68, 68, 0.07) 0px,
+        rgba(68, 68, 68, 0.07) 2px,
+        transparent 2px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        45deg,
+        rgba(68, 68, 68, 0.07) 0px,
+        rgba(68, 68, 68, 0.07) 2px,
+        transparent 2px,
+        transparent 4px
+      ),
+      linear-gradient(90deg, #{$background-hover-1}, #{$background-hover-2});
+  }
+}
+
+@mixin inputLogin {
+  border: 1px solid colors.$border-Primary;
+  border-radius: 10px;
+  background-size: 1.5rem;
+  background-position: right 10px top 11px;
+  padding: 13px 40px;
+
+  &:focus {
+    outline: 1px solid colors.$border-Primary-Dark;
+  }
+}
+
+@mixin input {
+  text-align: center;
+  padding: 13px;
+  border-radius: 25px;
+  border: 1px solid colors.$border-Primary;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: 1px solid colors.$border-Primary;
+  }
+}
+
+@mixin inputFiledsAddIcon() {
+  // To be able to use I need to combine with mixin input ! ... I did that because maybe in the future I will add different styling to the btn
+  // add image before this mixing in the component background:url('')
+  text-align: center;
+  padding-left: 26px;
+  background-repeat: no-repeat;
+  background-position: left 5px top 8px;
+
+  background-size: 25px;
+  background-color: #fff;
+}
+
+//   @mixin buttonHover($btnHoverColor: colors.$primary-darker) {
+//     background-color: $btnHoverColor;
+//   }
+
+@mixin table() {
+  table {
+    background-color: #fff;
+    width: 100%;
+    // height: 400px; /* heigh of the table */
+    border-collapse: collapse;
+    text-align: center;
+    box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+
+    th {
+      background-color: colors.$background-secondary;
+    }
+    th,
+    td {
+      position: relative;
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid colors.$border-Primary;
+
+      img {
+        display: block;
+        margin: 0 auto;
+        width: 24px;
+        cursor: pointer;
+      }
+    }
+
+    tr:hover {
+      transition: general.$transition;
+      background-color: colors.$background-secondary;
+    }
+  }
+  @media (max-width: general.$md) {
+    td {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: 15ch auto;
+
+      &:first-child {
+        margin-top: 2rem;
+      }
+
+      &:last-child {
+        margin-bottom: 2rem;
+      }
+
+      &::before {
+        content: attr(data-cell) ": ";
+        font-weight: 600;
+        float: left;
+      }
+    }
+
+    th {
+      display: none;
+    }
+  }
+}
+
+@mixin overflowScroll() {
+  // height: calc(100vh - 6rem); // also need to adjust the screen size ! viewport
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: colors.$font-style;
+  }
+}
+
+// Edit btn in Employee Time Management
+// Only avaiable on White Background
+@mixin editButton() {
+  width: 100px;
+  height: 40px;
+  border: 1px solid #333;
+  font-size: 17px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
+  transition: 1s;
+
+  &:active {
+    transform: scale(0.9);
+    background: colors.$background-secondary;
+  }
+
+  &:hover {
+    border-radius: 15px;
+  }
+  &::before,
+  &::after {
+    position: absolute;
+    background: #fff;
+    z-index: -1;
+    transition: 1s;
+    content: "";
+  }
+
+  &::before {
+    height: 50px;
+    width: 70px;
+  }
+
+  &::after {
+    width: 100px;
+    height: 30px;
+  }
+
+  &:hover::before {
+    width: 0px;
+  }
+
+  &:hover::after {
+    height: 0px;
+  }
+}
+
+@mixin saveAddBtn() {
+  position: relative;
+  padding: 5px 12px;
+  height: 40px;
+  width: 150px;
+  outline: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: #ffffff;
+  border: 1px solid #fba9a9;
+  color: #a72916;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+
+  span {
+    color: colors.$font-Primary;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+  }
+  &:active {
+    transform: scale(0.96) !important;
+  }
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: colors.$button;
+    opacity: 0;
+    transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1),
+      opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transform: translate(100%, -25%) translate3d(0, 0, 0);
+  }
+  &:hover {
+    animation: rotate 0.7s ease-in-out both;
+    span {
+      animation: storm 0.7s ease-in-out both;
+      animation-delay: 0.06s;
+    }
+
+    &:before,
+    &:after {
+      opacity: 0.15;
+      transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1),
+        opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);
+    }
+    &:before {
+      transform: translate3d(50%, 0, 0) scale(0.9);
+    }
+    &:after {
+      transform: translate(50%, 0) scale(1.1);
+    }
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  25% {
+    transform: rotate(3deg) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotate(-3deg) translate3d(0, 0, 0);
+  }
+  75% {
+    transform: rotate(1deg) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+@keyframes storm {
+  0% {
+    transform: translate3d(0, 0, 0) translateZ(0);
+  }
+  25% {
+    transform: translate3d(4px, 0, 0) translateZ(0);
+  }
+  50% {
+    transform: translate3d(-3px, 0, 0) translateZ(0);
+  }
+  75% {
+    transform: translate3d(2px, 0, 0) translateZ(0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) translateZ(0);
+  }
+}
+
+//  Example inside of the owner account top
+@mixin hoverCardsEffect {
+  //on hover  //Artist: Temani Afif
+
+  --b: 0.1em; /* the thickness of the line */
+  --c: #0000; /* the color */
+  color: #0000;
+  padding-block: var(--b);
+  background: linear-gradient(var(--c) 50%, #000 0) 0%
+      calc(100% - var(--_p, 0%)) / 100% 200%,
+    linear-gradient(var(--c) 0 0) 0% var(--_p, 0%) / var(--_p, 0%) var(--b)
+      no-repeat;
+  -webkit-background-clip: text, padding-box;
+
+  background-clip: text, padding-box;
+  transition: 0.3s var(--_s, 0s) linear,
+    background-size 0.3s calc(0.3s - var(--_s, 0s));
+  &:hover {
+    --_p: 100%;
+    --_s: 0.3s;
+  }
+}
+
+@mixin iconAddText() {
+  padding: 10px;
+  display: flex;
+
+  &::after {
+    display: flex;
+    align-items: center;
+
+    font-size: 13px;
+  }
+
+  img {
+    width: 35px;
+  }
+
+  // how to add text in the class after calling the iconAddText I can add pseudo class after
+  // &::after {
+  //   content: "your text";
+  // }
+}

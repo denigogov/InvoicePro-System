@@ -1,9 +1,9 @@
-interface AppProps {}
+import RootRouter from "./router/RootRouter";
 
-const App: React.FC<AppProps> = ({}) => {
+const App = () => {
   return (
     <div>
-      <h1>Hello</h1>
+      <RootRouter />
     </div>
   );
 };

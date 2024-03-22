@@ -1,0 +1,36 @@
+@use "../GlobalStyling/colors";
+@use "../GlobalStyling/general";
+@use "../GlobalStyling/mixin";
+
+.errorMessage {
+  font-size: 0.75em;
+  color: colors.$error;
+}
+
+// Remove the PromptAlert outline border !
+.swal2-popup .swal2-styled:focus {
+  box-shadow: none !important;
+}
+.button__submit {
+  @include mixin.saveAddBtn;
+}
+
+// Only avaiable on White Background
+.button__edit {
+  @include mixin.button;
+}
+
+.button__table {
+  @include mixin.button;
+  letter-spacing: general.$spacing;
+  background: colors.$font-Primary;
+  padding: 7px 20px;
+}
+
+.table {
+  @include mixin.table;
+}
+
+.action__button-global {
+  @include mixin.gradientBackground--btn-action;
+}

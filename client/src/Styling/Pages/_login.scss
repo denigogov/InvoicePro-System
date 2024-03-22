@@ -1,0 +1,61 @@
+@use "../GlobalStyling/general";
+@use "../GlobalStyling/colors";
+@use "../GlobalStyling/mixin";
+
+.loginForm {
+  background: colors.$background;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  text-align: center;
+  // height: calc(100vh - 6rem);
+  height: 100vh;
+
+  &__comapny {
+    font-size: 32px;
+    font-weight: 200;
+
+    &_name {
+      color: colors.$font-Title;
+      font-weight: 300;
+    }
+  }
+
+  &__logo {
+    padding: 10px;
+    img {
+      width: 4.3rem;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+
+    input[type="text"] {
+      background: url(../../assets/userIcon.svg) no-repeat;
+      background-color: white;
+      @include mixin.inputLogin();
+    }
+
+    input[type="password"] {
+      background: url(../../assets//passwordIcon.svg) no-repeat;
+      background-color: white;
+      @include mixin.inputLogin();
+    }
+
+    button {
+      @include mixin.gradientBackground--btn-action(
+        rgba(198, 205, 119, 0),
+        rgba(86, 85, 85, 0.182),
+        rgba(196, 196, 196, 0.312),
+        rgba(86, 85, 85, 0.601)
+      );
+      color: white;
+    }
+  }
+}
