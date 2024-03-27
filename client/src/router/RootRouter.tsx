@@ -13,7 +13,7 @@ import Settings from "../pages/Settings/Settings";
 import Invoices from "../pages/Invoices/Invoices";
 
 const RootRouter = ({}) => {
-  const token: string = "3";
+  const token: string = "";
 
   if (!token) {
     return <Login />;
