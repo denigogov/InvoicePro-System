@@ -1,12 +1,19 @@
 import "../../Styling/Components/LoginComponent/_confirmCode.scss";
 import mailTruck from "../../assets/mailTruck.svg";
 import { useRef } from "react";
+import LoadingRing from "../GlobalComponents/LoadingRing";
 
 interface ConfirmCodeProps {
   handleConfirmBtn: (code: string) => Promise<void>;
+  confirmError: string;
+  loadingConfirm: boolean;
 }
 
-const ConfirmCode: React.FC<ConfirmCodeProps> = ({ handleConfirmBtn }) => {
+const ConfirmCode: React.FC<ConfirmCodeProps> = ({
+  handleConfirmBtn,
+  confirmError,
+  loadingConfirm,
+}) => {
   const confirmCodeRef = useRef<HTMLInputElement>(null);
 
   const handleConfirmation = (e: React.FormEvent) => {
@@ -30,9 +37,13 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({ handleConfirmBtn }) => {
         </p>
         <form onSubmit={handleConfirmation}>
           <label></label> <br />
-          <input type="text" ref={confirmCodeRef} />
+          <input type="text" ref={confirmCodeRef} required maxLength={8} />
           <button>login</button>
         </form>
+        <br />
+        <p className="errorMessage">{confirmError}</p>
+
+        {loadingConfirm && <LoadingRing />}
       </div>
     </div>
   );

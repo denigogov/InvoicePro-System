@@ -14,6 +14,9 @@ const Login: React.FC<LoginProps> = ({}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
+  const [loadingConfirm, setLoadingConfirm] = useState<boolean>(false);
+  const [confirmError, setConfirmError] = useState<string>("");
+
   const auth = useAuth();
 
   const loginResponse = async (credentials: CredentialsTypes) => {
@@ -35,7 +38,7 @@ const Login: React.FC<LoginProps> = ({}) => {
       return data.token as string;
     } catch (err) {
       const requestError = (err as Error).stack;
-
+      console.log(requestError);
       setError(
         requestError?.includes("Too")
           ? "Too Many Request, Please Try later ! "
@@ -55,6 +58,7 @@ const Login: React.FC<LoginProps> = ({}) => {
   };
 
   const confirmLogin = async (confirmCode: string) => {
+    setLoadingConfirm(true);
     try {
       const response = await fetch(`${API_URL}/login/confirm`, {
         method: "POST",
@@ -65,38 +69,53 @@ const Login: React.FC<LoginProps> = ({}) => {
         body: JSON.stringify({ auth: confirmCode }),
       });
       const data = await response.json();
-      console.log("dataCall", data);
+
+      if (data?.error) {
+        throw new Error(data?.error);
+      }
+
+      console.log(data);
 
       return data as any;
     } catch (err) {
-      console.log((err as Error).message);
+      setConfirmError(`${err}`);
+    } finally {
+      setLoadingConfirm(false);
     }
   };
 
   const handleConfirmBtn = async (code: string) => {
-    try {
-      const { token } = await confirmLogin(code);
-      auth.setConfirmToken("");
+    const { token } = await confirmLogin(code);
 
-      if (token.length) auth.login(token);
-    } catch (err) {
-      console.log((err as Error).message);
+    if (token?.length) {
+      auth.login(token);
+      localStorage.removeItem("userAccess");
     }
   };
 
+  console.log(auth.validateToken);
+
   return (
     <div>
-      {!auth.validateToken?.length ? (
+      {!auth.validateToken?.length && !auth.token?.length ? (
         <>
-          <LoginForm
-            loading={loading}
-            error={error}
-            handleLogin={handleLogin}
-          />
+          {auth.validateToken?.length || (
+            <LoginForm
+              loading={loading}
+              error={error}
+              handleLogin={handleLogin}
+            />
+          )}
         </>
       ) : (
         <>
-          <ConfirmCode handleConfirmBtn={handleConfirmBtn} />
+          {auth.validateToken?.length && (
+            <ConfirmCode
+              handleConfirmBtn={handleConfirmBtn}
+              loadingConfirm={loadingConfirm}
+              confirmError={confirmError}
+            />
+          )}
         </>
       )}
 

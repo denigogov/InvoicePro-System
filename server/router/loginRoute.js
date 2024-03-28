@@ -8,9 +8,14 @@ const {
   sendUserInfo,
 } = require("../database/login");
 
+const {
+  validateUserLogin,
+  validateConfirmCode,
+} = require("../validation/loginValidation");
+
 router
-  .post("/", findUserData, verifyPassword)
-  .post("/confirm", verifyToken, confirmCode)
+  .post("/", findUserData, validateUserLogin, verifyPassword)
+  .post("/confirm", verifyToken, validateConfirmCode, confirmCode)
   .get("/", verifyToken, validateUser, sendUserInfo);
 
 //   FOR creating new user !

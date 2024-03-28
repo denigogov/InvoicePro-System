@@ -16,7 +16,7 @@ import { useAuth } from "../helpers/Auth";
 const RootRouter = ({}) => {
   const auth = useAuth();
 
-  const token: string = auth?.token ?? "";
+  const token: string = auth?.token ?? "2";
 
   if (!token) {
     return <Login />;

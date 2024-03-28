@@ -43,12 +43,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
       <form onSubmit={handleClickLogin}>
         <input
           required
-          type="text"
+          type="email"
           name="email"
           ref={emailRef}
           // defaultValue="owner@gmail.com"
           placeholder="email"
-          list="accounts"
         />
         <input
           required

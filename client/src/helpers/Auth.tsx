@@ -13,7 +13,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
   const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
 
-  const [validateToken, setValidateToken] = useState<TokenType>(null);
+  const [validateToken, setValidateToken] = useState<TokenType>(
+    localStorage.getItem("userAccess") ?? null
+  );
 
   const login = (token?: TokenType) => {
     if (token && token?.length) {
@@ -33,6 +35,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const setConfirmToken = (validateToken: TokenType) => {
     if (validateToken && validateToken?.length) {
+      localStorage.setItem("userAccess", validateToken);
       setValidateToken(validateToken);
     }
   };
