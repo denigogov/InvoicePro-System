@@ -11,9 +11,12 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import AppRoute from "./AppRoute";
 import Settings from "../pages/Settings/Settings";
 import Invoices from "../pages/Invoices/Invoices";
+import { useAuth } from "../helpers/Auth";
 
 const RootRouter = ({}) => {
-  const token: string = "";
+  const auth = useAuth();
+
+  const token: string = auth?.token ?? "";
 
   if (!token) {
     return <Login />;
@@ -27,6 +30,8 @@ const RootRouter = ({}) => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/settings" element={<Settings />} />
+
+        <Route path="*" element={<h1>Pae Not Found</h1>} />
       </Route>
     )
   );

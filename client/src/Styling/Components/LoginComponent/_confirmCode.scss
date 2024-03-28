@@ -1,0 +1,75 @@
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/mixin";
+
+.confirmCode {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 40%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  &__image,
+  &__text {
+    flex: 1;
+  }
+
+  &__text {
+    &-header {
+      font-size: 1.6rem;
+      color: colors.$font-Primary;
+    }
+
+    &-subTitle {
+      font-size: 17px;
+      color: colors.$font-Secound;
+    }
+
+    form {
+      input {
+        @include mixin.inputLogin;
+        letter-spacing: 15px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 16px;
+      }
+      button {
+        @include mixin.gradientBackground--btn-action;
+        padding: 12px 2rem;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+@media (max-width: general.$sm) {
+  .confirmCode {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    &__image,
+    &__text {
+      flex: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      input {
+        @include mixin.inputLogin;
+      }
+      button {
+        @include mixin.gradientBackground--btn-action;
+      }
+    }
+  }
+}

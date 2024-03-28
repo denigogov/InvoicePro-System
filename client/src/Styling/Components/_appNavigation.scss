@@ -3,184 +3,156 @@
 @use "../GlobalStyling/colors";
 @use "../GlobalStyling/general";
 
-.appNavigation {
-  .openNav {
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-
-    ul {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-
-      img {
-        display: none;
-      }
-
-      img.logoutIcon {
-        display: block;
-      }
-    }
-  }
-}
-
 .logo {
-  cursor: pointer;
-  display: flex;
-  // flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  text-align: center;
+
+  &::after {
+    content: "All Transport InvoicePro System";
+    font-size: 10px;
+    line-height: 1.2;
+    color: colors.$font-Primary;
+    display: block;
+  }
 
   img {
-    width: 60px;
-  }
-
-  p {
-    font-weight: 300;
-  }
-
-  .companyName {
-    color: colors.$font-Title;
-    text-align: center;
-    font-weight: 500;
+    width: 40px;
+    margin: 0 auto;
   }
 }
 
-.logoutIcon {
-  width: 30px;
+.arrowOpenCloseNav {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  border: solid colors.$font-Title;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 7px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
   cursor: pointer;
-  transition: general.$transition;
-  margin: 0 auto;
-  display: none;
 
   &:hover {
-    filter: drop-shadow(8px 2px 3px rgb(0 0 0 / 0.5));
+    border-color: colors.$font-tertiary;
   }
 }
 
-.mobile,
-.nav-footer {
-  display: none;
+.animationArrow {
+  animation: rotateArrow 0.2s 2 linear forwards;
 }
 
-// Mobile View Start
-@media (max-width: general.$sm) {
-  .appNavigation {
-    .openNav {
-      position: fixed;
-      height: 100vh;
-      width: 240px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+@keyframes rotateArrow {
+  0% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+}
 
-      z-index: 3;
-      background: colors.$background-secondary;
-      transition: general.$transition;
+.animationArrowBackwords {
+  animation: rotateArrow1 0.2s 2 linear forwards;
+}
 
-      nav {
-        width: 100%;
+@keyframes rotateArrow1 {
+  0% {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+}
 
-        ul {
-          display: flex;
-          flex-direction: column;
-          align-items: start;
+.appNavigation {
+  .scroll {
+    display: block;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }
 
-          li {
-            display: flex;
-            flex-direction: row-reverse;
-            align-items: center;
-            padding: 5px 20px;
-            gap: 25px;
+  .closeNav {
+    transform: translateX(-100px);
+  }
 
-            img {
-              display: block;
-              width: 2rem;
-            }
+  .openNav {
+    transform: translateY(50%);
+  }
+
+  .navbar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    max-width: 100px;
+
+    border-radius: 2rem;
+    border: 1px solid colors.$border-Primary-Dark;
+    background-color: white;
+    transition: general.$transition;
+    box-shadow: colors.$box-shadow-secondary;
+    ul {
+      img {
+        width: 27px;
+      }
+      li {
+        list-style-type: none;
+        display: flex;
+        position: relative;
+        flex-basis: 100%;
+        min-height: 80px;
+
+        align-items: center;
+        justify-content: center;
+
+        color: #555;
+        transition: transform 0.5s ease, opacity 0.2s ease;
+        cursor: pointer;
+
+        &:hover {
+          color: colors.$font-Title;
+          transform: translateY(-1rem);
+
+          span {
+            transform: translateY(1.5rem);
+            opacity: 1;
           }
+        }
+
+        span {
+          font-size: 13px;
+          font-weight: 500;
+          position: absolute;
+          transform: translate(0, 50px);
+          transition: transform 0.5s ease, opacity 0.3s ease;
+          opacity: 0;
         }
       }
     }
-
-    .closeNav {
-      transition: general.$transition;
-      transform: translateX(-240px);
-    }
-  }
-
-  .logoutIcon {
-    display: block;
-  }
-
-  .logo {
-    flex-direction: column;
-
-    p {
-      text-align: center;
-      font-weight: 300;
-    }
-  }
-
-  .mobile {
-    display: block;
-  }
-
-  .nav-footer {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .nav-footer__icon {
-    display: flex;
-    gap: 10px;
-    img {
-      width: 35px;
-    }
-  }
-
-  //   .overlay {
-  //     @include mixin.overlay();
-  //   }
-
-  // // Hamburger Menu Icon
-  .navIcon {
-    z-index: 2;
-    position: fixed;
-    top: 0px;
-    left: 25px;
-    transform: translate(-50%, 50%) rotate(90deg);
-    cursor: pointer;
-
-    span {
-      cursor: pointer;
-      font-size: 15px;
-      border-left: 3px solid #ff8080;
-      padding: 3px;
-      font-size: 6px;
-
-      &:first-child {
-        border-color: #ff8080;
-        font-size: 18px;
-      }
-
-      &:nth-child(2) {
-        border-color: #ff8080;
-        font-size: 11px;
-      }
-    }
   }
 }
 
-.active {
-  color: colors.$font-Title;
-  line-height: 1.5;
-  border-bottom: 1px solid colors.$font-Title;
-  transition: border-bottom-width 0.5s ease-in-out;
+@media (max-width: 350px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    max-width: 120px;
+    padding-bottom: 20px;
+
+    .list-item {
+      flex-basis: auto;
+    }
+
+    .list-item:hover {
+      .list-item-name {
+        transform: translateY(25px);
+      }
+    }
+  }
 }

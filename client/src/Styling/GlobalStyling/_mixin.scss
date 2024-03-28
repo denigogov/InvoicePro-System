@@ -345,24 +345,3 @@
     --_s: 0.3s;
   }
 }
-
-@mixin iconAddText() {
-  padding: 10px;
-  display: flex;
-
-  &::after {
-    display: flex;
-    align-items: center;
-
-    font-size: 13px;
-  }
-
-  img {
-    width: 35px;
-  }
-
-  // how to add text in the class after calling the iconAddText I can add pseudo class after
-  // &::after {
-  //   content: "your text";
-  // }
-}

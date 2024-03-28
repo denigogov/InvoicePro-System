@@ -1,54 +1,27 @@
-$background: linear-gradient(to right, #fdfbfb, #ebedee);
-$background1: linear-gradient(
-  to right,
-  #fdfbfb,
-  #ebedee,
-  #f9f9f9,
-  #ffffff,
-  #ebedee
-);
-
-$background-secondary: #f5f5f5;
-$background-AppNavBar: linear-gradient(to bottom, #fdfbfba5, #ebedee);
-
-$dashboardBoxes: #fff;
-$timeManagementBoxes: #fff;
-
-$ownerTopCards: #fff;
-
-$dashboard-Employees-Box: linear-gradient(to left, #fdfbfb, #fff);
 // $dashboard-Employees-Box--Shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-$dashboard-Employees-Box--Shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-$dashboard-Owner-Box--Shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
+// Im using them in mixing I need to delete from there first !
 $button: linear-gradient(to right, #cd5a5a, #ff8080);
-$button-light: linear-gradient(
-  to right,
-  #cd5a5a,
-  #ff8080,
-  #fba9a9,
-  #f9d0d0,
-  #f7e7e7
-);
 $button-dark: linear-gradient(to right, #d25b5b, rgb(254, 147, 147));
-
 $actionBtn__background--1: rgb(249, 227, 102);
 $actionBtn__background--2: rgb(249, 186, 70);
 $actionBtn__background--hover-1: rgb(240, 213, 55);
 $actionBtn__background--hover-2: rgb(248, 168, 20);
 
+// In use
+$background: linear-gradient(to right, #fdfbfb, #ebedee);
+$background-secondary: #f5f5f5;
+
 $font-Title: #003366;
+
 $font-Primary: #39424e;
 $font-Secound: #666666;
 $font-tertiary: #cdc9c9;
-$font-style: #fe9393;
+
+$dashboard-Owner-Box--Shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+$box-shadow-secondary: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
 $border-Primary: #e0e0e0;
 $border-Primary-Dark: #b7b7b7;
 
-$multiForm-progressBar: #fba9a9;
-
 $error: #da0404;
-$success: #1e90ff;
-
-$NavLinkActive: #ff8080;
