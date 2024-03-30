@@ -1,7 +1,8 @@
 import "../../Styling/Components/LoginComponent/_confirmCode.scss";
 import mailTruck from "../../assets/mailTruck.svg";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import LoadingRing from "../GlobalComponents/LoadingRing";
+import CodeResend from "./CodeResend";
 
 interface ConfirmCodeProps {
   handleConfirmBtn: (code: string) => Promise<void>;
@@ -15,12 +16,17 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
   loadingConfirm,
 }) => {
   const confirmCodeRef = useRef<HTMLInputElement>(null);
+  const [popUpOpen, setPopupOpen] = useState<boolean>(false);
 
   const handleConfirmation = (e: React.FormEvent) => {
     e.preventDefault();
     const authCode = confirmCodeRef.current?.value ?? "";
 
     handleConfirmBtn(authCode);
+  };
+
+  const popupWindow = () => {
+    setPopupOpen((x) => !x);
   };
 
   return (
@@ -44,7 +50,19 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
         <p className="errorMessage">{confirmError}</p>
 
         {loadingConfirm && <LoadingRing />}
+
+        <p className="resendCode" onClick={() => setPopupOpen((e) => !e)}>
+          Didn't Receive Code?
+        </p>
       </div>
+
+      {popUpOpen && (
+        <div className="overlay" onClick={popupWindow}>
+          <main className="popUp smPopup" onClick={(e) => e.stopPropagation()}>
+            <CodeResend setPopupOpen={setPopupOpen} />
+          </main>
+        </div>
+      )}
     </div>
   );
 };

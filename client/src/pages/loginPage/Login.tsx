@@ -1,10 +1,9 @@
 import "../../Styling/Pages/_login.scss";
 import { useState } from "react";
 import LoginForm from "../../components/Login/LoginForm";
-import { Outlet } from "react-router-dom";
 import { CredentialsTypes } from "../../types/loginType";
 import { useAuth } from "../../helpers/Auth";
-import ConfirmCode from "../../components/Login/ConfirmCode";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {}
 
@@ -14,10 +13,8 @@ const Login: React.FC<LoginProps> = ({}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const [loadingConfirm, setLoadingConfirm] = useState<boolean>(false);
-  const [confirmError, setConfirmError] = useState<string>("");
-
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const loginResponse = async (credentials: CredentialsTypes) => {
     try {
@@ -54,75 +51,13 @@ const Login: React.FC<LoginProps> = ({}) => {
 
     if (token?.length) {
       auth.setConfirmToken(token);
+      navigate("confirm");
     }
   };
-
-  const confirmLogin = async (confirmCode: string) => {
-    setLoadingConfirm(true);
-    try {
-      const response = await fetch(`${API_URL}/login/confirm`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${auth?.validateToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ auth: confirmCode }),
-      });
-      const data = await response.json();
-
-      if (data?.error) {
-        throw new Error(data?.error);
-      }
-
-      console.log(data);
-
-      return data as any;
-    } catch (err) {
-      setConfirmError(`${err}`);
-    } finally {
-      setLoadingConfirm(false);
-    }
-  };
-
-  const handleConfirmBtn = async (code: string) => {
-    const { token } = await confirmLogin(code);
-
-    if (token?.length) {
-      auth.login(token);
-      localStorage.removeItem("userAccess");
-    }
-  };
-
-  console.log(auth.validateToken);
 
   return (
     <div>
-      {!auth.validateToken?.length && !auth.token?.length ? (
-        <>
-          {auth.validateToken?.length || (
-            <LoginForm
-              loading={loading}
-              error={error}
-              handleLogin={handleLogin}
-            />
-          )}
-        </>
-      ) : (
-        <>
-          {auth.validateToken?.length && (
-            <ConfirmCode
-              handleConfirmBtn={handleConfirmBtn}
-              loadingConfirm={loadingConfirm}
-              confirmError={confirmError}
-            />
-          )}
-        </>
-      )}
-
-      {/* Main outlet */}
-      <main>
-        <Outlet />
-      </main>
+      <LoginForm loading={loading} error={error} handleLogin={handleLogin} />
     </div>
   );
 };

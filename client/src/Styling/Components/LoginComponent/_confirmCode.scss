@@ -40,11 +40,28 @@
         font-size: 16px;
       }
       button {
-        @include mixin.gradientBackground--btn-action;
+        @include mixin.gradientBackground--btn-action(
+          rgba(198, 205, 119, 0),
+          rgba(86, 85, 85, 0.182),
+          rgba(196, 196, 196, 0.312),
+          rgba(86, 85, 85, 0.601)
+        );
+        color: white;
         padding: 12px 2rem;
         border-radius: 5px;
       }
     }
+  }
+}
+
+.resendCode {
+  font-size: 12px;
+  color: colors.$font-Secound;
+  cursor: pointer;
+  display: inline;
+
+  &:active {
+    transform: scale(0.99);
   }
 }
 
@@ -64,11 +81,15 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      input {
-        @include mixin.inputLogin;
-      }
+
       button {
-        @include mixin.gradientBackground--btn-action;
+        @include mixin.gradientBackground--btn-action(
+          rgba(198, 205, 119, 0),
+          rgba(86, 85, 85, 0.182),
+          rgba(196, 196, 196, 0.312),
+          rgba(86, 85, 85, 0.601)
+        );
+        color: white;
       }
     }
   }

@@ -6,6 +6,7 @@ const {
   confirmCode,
   validateUser,
   sendUserInfo,
+  resendCode,
 } = require("../database/login");
 
 const {
@@ -16,7 +17,8 @@ const {
 router
   .post("/", findUserData, validateUserLogin, verifyPassword)
   .post("/confirm", verifyToken, validateConfirmCode, confirmCode)
-  .get("/", verifyToken, validateUser, sendUserInfo);
+  .get("/", verifyToken, validateUser, sendUserInfo)
+  .post("/resendcode", verifyToken, resendCode);
 
 //   FOR creating new user !
 // post("/", hashedPassword, (req, res) => {

@@ -1,6 +1,7 @@
 const database = require("./database");
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("../auth/encript");
+const sgMail = require("@sendgrid/mail");
 
 const findUserData = async (req, res, next) => {
   try {
@@ -19,7 +20,6 @@ const findUserData = async (req, res, next) => {
       res.status(401).send("Unauthorized: Invalid credentials");
     }
   } catch (err) {
-    console.log(err);
     res.status(500).send(`username not valid , ${err.message}`);
   }
 };
@@ -44,7 +44,6 @@ const confirmCode = async (req, res) => {
       ? res.status(200).send({ token })
       : res.status(401).send({ error: "confirm code error" });
   } catch (err) {
-    console.log(err.message);
     res.status(500).send("Wrong Credential");
   }
 };
@@ -64,18 +63,16 @@ const validateUser = async (req, res, next) => {
         username: user.firstName,
         type: user.departmentId,
       };
-    } else req.status(404).send("Invalid User");
+    } else res.status(404).send("Invalid User");
 
     next();
   } catch (err) {
-    console.log(err.message);
     res.status(500).send("Invalid User");
   }
 };
 
 const sendUserInfo = async (req, res) => {
   try {
-    console.log("userinfo", req.userInfo);
     req.userInfo
       ? res.send({
           success: true,
@@ -83,9 +80,64 @@ const sendUserInfo = async (req, res) => {
         })
       : res.sendstatus(401);
   } catch (err) {
-    console.log(err.message);
-    req.status(500).send("something bad happen", err.message);
+    res.status(500).send("something bad happen", err.message);
   }
 };
 
-module.exports = { findUserData, confirmCode, validateUser, sendUserInfo };
+const resendCode = async (req, res) => {
+  try {
+    const { sub, type, code } = req.decodedToken;
+    const { email } = req.body;
+
+    const decodedCode = decrypt(code);
+
+    const [findEmail] = await database.query(
+      "select email from users where id = ? AND email = ?  ",
+      [sub, email]
+    );
+
+    console.log("emial", req.decodedToken);
+
+    if (findEmail.length) {
+      const message = {
+        from: {
+          email: process.env.EMAIL,
+        },
+
+        personalizations: [
+          {
+            to: [
+              {
+                email: findEmail[0].email,
+              },
+            ],
+
+            dynamic_template_data: {
+              confirmCode: `${decodedCode}`,
+            },
+          },
+        ],
+        template_id: process.env.TEMPLATE_ID,
+      };
+
+      sgMail
+        .send(message)
+        .then(() => res.status(200).send({ ok: "code was send" }));
+    } else {
+      res.status(404).send("Invalid User");
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send(`Something Bad Happen, pleas try one more time or contact us`);
+  }
+};
+
+module.exports = {
+  findUserData,
+  confirmCode,
+  validateUser,
+  sendUserInfo,
+  resendCode,
+};

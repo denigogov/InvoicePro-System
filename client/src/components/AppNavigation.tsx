@@ -1,5 +1,5 @@
 import "../Styling/Components/_appNavigation.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logoIcon from "../assets/truck-long-svgrepo-com.svg";
 import logoutIcon from "../assets/logoutBtnIcon.svg";
 import dashboardIcon from "../assets/dashboardIcon.svg";
@@ -12,6 +12,7 @@ const AppNavigation = () => {
   const [openNav, setOpenNav] = useState<boolean>(false);
 
   const auth = useAuth();
+  const navigation = useNavigate();
 
   const handleNavBar = () => {
     setOpenNav((e) => !e);
@@ -19,6 +20,7 @@ const AppNavigation = () => {
 
   const handleLogout = () => {
     auth.logout();
+    navigation("/login");
   };
 
   return (
@@ -57,7 +59,6 @@ const AppNavigation = () => {
           </NavLink>
           <li onClick={handleLogout}>
             <img src={logoutIcon} alt="logoutIcon" />
-
             <span>Logout</span>
           </li>
         </ul>
