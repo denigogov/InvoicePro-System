@@ -51,7 +51,7 @@ const Login: React.FC<LoginProps> = ({}) => {
 
     if (token?.length) {
       auth.setConfirmToken(token);
-      navigate("confirm");
+      navigate("/");
     }
   };
 

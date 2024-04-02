@@ -1,4 +1,5 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 const router = express.Router();
 const { hashedPassword, verifyPassword, verifyToken } = require("../auth/auth");
 const {
@@ -14,11 +15,13 @@ const {
   validateConfirmCode,
 } = require("../validation/loginValidation");
 
+const { resendCodeLimit } = require("../auth/rateLimit");
+
 router
   .post("/", findUserData, validateUserLogin, verifyPassword)
   .post("/confirm", verifyToken, validateConfirmCode, confirmCode)
   .get("/", verifyToken, validateUser, sendUserInfo)
-  .post("/resendcode", verifyToken, resendCode);
+  .post("/resendcode", resendCodeLimit, verifyToken, resendCode);
 
 //   FOR creating new user !
 // post("/", hashedPassword, (req, res) => {

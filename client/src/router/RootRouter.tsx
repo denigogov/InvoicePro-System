@@ -29,9 +29,9 @@ const RootRouter = ({}) => {
             index
             element={
               <UserLoggedin>
-                {/* <RequireCode> */}
-                <Login />
-                {/* </RequireCode> */}
+                <RequireCode>
+                  <Login />
+                </RequireCode>
               </UserLoggedin>
             }
           />

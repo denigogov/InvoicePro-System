@@ -27,13 +27,3 @@ export const apiErrorWithFN = (err?: unknown, personalError?: string) => {
     }
   });
 };
-
-// NEED TO ADD IN NEW FOLDER SUCCESSMESSAGE and I need to change color text...
-export const successMessage = () => {
-  Swal.fire({
-    icon: "success",
-    title: "Oops...",
-
-    text: "chck your email",
-  });
-};

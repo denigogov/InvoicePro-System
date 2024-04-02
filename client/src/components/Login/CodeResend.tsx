@@ -6,8 +6,8 @@ import LoadingRing from "../GlobalComponents/LoadingRing";
 import {
   apiErrorWithFN,
   apiGeneralErrorHandle,
-  successMessage,
 } from "../GlobalComponents/ErrorShow";
+import { successMessage } from "../GlobalComponents/successPrompt";
 
 interface CodeResendProps {
   setPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,8 +34,6 @@ const CodeResend: React.FC<CodeResendProps> = ({ setPopupOpen }) => {
         body: JSON.stringify(requestQuery),
       });
       const data = await response.json();
-
-      console.log("data", response);
 
       if (data?.success === false) {
         throw new Error(

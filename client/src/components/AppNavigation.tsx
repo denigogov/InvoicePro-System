@@ -20,7 +20,7 @@ const AppNavigation = () => {
 
   const handleLogout = () => {
     auth.logout();
-    navigation("/login");
+    navigation("/");
   };
 
   return (
