@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./Auth";
+import { useAuth } from "./useAuth";
 import { ReactNode } from "react";
 
 interface UserLoggedinProps {

@@ -1,6 +1,4 @@
-interface InvoicesProps {}
-
-const Invoices: React.FC<InvoicesProps> = ({}) => {
+const Invoices: React.FC = () => {
   return <div>Invoices Component</div>;
 };
 

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import "../../Styling/Components/LoginComponent/_codeResend.scss";
 import emailResendIcon from "../../assets/emailresend.svg";
-import { useAuth } from "../../helpers/Auth";
+import { useAuth } from "../../helpers/useAuth";
 import LoadingRing from "../GlobalComponents/LoadingRing";
 import {
   apiErrorWithFN,

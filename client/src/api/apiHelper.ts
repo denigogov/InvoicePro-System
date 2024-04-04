@@ -33,7 +33,7 @@ export const fetchTokenValidation = async (
  */
 export const apiFetcher = async <T>(url: string, token: string): Promise<T> => {
   try {
-    const res = await fetch(`${API_URL}${url}`, {
+    const res = await fetch(`${API_URL}/${url}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

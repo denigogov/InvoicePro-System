@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RootRouter from "./router/RootRouter";
 import { fetchTokenValidation } from "./api/apiHelper";
 import { UserInfoType } from "./types/AuthType";
-import { useAuth } from "./helpers/Auth";
+import { useAuth } from "./helpers/useAuth";
 
 const App = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,7 +15,6 @@ const App = () => {
         if (typeof auth.token === "string" && auth.token?.length) {
           const userData = await fetchTokenValidation(auth.token as string);
 
-          console.log("userDataeffect", userData?.success);
           if (userData?.success) {
             auth.info(userData.payload as UserInfoType);
           } else {

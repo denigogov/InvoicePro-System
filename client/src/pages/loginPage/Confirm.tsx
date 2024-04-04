@@ -1,11 +1,11 @@
 import { useState } from "react";
 import ConfirmCode from "../../components/Login/ConfirmCode";
-import { useAuth } from "../../helpers/Auth";
+import { useAuth } from "../../helpers/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Confirm: React.FC = ({}) => {
+const Confirm: React.FC = () => {
   const [loadingConfirm, setLoadingConfirm] = useState<boolean>(false);
   const [confirmError, setConfirmError] = useState<string>("");
 

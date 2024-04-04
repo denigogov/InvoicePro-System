@@ -1,10 +1,10 @@
 import LoadingRing from "../GlobalComponents/LoadingRing";
 import companyLogo from "../../assets/truck-long-svgrepo-com.svg";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { CredentialsTypes } from "../../types/loginType";
 
 interface LoginFormProps {
-  error: String;
+  error: string;
   loading: boolean;
   handleLogin: (e: CredentialsTypes) => Promise<void>;
 }
@@ -14,6 +14,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   loading,
   handleLogin,
 }) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -27,6 +28,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
     handleLogin(credentials);
   };
+
+  console.log(showPassword);
 
   return (
     <div className="loginForm">
@@ -49,13 +52,21 @@ const LoginForm: React.FC<LoginFormProps> = ({
           // defaultValue="owner@gmail.com"
           placeholder="email"
         />
-        <input
-          required
-          type="password"
-          name="password"
-          ref={passwordRef}
-          placeholder="password"
-        />
+        <div className="passwordShow">
+          <input
+            required
+            type={showPassword ? "text" : "password"}
+            name="password"
+            ref={passwordRef}
+            placeholder="password"
+          />
+          <p
+            onClick={() => setShowPassword(!showPassword)}
+            className="passwordShow-toggle"
+          >
+            show
+          </p>
+        </div>
         <button>Sign in</button> <p className="errorMessage">{error}</p>
       </form>
       {loading && <LoadingRing />}

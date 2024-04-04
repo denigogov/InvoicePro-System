@@ -2,14 +2,12 @@ import "../../Styling/Pages/_login.scss";
 import { useState } from "react";
 import LoginForm from "../../components/Login/LoginForm";
 import { CredentialsTypes } from "../../types/loginType";
-import { useAuth } from "../../helpers/Auth";
+import { useAuth } from "../../helpers/useAuth";
 import { useNavigate } from "react-router-dom";
-
-interface LoginProps {}
 
 const API_URL = import.meta.env.VITE_API_URL as string;
 
-const Login: React.FC<LoginProps> = ({}) => {
+const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 

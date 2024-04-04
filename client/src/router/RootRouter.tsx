@@ -10,15 +10,16 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import AppRoute from "./AppRoute";
 import Settings from "../pages/Settings/Settings";
 import Invoices from "../pages/Invoices/Invoices";
-import { useAuth } from "../helpers/Auth";
+import { useAuth } from "../helpers/useAuth";
 import { RequireAuth } from "../helpers/RequireAuth";
 import Confirm from "../pages/loginPage/Confirm";
 import LoginRoot from "../pages/loginPage/LoginRoot";
 import { RequireValidation } from "../helpers/RequireValidation";
 import { RequireCode } from "../helpers/RequireCode";
 import { UserLoggedin } from "../helpers/UserLoggedin";
+import CompanyProfile from "../pages/Settings/CompanyProfile";
 
-const RootRouter = ({}) => {
+const RootRouter = () => {
   const auth = useAuth();
 
   const router = createBrowserRouter(
@@ -49,16 +50,19 @@ const RootRouter = ({}) => {
         <Route
           path="/"
           element={
-            <RequireAuth>
-              <AppRoute />
-            </RequireAuth>
+            // need to uncoment --> comment  for styling purpose
+            // <RequireAuth>
+            <AppRoute />
+            // </RequireAuth>
           }
         >
           <Route index element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/invoices" element={<Invoices />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings" element={<Settings />}>
+            <Route path="company-profile" element={<CompanyProfile />} />
+          </Route>
         </Route>
         <Route path="*" element={<h1>Pae Not Found</h1>} />
       </Route>

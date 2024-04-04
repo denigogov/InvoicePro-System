@@ -1,9 +1,7 @@
 import "../../Styling/Components/GlobalComponentStyle/_floatMenu.scss";
 import iconTest from "../assets/passwordIcon.svg";
 
-interface FloatMenuProps {}
-
-const FloatMenu: React.FC<FloatMenuProps> = ({}) => {
+const FloatMenu: React.FC = () => {
   return (
     <div className="toggleMenu">
       <div className="container">

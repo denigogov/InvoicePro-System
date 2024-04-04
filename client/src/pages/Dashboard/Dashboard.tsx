@@ -1,6 +1,4 @@
-interface DashboardProps {}
-
-const Dashboard: React.FC<DashboardProps> = ({}) => {
+const Dashboard: React.FC = () => {
   return <div>Dashboard </div>;
 };
 

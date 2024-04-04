@@ -6,7 +6,7 @@ import dashboardIcon from "../assets/dashboardIcon.svg";
 import settingsIcon from "../assets/settingsIcon.svg";
 import invoiceIcon from "../assets/invoiceIcon.svg";
 import { useState } from "react";
-import { useAuth } from "../helpers/Auth";
+import { useAuth } from "../helpers/useAuth";
 
 const AppNavigation = () => {
   const [openNav, setOpenNav] = useState<boolean>(false);

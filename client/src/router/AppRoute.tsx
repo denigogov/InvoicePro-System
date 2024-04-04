@@ -1,9 +1,7 @@
 import { Outlet } from "react-router-dom";
 import AppNavigation from "../components/AppNavigation";
 
-interface AppRouteProps {}
-
-const AppRoute: React.FC<AppRouteProps> = ({}) => {
+const AppRoute: React.FC = () => {
   return (
     <div>
       <AppNavigation />
