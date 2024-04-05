@@ -17,7 +17,9 @@ import LoginRoot from "../pages/loginPage/LoginRoot";
 import { RequireValidation } from "../helpers/RequireValidation";
 import { RequireCode } from "../helpers/RequireCode";
 import { UserLoggedin } from "../helpers/UserLoggedin";
-import CompanyProfile from "../pages/Settings/CompanyProfile";
+import CompanyProfile from "../pages/Settings/companyInfo/CompanyProfile";
+import EditInfoCompany from "../pages/Settings/companyInfo/EditInfoCompany";
+import EditBankCompany from "../pages/Settings/companyInfo/EditBankCompany";
 
 const RootRouter = () => {
   const auth = useAuth();
@@ -61,7 +63,10 @@ const RootRouter = () => {
 
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/settings" element={<Settings />}>
-            <Route path="company-profile" element={<CompanyProfile />} />
+            <Route path="company-profile" element={<CompanyProfile />}>
+              <Route path="edit-info" element={<EditInfoCompany />} />
+              <Route path="edit-bank" element={<EditBankCompany />} />
+            </Route>
           </Route>
         </Route>
         <Route path="*" element={<h1>Pae Not Found</h1>} />

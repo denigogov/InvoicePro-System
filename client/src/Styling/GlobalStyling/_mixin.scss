@@ -60,6 +60,18 @@
   }
 }
 
+@mixin inputUpdateValue {
+  padding: 0.5rem 1rem;
+  border: 1px solid colors.$border-Primary;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: colors.$font-Secound;
+
+  &:focus {
+    outline: 1px solid colors.$border-Primary-Dark;
+  }
+}
+
 @mixin inputLogin {
   border: 1px solid colors.$border-Primary;
   border-radius: 10px;
@@ -169,7 +181,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: colors.$font-style;
+    background-color: colors.$font-Primary;
   }
 }
 

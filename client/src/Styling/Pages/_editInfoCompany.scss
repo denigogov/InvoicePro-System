@@ -1,0 +1,42 @@
+@use "../GlobalStyling/mixin";
+@use "../GlobalStyling/colors";
+
+// TWO MAIN CONTAINERS FROM COMPANY INFO FOLDER!
+.editInfoCompany,
+.editBankCompany {
+  @include mixin.overflowScroll();
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.3rem;
+  padding: 1rem 0;
+
+  &__title {
+    color: colors.$font-Primary;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: colors.$font-Primary;
+    }
+
+    input {
+      @include mixin.inputUpdateValue;
+    }
+
+    .action__button-global {
+      padding: 10px;
+    }
+  }
+}

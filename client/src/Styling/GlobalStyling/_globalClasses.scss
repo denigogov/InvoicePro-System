@@ -32,5 +32,11 @@
 }
 
 .action__button-global {
-  @include mixin.gradientBackground--btn-action;
+  @include mixin.gradientBackground--btn-action(
+    rgba(198, 205, 119, 0),
+    rgba(86, 85, 85, 0.182),
+    rgba(196, 196, 196, 0.312),
+    rgba(86, 85, 85, 0.601)
+  );
+  color: white;
 }

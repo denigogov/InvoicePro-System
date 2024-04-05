@@ -40,13 +40,23 @@ export const apiFetcher = async <T>(url: string, token: string): Promise<T> => {
     });
 
     if (!res.ok) {
-      throw new Error(`API request to ${url} failed with status ${res.status}`);
+      const errorData = await res.json();
+
+      if (res.status === 401) {
+        throw new Error(`API request failed, ${errorData.error}`);
+      } else {
+        throw new Error(
+          `API request to ${url} failed with status ${res.statusText}`
+        );
+      }
     }
+
     const data = await res.json();
 
     return data as T;
   } catch (err) {
-    console.error(`Error fetching data from ${url}:`, err);
-    throw new Error(`An error occurred while fetching the data from ${url}`);
+    console.log((err as Error).message);
+
+    throw new Error((err as Error).message);
   }
 };

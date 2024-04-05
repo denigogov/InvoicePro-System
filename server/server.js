@@ -15,10 +15,10 @@ app.disable("x-powered-by");
 const port = process.env.SERVER_PORT || 4001;
 
 const loginRoute = require("./router/loginRoute");
-const { companyData } = require("./database/companyInfo");
+const companyInfoRoute = require("./router/companyInfoRoute");
 
 app.use("/login", loginRoute);
-app.use("/company-info", companyData);
+app.use("/company-info", companyInfoRoute);
 
 const welcomeMessage = (_, res) => {
   res.send("Backend App Server v0.0.1");

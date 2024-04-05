@@ -1,0 +1,12 @@
+@use "../../GlobalStyling/colors";
+
+.errorMinimalDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: colors.$error;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: rgba(255, 0, 0, 0.123);
+}
