@@ -26,6 +26,7 @@ const EditBankCompany: React.FC = () => {
 
   const handleUpdate = async (id: number, query: Partial<CompanyInfoTypes>) => {
     try {
+      console.log("query", query);
       const confirmUpdateMessage = await confirmUpdatePrompt(
         "Update Company Details",
         "Are you sure you want to save the changes you made? This action will update your Comapny Details.",

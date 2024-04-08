@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { CompanyBankInfo } from "../../../types/companyInfoTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
@@ -20,14 +20,33 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
     return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
   if (companyDataLoading) return <LoadingRing />;
 
+  const [_, setFocused] = useState<boolean>(false);
+
+  const bankNameRef = useRef<HTMLInputElement>(null);
+  const ibanRef = useRef<HTMLInputElement>(null);
+  const bicRef = useRef<HTMLInputElement>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const query = {
-      bic: "VMRO1234",
-    };
+    const query: Partial<CompanyBankInfo> = {};
 
-    handleUpdate(1, query);
+    bankNameRef.current?.value !== companyData?.[0]?.bankName
+      ? (query.bankName = bankNameRef.current?.value)
+      : null;
+
+    ibanRef.current?.value !== companyData?.[0]?.iban
+      ? (query.iban = ibanRef.current?.value)
+      : null;
+
+    bicRef.current?.value !== companyData?.[0]?.bic
+      ? (query.bic = bicRef.current?.value)
+      : null;
+
+    if (Object.keys(query).length) {
+      handleUpdate(companyData?.[0]?.id ?? 0, query);
+    }
+    return;
   };
 
   return (
@@ -37,15 +56,42 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
         {companyData?.map((value) => (
           <React.Fragment key={value?.id}>
             <label>Bank Name</label>
-            <input type="text" defaultValue={value?.bankName ?? ""} />
+            <input
+              type="text"
+              ref={bankNameRef}
+              defaultValue={value?.bankName ?? ""}
+              minLength={3}
+              maxLength={20}
+              onFocus={() => setFocused(true)}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
             <label>IBAN</label>
             <input
+              ref={ibanRef}
               style={{ fontSize: ".9rem" }}
               type="text"
               defaultValue={value?.iban ?? ""}
-            />
+              minLength={15}
+              maxLength={40}
+              onFocus={() => setFocused(true)}
+              // @ts-ignore
+              focused="true"
+            />{" "}
+            <span></span>
             <label>BIC</label>
-            <input type="text" defaultValue={value?.bic ?? ""} />
+            <input
+              ref={bicRef}
+              type="text"
+              defaultValue={value?.bic ?? ""}
+              minLength={8}
+              maxLength={11}
+              onFocus={() => setFocused(true)}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
           </React.Fragment>
         ))}
       </form>

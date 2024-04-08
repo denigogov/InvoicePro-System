@@ -25,6 +25,8 @@
     flex-direction: column;
     gap: 0.7em;
 
+    position: relative;
+
     label {
       font-size: 0.9rem;
       font-weight: 500;
@@ -33,6 +35,19 @@
 
     input {
       @include mixin.inputUpdateValue;
+
+      &:invalid + ::after {
+        position: absolute;
+        right: 5%;
+        transform: translateY(-37px);
+        content: "✖";
+        font-size: 13px;
+        color: colors.$error;
+      }
+
+      &:invalid[focused="true"] {
+        border: 1px solid colors.$error;
+      }
     }
 
     .action__button-global {
