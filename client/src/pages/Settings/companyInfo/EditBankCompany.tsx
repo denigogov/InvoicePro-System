@@ -34,7 +34,7 @@ const EditBankCompany: React.FC = () => {
       );
 
       if (confirmUpdateMessage.isConfirmed) {
-        updateCompanyInfo(id, token ?? "", query);
+        await updateCompanyInfo(id, token ?? "", query);
         mutate(["companyData", token]);
         updateActionPrompt("Great!", "Your Updates has been saved.");
         setPopupOpen((e) => !e);

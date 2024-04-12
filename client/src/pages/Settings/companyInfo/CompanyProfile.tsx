@@ -3,7 +3,7 @@ import { fetchCompanyInfo } from "../../../api/companyInfoAPI";
 import CompanyDetails from "../../../components/Settings/CompanyProfile/CompanyDetails";
 import { useAuth } from "../../../helpers/useAuth";
 import { CompanyInfoTypes } from "../../../types/companyInfoTypes";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export interface DetailItem {
@@ -14,6 +14,8 @@ export interface DetailItem {
 const CompanyProfile: React.FC = () => {
   const [popUpOpen, setPopupOpen] = useState<boolean>(false);
   const navigator = useNavigate();
+
+  const location = useLocation();
 
   const popupWindow = () => {
     setPopupOpen((x) => !x);
@@ -32,9 +34,10 @@ const CompanyProfile: React.FC = () => {
   const companyDetails: DetailItem[] = companyData
     ? [
         { label: "Company Name", value: companyData[0]?.companyName ?? "N/A" },
-        { label: "Country", value: companyData[0]?.country ?? "N/A" },
+        { label: "Street", value: companyData[0]?.street ?? "N/A" },
         { label: "City", value: companyData[0]?.city ?? "N/A" },
         { label: "ZipCode", value: companyData[0]?.zipcode ?? "N/A" },
+        { label: "Country", value: companyData[0]?.country ?? "N/A" },
         { label: "ID Number", value: companyData[0]?.idNumber ?? "N/A" },
       ]
     : [];
@@ -54,7 +57,11 @@ const CompanyProfile: React.FC = () => {
         companyDataLoading={companyDataLoading}
         companyDetails={companyDetails}
         title="Company Details"
-        navigateTo="edit-info"
+        navigateTo={`${
+          location.pathname === "/settings"
+            ? "company-profile/edit-info"
+            : "edit-info"
+        }`}
         setPopupOpen={setPopupOpen}
       />
       <CompanyDetails
@@ -62,7 +69,11 @@ const CompanyProfile: React.FC = () => {
         companyDataLoading={companyDataLoading}
         companyDetails={bankDetails}
         title="Bank Details"
-        navigateTo="edit-bank"
+        navigateTo={`${
+          location.pathname === "/settings"
+            ? "company-profile/edit-bank"
+            : "edit-bank"
+        }`}
         setPopupOpen={setPopupOpen}
       />
 

@@ -1,0 +1,20 @@
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
+
+.createInvoice {
+  //   border: 1px solid red;
+  padding: 2rem 0;
+  @include mixin.overflowScroll;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: general.$lg) {
+    align-items: none;
+  }
+
+  &__form {
+    border: 1px solid red;
+  }
+}

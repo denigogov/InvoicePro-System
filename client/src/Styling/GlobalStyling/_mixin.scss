@@ -174,6 +174,7 @@
 @mixin overflowScroll() {
   // height: calc(100vh - 6rem); // also need to adjust the screen size ! viewport
   overflow-y: auto;
+  overflow-x: auto;
 
   &::-webkit-scrollbar {
     width: 3px;

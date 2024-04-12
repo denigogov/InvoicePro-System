@@ -8,7 +8,7 @@ export interface CompanyInfoTypes {
   id: number;
   idNumber: string;
   street: string;
-  zipcode: number;
+  zipcode: string;
 }
 
 export type CompanyInfoDetails = Omit<

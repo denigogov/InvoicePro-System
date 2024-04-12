@@ -47,7 +47,7 @@ const companyDetailsUpdate = async (req, res) => {
       updateFields.push("street = ?");
       updateValues.push(street);
     }
-    if (zipcode !== zipcode) {
+    if (zipcode !== undefined) {
       updateFields.push("zipcode = ?");
       updateValues.push(zipcode);
     }
@@ -78,9 +78,11 @@ const companyDetailsUpdate = async (req, res) => {
       id,
     ]);
 
-    updateTable.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
+    updateTable.affectedRows
+      ? res.status(200).json({ message: "Company data updated successfully" })
+      : res.sendStatus(400);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json({ error: err.message });
   }
 };
 

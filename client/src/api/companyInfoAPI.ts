@@ -37,11 +37,14 @@ export const updateCompanyInfo = async (
     if (!res.ok) {
       const errorResponse = await res.json();
 
+      console.log(errorResponse);
+
       throw new Error(`${errorResponse.validationErrors[0].message}`);
     } else {
       return await res.json();
     }
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };

@@ -1,0 +1,34 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+
+.invoiceNav {
+  border: 1px solid colors.$border-Primary;
+  padding: 0.6rem;
+  transition: general.$transition;
+  img {
+    width: 2rem;
+  }
+
+  ul {
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+
+      span {
+        font-size: 13px;
+        font-weight: 500;
+        color: colors.$font-Title;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+}

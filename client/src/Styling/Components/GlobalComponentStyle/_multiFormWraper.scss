@@ -1,0 +1,26 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+
+.multiForm-wrap__children {
+  display: grid;
+  grid-template-columns: auto minmax(auto, 300px);
+
+  align-items: center;
+  gap: 1rem 0.5rem;
+  justify-content: flex-start;
+
+  @media (max-width: general.$lg) {
+    grid-template-columns: none;
+    grid-template-rows: auto minmax(auto);
+  }
+
+  input[type="checkbox"] {
+    accent-color: #fba9a9;
+  }
+}
+
+.multiFormWraper__title {
+  margin: 2rem 0;
+  font-size: 20px;
+  color: colors.$font-Primary;
+}

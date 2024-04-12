@@ -5,7 +5,10 @@ const updateCompanyInfoSchema = Joi.object({
   country: Joi.string().min(3).max(15),
   city: Joi.string().min(3).max(20),
   street: Joi.string().min(3).max(60),
-  zipcode: Joi.number(),
+  zipcode: Joi.string()
+    .pattern(new RegExp("^\\d{4,10}$"))
+    .message("Zipcode must be an number between 4 and 10 digits long"),
+
   idNumber: Joi.string().min(4).max(20),
   bankName: Joi.string().min(3).max(20),
   iban: Joi.string().min(15).max(40),

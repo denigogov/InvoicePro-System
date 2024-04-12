@@ -20,6 +20,7 @@ import { UserLoggedin } from "../helpers/UserLoggedin";
 import CompanyProfile from "../pages/Settings/companyInfo/CompanyProfile";
 import EditInfoCompany from "../pages/Settings/companyInfo/EditInfoCompany";
 import EditBankCompany from "../pages/Settings/companyInfo/EditBankCompany";
+import CreateInvoice from "../pages/Invoices/createInvoice/CreateInvoice";
 
 const RootRouter = () => {
   const auth = useAuth();
@@ -61,8 +62,11 @@ const RootRouter = () => {
           <Route index element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
-          <Route path="/invoices" element={<Invoices />} />
+          <Route path="/invoices" element={<Invoices />}>
+            <Route path="create" element={<CreateInvoice />} />
+          </Route>
           <Route path="/settings" element={<Settings />}>
+            <Route index element={<CompanyProfile />} />
             <Route path="company-profile" element={<CompanyProfile />}>
               <Route path="edit-info" element={<EditInfoCompany />} />
               <Route path="edit-bank" element={<EditBankCompany />} />

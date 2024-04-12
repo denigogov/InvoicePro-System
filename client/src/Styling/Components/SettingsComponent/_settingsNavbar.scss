@@ -1,8 +1,11 @@
 @use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
 
 .settingsNav {
   border: 1px solid colors.$border-Primary;
   padding: 0.6rem;
+  transition: general.$transition;
+
   img {
     width: 2rem;
   }
@@ -19,6 +22,14 @@
         font-weight: 500;
         color: colors.$font-Primary;
       }
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
   }
 }

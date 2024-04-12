@@ -35,7 +35,7 @@ const EditInfoCompany: React.FC<EditInfoCompanyProps> = ({}) => {
       );
 
       if (confirmUpdateMessage.isConfirmed) {
-        updateCompanyInfo(id, token ?? "", query);
+        await updateCompanyInfo(id, token ?? "", query);
         mutate(["companyData", token]);
         updateActionPrompt("Great!", "Your Updates has been saved.");
         setPopupOpen((e) => !e);

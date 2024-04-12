@@ -20,8 +20,6 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
     return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
   if (companyDataLoading) return <LoadingRing />;
 
-  const [_, setFocused] = useState<boolean>(false);
-
   const bankNameRef = useRef<HTMLInputElement>(null);
   const ibanRef = useRef<HTMLInputElement>(null);
   const bicRef = useRef<HTMLInputElement>(null);
@@ -62,7 +60,6 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
               defaultValue={value?.bankName ?? ""}
               minLength={3}
               maxLength={20}
-              onFocus={() => setFocused(true)}
               // @ts-ignore
               focused="true"
             />
@@ -75,10 +72,9 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
               defaultValue={value?.iban ?? ""}
               minLength={15}
               maxLength={40}
-              onFocus={() => setFocused(true)}
               // @ts-ignore
               focused="true"
-            />{" "}
+            />
             <span></span>
             <label>BIC</label>
             <input
@@ -87,7 +83,6 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
               defaultValue={value?.bic ?? ""}
               minLength={8}
               maxLength={11}
-              onFocus={() => setFocused(true)}
               // @ts-ignore
               focused="true"
             />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../../../Styling/Pages/_editInfoCompany.scss";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
@@ -17,14 +17,49 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
   companyData,
   handleUpdate,
 }) => {
-  if (companyDataError)
-    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
-  if (companyDataLoading) return <LoadingRing />;
+  const companyNameRef = useRef<HTMLInputElement>(null);
+  const countryRef = useRef<HTMLInputElement>(null);
+  const zipcodeRef = useRef<HTMLInputElement>(null);
+  const cityRef = useRef<HTMLInputElement>(null);
+  const streetRef = useRef<HTMLInputElement>(null);
+  const idNumberRef = useRef<HTMLInputElement>(null);
 
   const handleForm = (e: React.FormEvent) => {
     e.preventDefault();
-    handleUpdate(1, { companyName: "BadCompany GmbH" });
+
+    const query: Partial<CompanyInfoDetails> = {};
+
+    companyNameRef.current?.value !== companyData?.[0]?.companyName
+      ? (query["companyName"] = companyNameRef.current?.value)
+      : null;
+
+    countryRef.current?.value !== companyData?.[0]?.country
+      ? (query["country"] = countryRef.current?.value)
+      : null;
+    streetRef.current?.value !== companyData?.[0]?.street
+      ? (query["street"] = streetRef.current?.value)
+      : null;
+
+    zipcodeRef.current?.value !== companyData?.[0]?.zipcode
+      ? (query["zipcode"] = zipcodeRef.current?.value)
+      : null;
+
+    cityRef.current?.value !== companyData?.[0]?.city
+      ? (query["city"] = cityRef.current?.value)
+      : null;
+
+    idNumberRef.current?.value !== companyData?.[0]?.idNumber
+      ? (query["idNumber"] = idNumberRef.current?.value)
+      : null;
+
+    if (Object.keys(query).length) {
+      handleUpdate(companyData?.[0]?.id ?? 0, query);
+    }
   };
+
+  if (companyDataError)
+    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
+  if (companyDataLoading) return <LoadingRing />;
 
   return (
     <div className="editInfoCompany">
@@ -33,15 +68,76 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
         {companyData?.map((value) => (
           <React.Fragment key={value?.id}>
             <label>Company Name</label>
-            <input type="text" defaultValue={value?.companyName ?? ""} />
-            <label>Country</label>
-            <input type="text" defaultValue={value?.country ?? ""} />
+            <input
+              ref={companyNameRef}
+              type="text"
+              defaultValue={value?.companyName ?? ""}
+              minLength={3}
+              maxLength={40}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
+
+            <label>Street</label>
+            <input
+              ref={streetRef}
+              type="text"
+              defaultValue={value?.street ?? ""}
+              minLength={3}
+              maxLength={60}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
+
             <label>City</label>
-            <input type="text" defaultValue={value?.city ?? ""} />
+            <input
+              ref={cityRef}
+              type="text"
+              defaultValue={value?.city ?? ""}
+              minLength={3}
+              maxLength={20}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
+
             <label>ZipCode</label>
-            <input type="number" defaultValue={value?.zipcode ?? ""} />
+            <input
+              ref={zipcodeRef}
+              type="string"
+              defaultValue={value?.zipcode ?? ""}
+              minLength={4}
+              maxLength={10}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
+
+            <label>Country</label>
+            <input
+              ref={countryRef}
+              type="text"
+              defaultValue={value?.country ?? ""}
+              minLength={3}
+              maxLength={15}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
+
             <label>ID Number</label>
-            <input type="text" defaultValue={value?.idNumber ?? ""} />
+            <input
+              ref={idNumberRef}
+              type="text"
+              defaultValue={value?.idNumber ?? ""}
+              minLength={4}
+              maxLength={20}
+              // @ts-ignore
+              focused="true"
+            />
+            <span></span>
           </React.Fragment>
         ))}
       </form>
