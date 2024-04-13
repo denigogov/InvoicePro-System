@@ -1,0 +1,25 @@
+@use "../../GlobalStyling/colors";
+
+.invoiceStep1 {
+  &__details {
+    display: grid;
+    grid-template-columns: repeat(1fr 2);
+    gap: 1rem;
+    font-size: 0.8rem;
+    padding: 0.7rem;
+    text-align: start;
+
+    span {
+      color: colors.$font-Primary;
+      font-weight: 600;
+    }
+    p {
+      &:nth-child(odd) {
+        grid-column: 1;
+      }
+      &:nth-child(even) {
+        grid-column: 2;
+      }
+    }
+  }
+}

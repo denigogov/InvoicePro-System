@@ -1,7 +1,61 @@
-interface InvoiceStep3Props {}
+import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
+import { Step3initialDateTypes } from "./StepsInitialData";
 
-const InvoiceStep3: React.FC<InvoiceStep3Props> = ({}) => {
-  return <div>InvoiceStep3 Component</div>;
+type InvoiceStep3Props = Step3initialDateTypes & {
+  updateFileds: (fileds: Partial<Step3initialDateTypes>) => void;
+};
+
+const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
+  invoiceId,
+  data,
+  description,
+  price,
+  totalPrice,
+  updateFileds,
+}) => {
+  return (
+    <MultiFormWraper
+      title=" Invoice Information"
+      subTitle="Fill in the invoice details."
+    >
+      <>
+        <label>Invoice ID</label>
+        <input
+          type="text"
+          value={invoiceId}
+          onChange={(e) => updateFileds({ invoiceId: e.target.value })}
+        />
+
+        <label>Description</label>
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => updateFileds({ description: e.target.value })}
+        />
+
+        <label>Price</label>
+        <input
+          type="number"
+          value={price?.toString() ?? ""}
+          onChange={(e) => updateFileds({ price: +e.target.value })}
+        />
+
+        <label>Total Price</label>
+        <input
+          type="number"
+          value={totalPrice?.toString() ?? ""}
+          onChange={(e) => updateFileds({ totalPrice: +e.target.value })}
+        />
+
+        <label>Date</label>
+        <input
+          type="date"
+          value={data.toLocaleString()}
+          onChange={(e) => updateFileds({ data: e.target.value })}
+        />
+      </>
+    </MultiFormWraper>
+  );
 };
 
 export default InvoiceStep3;
