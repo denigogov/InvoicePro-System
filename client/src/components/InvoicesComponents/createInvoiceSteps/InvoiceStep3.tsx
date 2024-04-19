@@ -21,17 +21,19 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
       <>
         <label>Invoice ID</label>
         <input
+          autoFocus
           type="text"
           value={invoiceId}
           onChange={(e) => updateFileds({ invoiceId: e.target.value })}
         />
 
         <label>Description</label>
-        <input
-          type="text"
+        <textarea
+          cols={40}
+          rows={2}
           value={description}
           onChange={(e) => updateFileds({ description: e.target.value })}
-        />
+        ></textarea>
 
         <label>Price</label>
         <input

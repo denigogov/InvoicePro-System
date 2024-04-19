@@ -27,6 +27,7 @@
     input[type="text"],
     input[type="number"],
     input[type="date"],
+    textarea,
     select {
       @include mixin.inputUpdateValue;
     }
@@ -95,9 +96,23 @@
     padding: 10px;
 
     button {
-      padding: 4px 10px;
-      background: transparent;
-      border: 1px solid colors.$border-Primary-Dark;
+      padding: 10px 35px;
+      border: 1px solid colors.$font-Primary;
+      background-color: colors.$multiForm-progressBar;
+      border-radius: 6px;
+      color: #fff;
+      letter-spacing: 0.1rem;
+      text-transform: capitalize;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #00458a;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
     }
   }
 }

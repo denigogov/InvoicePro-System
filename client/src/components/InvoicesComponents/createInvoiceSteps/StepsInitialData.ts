@@ -3,7 +3,7 @@ export interface Step2initialDateTypes {
   country: string;
   city: string;
   street: string;
-  zipcode: number | null;
+  zipcode: string;
   idNumber: string;
 }
 
@@ -20,7 +20,7 @@ export const INITIAL_DATA_STEP2: Step2initialDateTypes = {
   country: "",
   city: "",
   street: "",
-  zipcode: null,
+  zipcode: "",
   idNumber: "",
 };
 

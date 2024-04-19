@@ -16,9 +16,13 @@ const port = process.env.SERVER_PORT || 4001;
 
 const loginRoute = require("./router/loginRoute");
 const companyInfoRoute = require("./router/companyInfoRoute");
+const customerRoute = require("./router/customerRoute");
+const invoiceRoute = require("./router/invoiceRoute");
 
 app.use("/login", loginRoute);
 app.use("/company-info", companyInfoRoute);
+app.use("/customer", customerRoute);
+app.use("/invoice", invoiceRoute);
 
 const welcomeMessage = (_, res) => {
   res.send("Backend App Server v0.0.1");

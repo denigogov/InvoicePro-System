@@ -9,7 +9,7 @@ export const apiGeneralErrorHandle = (
     icon: "error",
     title: "Oops...",
     confirmButtonColor: "#ffda79",
-    text: `${(err as Error).message ?? ""} ${personalError ?? ""}`,
+    html: `${(err as Error).message ?? ""} ${personalError ?? ""}`,
   });
 };
 

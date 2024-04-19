@@ -1,5 +1,5 @@
 import "../../../Styling/Components/InvoiceComponentStyle/_createInvoice.scss";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import ProgressBar from "../../../components/GlobalComponents/ProgressBar";
 import InvoiceStep1 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep1";
 import InvoiceStep2 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep2";
@@ -12,22 +12,29 @@ import {
   Step3initialDateTypes,
 } from "../../../components/InvoicesComponents/createInvoiceSteps/StepsInitialData";
 import { CompanyInfoTypes } from "../../../types/companyInfoTypes";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { fetchCompanyInfo } from "../../../api/companyInfoAPI";
 import { useAuth } from "../../../helpers/useAuth";
+import {
+  createCustomerCompany,
+  fetchCustomerData,
+} from "../../../api/customerAPI";
+import { AllCustomerTypes } from "../../../types/customerAPITypes";
+import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
 
 interface CreateInvoiceProps {}
 
 const CreateInvoice: React.FC<CreateInvoiceProps> = ({}) => {
   const [companyId, setCompanyId] = useState<number | null>(null);
+  const [buyerId, setBuyerId] = useState<number | null>(null);
+
+  //when customerCompany is created I'm taking the last ID from the API
+  const [buyerLastId, setBuyerLastId] = useState<number | null>(null);
 
   const [buyerCompanyData, setBuyerCompanyData] =
     useState<Step2initialDateTypes>(INITIAL_DATA_STEP2);
   const [invoiceDetailsData, setInvoiceDetailsData] =
     useState<Step3initialDateTypes>(INITIAL_DATA_STEP3);
-
-  const [stepOneSuccess, setStepOneSuccess] = useState<boolean>(false);
-  const [stepTwoSuccess, setStepTwoSuccess] = useState<boolean>(false);
 
   const { token } = useAuth();
 
@@ -52,6 +59,23 @@ const CreateInvoice: React.FC<CreateInvoiceProps> = ({}) => {
   );
 
   const {
+    data: customerData,
+    error: customerDataError,
+    isLoading: customerDataLoading,
+    mutate,
+  } = useSWR<AllCustomerTypes[]>(["customerData", token], () =>
+    fetchCustomerData(token ?? "")
+  );
+
+  // Taking the last Employer ID
+  useEffect(() => {
+    if (customerData) {
+      const lastEmployee = customerData[customerData.length - 1]?.id ?? null;
+      setBuyerLastId(lastEmployee);
+    }
+  }, [customerData]);
+
+  const {
     steps,
     currentStepIndex,
     next,
@@ -67,7 +91,16 @@ const CreateInvoice: React.FC<CreateInvoiceProps> = ({}) => {
       setCompanyId={setCompanyId}
       companyId={companyId}
     />,
-    <InvoiceStep2 {...buyerCompanyData} updateFileds={updateFileds} />,
+    <InvoiceStep2
+      {...buyerCompanyData}
+      setBuyerCompanyData={setBuyerCompanyData}
+      updateFileds={updateFileds}
+      buyerId={buyerId}
+      setBuyerId={setBuyerId}
+      customerDataLoading={customerDataLoading}
+      customerDataError={customerDataError}
+      customerData={customerData}
+    />,
     <InvoiceStep3 {...invoiceDetailsData} updateFileds={updateFileds} />,
   ]);
 
@@ -77,10 +110,35 @@ const CreateInvoice: React.FC<CreateInvoiceProps> = ({}) => {
     step3Name: "Description",
   };
 
-  const handleSubmitForm = (e: FormEvent) => {
+  // create customerCompany in STEP2
+  const createCustomerPOST = async () => {
+    try {
+      const response = await createCustomerCompany(
+        token ?? "",
+        buyerCompanyData
+      );
+      if (response) {
+        // Using mutate to revalidate the date to take the last ID !
+        mutate();
+        next();
+      }
+    } catch (err) {
+      apiGeneralErrorHandle(err);
+    }
+  };
+
+  const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
 
-    !stepOneSuccess ? next() : new Error("Step 1 Error");
+    // If user don't select any company won't allow to go to step 2
+    if (companyId && isFirstStep) {
+      next();
+    }
+
+    // If there is buyer id go to next step if not go to createCustomerPOST logic
+    if (isSecoundStep) {
+      buyerId ? next() : await createCustomerPOST();
+    }
   };
 
   return (
