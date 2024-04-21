@@ -15,6 +15,12 @@ export interface Step3initialDateTypes {
   totalPrice: number | null;
 }
 
+export type Step4initialDateTypes = {
+  id: number;
+  description: string;
+  price: number | null;
+};
+
 export const INITIAL_DATA_STEP2: Step2initialDateTypes = {
   customerName: "",
   country: "",
@@ -31,3 +37,7 @@ export const INITIAL_DATA_STEP3: Step3initialDateTypes = {
   price: null,
   totalPrice: null,
 };
+
+export const INITIAL_DATA_STEP4: Step4initialDateTypes[] = [
+  { id: 1, description: "", price: null },
+];

@@ -5,7 +5,7 @@
 .createInvoice {
   height: 100%;
   padding: 2rem 0;
-  @include mixin.overflowScroll;
+  // @include mixin.overflowScroll;
 
   display: flex;
   flex-direction: column;

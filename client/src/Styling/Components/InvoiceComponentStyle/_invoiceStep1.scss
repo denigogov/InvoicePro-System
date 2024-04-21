@@ -23,11 +23,12 @@
     }
   }
 }
-
+// STEP 2 STYLING !!
 .step2Search {
   display: flex;
   align-items: center;
   gap: 1rem;
+
   p {
     font-size: 12px;
     cursor: pointer;
@@ -42,6 +43,55 @@
 
     &:active {
       transform: scale(0.97);
+    }
+  }
+}
+
+// STEP 4 STYLING !!
+.invoiceStep4 {
+  display: flex;
+  gap: 1rem;
+  transition: all 0.5s ease;
+
+  &__removeFiled {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+
+    &:hover::after {
+      content: "Remove Filed";
+      position: absolute;
+      top: 25px;
+      font-size: 12px;
+    }
+
+    img {
+      width: 1.5rem;
+    }
+  }
+
+  &__addFiled {
+    display: flex;
+    align-items: start;
+    position: relative;
+
+    p {
+      &:hover::after {
+        content: "Add Filed";
+        position: absolute;
+        top: 40px;
+        left: -7px;
+        font-size: 9px;
+      }
+      img {
+        width: 35px;
+        cursor: pointer;
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
     }
   }
 }

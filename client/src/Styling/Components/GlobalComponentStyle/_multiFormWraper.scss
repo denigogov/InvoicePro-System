@@ -29,3 +29,19 @@
     }
   }
 }
+
+.multiFormWraper__fieldGroup {
+  display: grid;
+  grid-template-columns: auto minmax(auto, 300px);
+
+  align-items: center;
+  gap: 1rem 0.5rem;
+  justify-content: flex-start;
+
+  @media (max-width: general.$md) {
+    gap: 0.5rem 0.5rem;
+    justify-content: center;
+    grid-template-columns: none;
+    grid-template-rows: auto minmax(auto);
+  }
+}

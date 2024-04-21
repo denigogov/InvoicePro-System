@@ -16,14 +16,14 @@ const createInvoice = async (req, res) => {
     const [createInvoiceQuery] = await database.query(
       "insert into invoice (invoiceId,date,companyInfoId,customercompanyId,createdById,description,price,totalPrice) values(?,?,?,?,?,?,?,?)",
       [
-        (invoiceId,
+        invoiceId,
         date,
         companyInfoId,
         customercompanyId,
         createdById,
         description,
         price,
-        totalPrice),
+        totalPrice,
       ]
     );
 

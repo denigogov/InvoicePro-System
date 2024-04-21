@@ -3,9 +3,15 @@ import {
   Page,
   Text,
   View,
+  Font,
   StyleSheet,
   PDFDownloadLink,
 } from "@react-pdf/renderer";
+
+Font.register({
+  family: "customFont",
+  src: "http://fonts.gstatic.com/s/quicksand/v6/sKd0EMYPAh5PYCRKSryvW6CWcynf_cDxXwCLxiixG1c.ttf",
+});
 
 const Test: React.FC = () => {
   let globalPadding = "0 50px";
@@ -18,6 +24,8 @@ const Test: React.FC = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
+      fontFamily: "customFont",
+      fontWeight: "light",
     },
     pageContainer: { display: "flex", flexDirection: "column", gap: "40px" },
 
@@ -48,9 +56,15 @@ const Test: React.FC = () => {
       lineHeight: 1.8,
     },
 
-    buyerData: { display: "flex", flexDirection: "column" },
+    buyerData: {
+      display: "flex",
+      flexDirection: "column",
+    },
 
-    invoiceInfo: { display: "flex", flexDirection: "column" },
+    invoiceInfo: {
+      display: "flex",
+      flexDirection: "column",
+    },
     // Invoice and Bill to container END
   });
   const PDFGenerator = (

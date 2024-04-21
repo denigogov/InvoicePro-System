@@ -13,3 +13,15 @@ export const successMessage = () => {
   });
   test.fire({});
 };
+
+export const successRequest = (title: string, htmlText: string) => {
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    iconColor: "#ffda79",
+    title: title,
+    text: htmlText,
+    showConfirmButton: false,
+    timer: 2000,
+  });
+};

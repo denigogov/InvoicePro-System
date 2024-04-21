@@ -1,7 +1,6 @@
 import { apiFetcher } from "./apiHelper";
 import { AllCustomerTypes } from "../types/customerAPITypes";
 import { Step2initialDateTypes } from "../components/InvoicesComponents/createInvoiceSteps/StepsInitialData";
-import { apiGeneralErrorHandle } from "../components/GlobalComponents/ErrorShow";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
 

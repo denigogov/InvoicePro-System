@@ -9,6 +9,10 @@
 
   @media (max-width: general.$sm) {
     transform: scale(0.7);
+
+    .step-wizard-item {
+      min-width: 130px;
+    }
   }
 }
 
