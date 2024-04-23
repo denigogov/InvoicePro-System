@@ -10,8 +10,8 @@ export interface Step2initialDateTypes {
 export interface Step3initialDateTypes {
   invoiceId: string;
   data: Date | string;
-  description: string;
-  price: number | null;
+  // description: string;
+  // price: number | null;
   totalPrice: number | null;
 }
 
@@ -33,8 +33,6 @@ export const INITIAL_DATA_STEP2: Step2initialDateTypes = {
 export const INITIAL_DATA_STEP3: Step3initialDateTypes = {
   invoiceId: "",
   data: "",
-  description: "",
-  price: null,
   totalPrice: null,
 };
 

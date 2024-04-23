@@ -14,7 +14,7 @@ import {
   Step4initialDateTypes,
 } from "../../../components/InvoicesComponents/createInvoiceSteps/StepsInitialData";
 import { CompanyInfoTypes } from "../../../types/companyInfoTypes";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { fetchCompanyInfo } from "../../../api/companyInfoAPI";
 import { useAuth } from "../../../helpers/useAuth";
 import {
@@ -23,11 +23,22 @@ import {
 } from "../../../api/customerAPI";
 import { AllCustomerTypes } from "../../../types/customerAPITypes";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
-import { createInvoice } from "../../../api/invoiceAPI";
-import { InvoiceType } from "../../../types/invoiceTypes";
+import {
+  createInvoice,
+  createInvoiceDetails,
+  fetchLastInvoiceId,
+} from "../../../api/invoiceAPI";
+import {
+  InvoiceDetailsType,
+  InvoiceType,
+  LastInvoiceIdType,
+} from "../../../types/invoiceTypes";
 import { successRequest } from "../../../components/GlobalComponents/successPrompt";
 import Invoice from "../../../components/InvoicesComponents/Test";
 import InvoiceStep4 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep4";
+import { generateInvoiceNumber } from "../../../helpers/InvoiceID";
+import Test from "../../../components/InvoicesComponents/Test";
+import { PDFViewer } from "@react-pdf/renderer";
 
 export interface StepsType {
   stepName: string;
@@ -36,25 +47,28 @@ export interface StepsType {
 }
 
 const CreateInvoice: React.FC = () => {
+  // STEPS START  = 4
   const [companyId, setCompanyId] = useState<number | null>(null);
-  const [buyerId, setBuyerId] = useState<number | null>(null);
-
-  const [pdfInvoiceData, setPdfInvoiceData] = useState<InvoiceType>();
-
-  //when customerCompany is created I'm taking the last ID from the API
-  const [buyerLastId, setBuyerLastId] = useState<number | null>(null);
 
   const [buyerCompanyData, setBuyerCompanyData] =
     useState<Step2initialDateTypes>(INITIAL_DATA_STEP2);
+
   const [invoiceDetailsData, setInvoiceDetailsData] =
     useState<Step3initialDateTypes>(INITIAL_DATA_STEP3);
 
   const [addDescriptionAndPrice, setAddDescriptionAndPrice] =
     useState<Step4initialDateTypes[]>(INITIAL_DATA_STEP4);
+  // STEPS END = 4
 
-  console.log(addDescriptionAndPrice);
+  const [buyerId, setBuyerId] = useState<number | null>(null);
+  //when customerCompany is created I'm taking the last ID from the API
+  const [buyerLastId, setBuyerLastId] = useState<number | null>(null);
+  const [invoiceLastId, setInvoicelastId] = useState<number | null>();
+
+  const [pdfInvoiceData, setPdfInvoiceData] = useState<InvoiceType>();
 
   const { token, userInfo } = useAuth();
+  const { mutate } = useSWRConfig();
 
   const updateFileds = (
     fileds: Partial<Step3initialDateTypes | Step2initialDateTypes>
@@ -77,21 +91,39 @@ const CreateInvoice: React.FC = () => {
   );
 
   const {
+    data: lastInvoiceId,
+    error: lastInvoiceIdError,
+    isLoading: lastInvoiceIdLoading,
+  } = useSWR<LastInvoiceIdType[]>(["lastInvoiceId", token], () =>
+    fetchLastInvoiceId(token ?? "")
+  );
+
+  const {
     data: customerData,
     error: customerDataError,
     isLoading: customerDataLoading,
-    mutate,
+    // mutate,
   } = useSWR<AllCustomerTypes[]>(["customerData", token], () =>
     fetchCustomerData(token ?? "")
   );
 
-  // Taking the last Employer ID
   useEffect(() => {
+    // Taking the last ID from Buyer
     if (customerData) {
-      const lastEmployee = customerData[customerData.length - 1]?.id ?? null;
-      setBuyerLastId(lastEmployee);
+      const lastBuyerId = customerData[customerData.length - 1]?.id ?? null;
+      setBuyerLastId(lastBuyerId);
     }
-  }, [customerData]);
+
+    // Taking the last Invoice ID
+    if (lastInvoiceId) {
+      const invoiceId = lastInvoiceId[0]?.lastId ?? null;
+      setInvoicelastId(invoiceId);
+    }
+  }, [customerData, lastInvoiceId]);
+
+  const generateInvoiceID = generateInvoiceNumber(
+    invoiceLastId ? invoiceLastId + 1 : invoiceDetailsData?.invoiceId
+  );
 
   const {
     steps,
@@ -120,7 +152,13 @@ const CreateInvoice: React.FC = () => {
       customerDataError={customerDataError}
       customerData={customerData}
     />,
-    <InvoiceStep3 {...invoiceDetailsData} updateFileds={updateFileds} />,
+    <InvoiceStep3
+      {...invoiceDetailsData}
+      updateFileds={updateFileds}
+      generateInvoiceID={generateInvoiceID}
+      lastInvoiceIdError={lastInvoiceIdError}
+      lastInvoiceIdLoading={lastInvoiceIdLoading}
+    />,
     <InvoiceStep4
       addDescriptionAndPrice={addDescriptionAndPrice}
       setAddDescriptionAndPrice={setAddDescriptionAndPrice}
@@ -157,9 +195,9 @@ const CreateInvoice: React.FC = () => {
         token ?? "",
         buyerCompanyData
       );
-      if (response) {
+      if (response.ok) {
         // Using mutate to revalidate the date to take the last ID !
-        mutate();
+        mutate(["customerData", token]);
         next();
       }
     } catch (err) {
@@ -170,18 +208,34 @@ const CreateInvoice: React.FC = () => {
   const createInvoicePOST = async () => {
     try {
       const invoiceQuery: InvoiceType = {
-        invoiceId: invoiceDetailsData?.invoiceId,
+        invoiceId: invoiceDetailsData?.invoiceId
+          ? invoiceDetailsData?.invoiceId
+          : generateInvoiceID,
         date: invoiceDetailsData?.data,
         companyInfoId: companyId,
         customercompanyId: buyerId ? buyerId : buyerLastId,
         createdById: userInfo?.id ?? 1,
-        description: invoiceDetailsData?.description,
-        price: invoiceDetailsData?.price,
         totalPrice: invoiceDetailsData?.totalPrice,
       };
 
       const response = await createInvoice(token ?? "", invoiceQuery);
+      if (response.ok) {
+        mutate(["lastInvoiceId", token]);
+        next();
+      }
+    } catch (err) {
+      apiGeneralErrorHandle(err);
+    }
+  };
 
+  // create invoiceDetails in STEP4
+  const createPOSTInvoiceDetails = async () => {
+    const formatedQuery = addDescriptionAndPrice.map(({ id, ...rest }) => ({
+      ...rest,
+      invoiceID: invoiceLastId,
+    }));
+    try {
+      const response = await createInvoiceDetails(token ?? "", formatedQuery);
       if (response.ok) {
         successRequest(
           "Invoice Created",
@@ -200,22 +254,25 @@ const CreateInvoice: React.FC = () => {
 
   const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
-
     try {
       // If user don't select any company won't allow to go to step 2
-      if (!companyId && isFirstStep) {
+      if (companyId && isFirstStep) {
         next();
       }
 
       // If there is buyer id go to next step if not go to createCustomerPOST logic
       if (isSecoundStep) {
-        !buyerId ? next() : await createCustomerPOST();
+        buyerId ? next() : await createCustomerPOST();
       }
 
-      if (isThirdStep) next(); // current made only to navigate throught form
-      // if (isThirdStep) {
-      //   await createInvoicePOST();
-      // }
+      // if (isThirdStep) next(); // current made only to navigate throught form
+      if (isThirdStep) {
+        await createInvoicePOST();
+      }
+
+      if (isLastStep) {
+        await createPOSTInvoiceDetails();
+      }
     } catch (error) {
       apiGeneralErrorHandle(
         error,
@@ -244,7 +301,9 @@ const CreateInvoice: React.FC = () => {
         </div>
       </form>
 
-      {/* <Invoice /> */}
+      <PDFViewer style={{ width: "100%", height: "100vh" }}>
+        <Test />
+      </PDFViewer>
     </div>
   );
 };

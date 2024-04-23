@@ -47,7 +47,7 @@ const InvoiceStep2: React.FC<InvoiceStep2Props> = ({
         />
       )}
 
-      {createBuyer && (
+      {(createBuyer || !customerData?.length) && (
         <MultiFormWraper
           title="Buyer Company"
           subTitle="Select the buyer's company from the list or enter new details"

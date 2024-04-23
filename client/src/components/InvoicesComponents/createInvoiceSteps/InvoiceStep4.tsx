@@ -2,7 +2,7 @@ import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
 
 import addIcon from "../../../assets/addIcon.svg";
 import trashIcon from "../../../assets/trash-svgrepo-com.svg";
-import React, { useState } from "react";
+import React from "react";
 import { Step4initialDateTypes } from "./StepsInitialData";
 
 interface InvoiceStep4Props {
@@ -16,8 +16,6 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
   addDescriptionAndPrice,
   setAddDescriptionAndPrice,
 }) => {
-  const [removeItem, setRemoveItem] = useState<any>();
-
   const handleAddFiled = () => {
     const newId = addDescriptionAndPrice.length
       ? addDescriptionAndPrice[addDescriptionAndPrice.length - 1].id + 1
@@ -28,8 +26,6 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
       { description: "", price: null, id: newId },
     ]);
   };
-
-  console.log(addDescriptionAndPrice);
 
   const handlePriceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -70,7 +66,7 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
             <label>Description</label>
             <input
               type="text"
-              minLength={5}
+              minLength={3}
               maxLength={200}
               required
               onChange={(e) => handleDescriptionChange(e, i)}

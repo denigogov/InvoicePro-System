@@ -43,7 +43,7 @@ const InvoiceStep2Search: React.FC<InvoiceStep2SearchProps> = ({
   };
 
   if (customerDataError)
-    return <ErrorMinimalDisplay errorMessage={customerDataError?.message} />;
+    return <ErrorMinimalDisplay errorMessage={"create new buyer first"} />;
   if (customerDataLoading) return <LoadingRing />;
 
   return (

@@ -1,8 +1,13 @@
+import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
+import LoadingRing from "../../GlobalComponents/LoadingRing";
 import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
 import { Step3initialDateTypes } from "./StepsInitialData";
 
 type InvoiceStep3Props = Step3initialDateTypes & {
   updateFileds: (fileds: Partial<Step3initialDateTypes>) => void;
+  generateInvoiceID: string;
+  lastInvoiceIdError: Error;
+  lastInvoiceIdLoading: boolean;
 };
 
 const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
@@ -10,7 +15,14 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
   data,
   totalPrice,
   updateFileds,
+  generateInvoiceID,
+  lastInvoiceIdError,
+  lastInvoiceIdLoading,
 }) => {
+  if (lastInvoiceIdError)
+    return <ErrorMinimalDisplay errorMessage={lastInvoiceIdError?.message} />;
+  if (lastInvoiceIdLoading) return <LoadingRing />;
+
   return (
     <MultiFormWraper
       title=" Invoice details"
@@ -19,15 +31,21 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
       <>
         <label>Invoice ID</label>
         <input
-          autoFocus
           type="text"
-          value={invoiceId}
+          value={
+            invoiceId
+              ? invoiceId
+              : generateInvoiceID
+              ? generateInvoiceID
+              : "2222"
+          }
           maxLength={50}
           onChange={(e) => updateFileds({ invoiceId: e.target.value })}
         />
 
         <label>Total Price</label>
         <input
+          autoFocus
           type="number"
           value={totalPrice?.toString() ?? ""}
           step={0.01}
