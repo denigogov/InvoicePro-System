@@ -51,7 +51,6 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
     );
     setAddDescriptionAndPrice(updatedList);
   };
-  console.log(addDescriptionAndPrice.length);
 
   return (
     // Styling in InvoiceStep1

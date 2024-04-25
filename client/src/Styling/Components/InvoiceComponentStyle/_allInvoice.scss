@@ -1,0 +1,17 @@
+@use "../../GlobalStyling/general";
+.allInvoices {
+  margin: 4rem 0;
+}
+
+.width600 {
+  max-width: 60vw;
+  margin: 0 auto;
+
+  @media (max-width: general.$lg) {
+    max-width: 75vw;
+  }
+
+  @media (max-width: general.$md) {
+    max-width: none;
+  }
+}

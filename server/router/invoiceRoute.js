@@ -5,6 +5,7 @@ const {
   createInvoice,
   lastInvoiceId,
   createInvoiceDetails,
+  allInvoicesPagination,
 } = require("../database/invoiceDB");
 const {
   validateInvoiceCreate,
@@ -12,8 +13,9 @@ const {
 } = require("../validation/invoiceValidation");
 
 router
-  .get("/lastId", lastInvoiceId)
+  .get("/", allInvoicesPagination)
   .post("/", validateInvoiceCreate, createInvoice)
+  .get("/lastId", lastInvoiceId)
   .post("/details", validateCreateInvoiceDetails, createInvoiceDetails);
 
 module.exports = router;

@@ -21,6 +21,7 @@ import CompanyProfile from "../pages/Settings/companyInfo/CompanyProfile";
 import EditInfoCompany from "../pages/Settings/companyInfo/EditInfoCompany";
 import EditBankCompany from "../pages/Settings/companyInfo/EditBankCompany";
 import CreateInvoice from "../pages/Invoices/createInvoice/CreateInvoice";
+import AllInvoices from "../pages/Invoices/allInvoices/AllInvoices";
 
 const RootRouter = () => {
   const auth = useAuth();
@@ -63,6 +64,7 @@ const RootRouter = () => {
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/invoices" element={<Invoices />}>
+            <Route path="all" element={<AllInvoices />} />
             <Route path="create" element={<CreateInvoice />} />
           </Route>
           <Route path="/settings" element={<Settings />}>

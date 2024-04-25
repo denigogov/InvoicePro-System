@@ -1,6 +1,7 @@
+import "../../Styling/Components/InvoiceComponentStyle/_invoiceNav.scss";
 import { NavLink } from "react-router-dom";
 import createInvoiceIcon from "../../assets/createInvoiceIcon.svg";
-import "../../Styling/Components/InvoiceComponentStyle/_invoiceNav.scss";
+import viewInvoiceIcon from "../../assets/invoiceView.svg";
 
 interface InvoiceNavProps {}
 
@@ -9,6 +10,12 @@ const InvoiceNav: React.FC<InvoiceNavProps> = ({}) => {
     <div className="invoiceNav">
       <nav>
         <ul>
+          <NavLink to="all">
+            <li>
+              <img src={viewInvoiceIcon} alt="viewInvoiceIcon" />
+              <span>All Invoices</span>
+            </li>
+          </NavLink>
           <NavLink to="create">
             <li>
               <img src={createInvoiceIcon} alt="createInvoiceIcon" />

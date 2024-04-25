@@ -28,17 +28,11 @@ import {
   createInvoiceDetails,
   fetchLastInvoiceId,
 } from "../../../api/invoiceAPI";
-import {
-  InvoiceDetailsType,
-  InvoiceType,
-  LastInvoiceIdType,
-} from "../../../types/invoiceTypes";
+import { InvoiceType, LastInvoiceIdType } from "../../../types/invoiceTypes";
 import { successRequest } from "../../../components/GlobalComponents/successPrompt";
-import Invoice from "../../../components/InvoicesComponents/Test";
 import InvoiceStep4 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep4";
 import { generateInvoiceNumber } from "../../../helpers/InvoiceID";
-import Test from "../../../components/InvoicesComponents/Test";
-import { PDFViewer } from "@react-pdf/renderer";
+import DownloadInvoice from "../../../components/InvoicesComponents/DownloadInvoice";
 
 export interface StepsType {
   stepName: string;
@@ -65,7 +59,7 @@ const CreateInvoice: React.FC = () => {
   const [buyerLastId, setBuyerLastId] = useState<number | null>(null);
   const [invoiceLastId, setInvoicelastId] = useState<number | null>();
 
-  const [pdfInvoiceData, setPdfInvoiceData] = useState<InvoiceType>();
+  const [formSubmited, setFormSubmited] = useState<boolean>(false);
 
   const { token, userInfo } = useAuth();
   const { mutate } = useSWRConfig();
@@ -125,6 +119,14 @@ const CreateInvoice: React.FC = () => {
     invoiceLastId ? invoiceLastId + 1 : invoiceDetailsData?.invoiceId
   );
 
+  const filteredCompanyData = companyData?.filter(
+    (company) => company?.id === companyId
+  );
+
+  const filterBuyerData = customerData?.filter(
+    (buyer) => buyer?.id === buyerId
+  );
+
   const {
     steps,
     currentStepIndex,
@@ -141,6 +143,7 @@ const CreateInvoice: React.FC = () => {
       companyData={companyData}
       setCompanyId={setCompanyId}
       companyId={companyId}
+      filteredCompanyData={filteredCompanyData}
     />,
     <InvoiceStep2
       {...buyerCompanyData}
@@ -241,11 +244,14 @@ const CreateInvoice: React.FC = () => {
           "Invoice Created",
           "The invoice has been successfully created"
         );
+
+        setFormSubmited(true);
         // RESETING THE FILEDS
-        setCompanyId(null);
-        setBuyerId(null);
-        setBuyerCompanyData(INITIAL_DATA_STEP2);
-        setInvoiceDetailsData(INITIAL_DATA_STEP3);
+
+        // setCompanyId(null);
+        // setBuyerId(null);
+        // setBuyerCompanyData(INITIAL_DATA_STEP2);
+        // setInvoiceDetailsData(INITIAL_DATA_STEP3);
       }
     } catch (err) {
       apiGeneralErrorHandle(err);
@@ -283,27 +289,36 @@ const CreateInvoice: React.FC = () => {
 
   return (
     <div className="createInvoice">
-      <ProgressBar stepNames={stepNames} />
+      {!formSubmited && (
+        <>
+          <ProgressBar stepNames={stepNames} />
+          <form className="createInvoice__form" onSubmit={handleSubmitForm}>
+            <div>{steps[currentStepIndex]}</div>
 
-      <form className="createInvoice__form" onSubmit={handleSubmitForm}>
-        <div>{steps[currentStepIndex]}</div>
+            <div className="createInvoice__button-wrap">
+              {!isFirstStep && (
+                <button type="button" onClick={previuse}>
+                  <span>Previuse</span>
+                </button>
+              )}
 
-        <div className="createInvoice__button-wrap">
-          {!isFirstStep && (
-            <button type="button" onClick={previuse}>
-              <span>Previuse</span>
-            </button>
-          )}
-
-          <button type="submit">
-            <span>{!isLastStep ? "Next" : "Submit"}</span>
-          </button>
-        </div>
-      </form>
-
-      <PDFViewer style={{ width: "100%", height: "100vh" }}>
-        <Test />
-      </PDFViewer>
+              <button type="submit">
+                <span>{!isLastStep ? "Next" : "Submit"}</span>
+              </button>
+            </div>
+          </form>
+        </>
+      )}
+      {formSubmited && (
+        <DownloadInvoice
+          filteredCompanyData={filteredCompanyData}
+          filterBuyerData={filterBuyerData}
+          buyerCompanyData={buyerCompanyData}
+          invoiceDetailsData={invoiceDetailsData}
+          invoiceLastId={invoiceLastId}
+          addDescriptionAndPrice={addDescriptionAndPrice}
+        />
+      )}
     </div>
   );
 };

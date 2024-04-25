@@ -73,4 +73,45 @@ const createInvoiceDetails = async (req, res) => {
   }
 };
 
-module.exports = { createInvoice, lastInvoiceId, createInvoiceDetails };
+const allInvoicesPagination = async (req, res) => {
+  const { page, limit } = req.query;
+
+  const offset = (page - 1) * limit;
+
+  try {
+    const [limitResults] = await database.query(
+      `SELECT * FROM invoice
+
+    limit ? offset ?`,
+      [+limit, +offset]
+    );
+
+    // const [totalPageData] = await database.query(
+    //   `select count(*) as count from invoice`
+    // );
+
+    // console.log("totalSIze", +totalPageData[0]?.count);
+
+    // const totalPages = Math.ceil(+totalPageData[0]?.count / limit);
+
+    // const paginationData = {
+    //   data: limitResults,
+    //   pagination: {
+    //     page: +page,
+    //     limit: +limit,
+    //     totalPages,
+    //   },
+    // };
+
+    limitResults ? res.status(200).send(limitResults) : res.sendstatus(400);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+module.exports = {
+  createInvoice,
+  lastInvoiceId,
+  createInvoiceDetails,
+  allInvoicesPagination,
+};

@@ -10,6 +10,9 @@
   }
 
   ul {
+    display: flex;
+    justify-content: space-around;
+
     li {
       display: flex;
       flex-direction: column;

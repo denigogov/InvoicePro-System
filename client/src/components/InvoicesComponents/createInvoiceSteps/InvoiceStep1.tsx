@@ -10,6 +10,7 @@ interface InvoiceStep1Props {
   companyData?: CompanyInfoTypes[];
   companyId: number | null;
   setCompanyId: React.Dispatch<React.SetStateAction<number | null>>;
+  filteredCompanyData?: CompanyInfoTypes[];
 }
 
 const InvoiceStep1: React.FC<InvoiceStep1Props> = ({
@@ -18,14 +19,11 @@ const InvoiceStep1: React.FC<InvoiceStep1Props> = ({
   companyDataLoading,
   companyId,
   setCompanyId,
+  filteredCompanyData,
 }) => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCompanyId(parseInt(event.target.value, 0));
   };
-
-  const filteredData = companyData?.filter(
-    (company) => company?.id === companyId
-  );
 
   if (companyDataError)
     return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
@@ -55,7 +53,7 @@ const InvoiceStep1: React.FC<InvoiceStep1Props> = ({
           </select>
 
           <div className="invoiceStep1__details">
-            {filteredData?.map((data) => (
+            {filteredCompanyData?.map((data) => (
               <React.Fragment key={data.id}>
                 {Object.entries(data).map(([key, value]) => (
                   <p key={key}>
