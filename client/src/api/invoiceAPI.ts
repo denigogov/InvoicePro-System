@@ -1,4 +1,6 @@
+import { deleteActionPrompt } from "../components/GlobalComponents/deletePrompt";
 import {
+  AllInvoicesPaginationType,
   InvoiceDetailsType,
   InvoiceType,
   LastInvoiceIdType,
@@ -82,6 +84,51 @@ export const createInvoiceDetails = async (
     } else {
       return res;
     }
+  } catch (err: unknown) {
+    console.log(err);
+    throw err;
+  }
+};
+
+/**
+ *
+ * @param token string
+ * @param pageNumber which page to read -- this is automated everytime when user scroll to bottom the page go to +1
+ * @param limitResult limit the showing result per page
+ * @returns [ 
+ * {
+ *id: number;
+  invoiceId: string;
+  customerName: string;
+  totalPrice: string;
+  currentDate: Date | string;
+  statusName: string;
+ * }
+ *  ];
+ */
+export const fetchAllInvoicesPagination = async (
+  token?: string,
+  pageNumber?: number,
+  limitResult?: number
+) => {
+  return apiFetcher<AllInvoicesPaginationType[]>(
+    `invoice/?page=${pageNumber}&limit=${limitResult}`,
+    token || ""
+  );
+};
+
+export const deleteInvoice = async (token: string, id: number) => {
+  try {
+    const res = await fetch(`${API_URL}/invoice/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.ok) {
+      // prompt after user click delete
+      deleteActionPrompt();
+    } else throw new Error(`${res.statusText}`);
   } catch (err: unknown) {
     console.log(err);
     throw err;

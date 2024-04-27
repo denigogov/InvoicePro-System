@@ -4,7 +4,7 @@
 }
 
 .width600 {
-  max-width: 60vw;
+  max-width: 70vw;
   margin: 0 auto;
 
   @media (max-width: general.$lg) {
@@ -14,4 +14,39 @@
   @media (max-width: general.$md) {
     max-width: none;
   }
+}
+
+.span-td {
+  padding: 4px 1rem;
+  border-radius: 0.4rem;
+}
+
+.status-draft {
+  color: #8a8a8a; /* Light Gray */
+  background-color: #f8f9fa; /* Very Light Gray */
+}
+
+.status-sent {
+  color: #549755; /* Light Green */
+  background-color: #f0fff4; /* Very Pale Green */
+}
+
+.status-paid {
+  color: #4d91a6; /* Light Blue */
+  background-color: #f0f8ff; /* Very Pale Blue */
+}
+
+.status-overdue {
+  color: #b82f3b; /* Light Red */
+  background-color: #fff0f1; /* Very Pale Red */
+}
+
+.status-void {
+  color: #755ba8; /* Light Purple */
+  background-color: #f8f0ff; /* Very Pale Purple */
+}
+
+.noStatus {
+  color: #b82f3b; /* Light Red */
+  background-color: #fff0f1; /* Very Pale Red */
 }

@@ -80,7 +80,9 @@ const allInvoicesPagination = async (req, res) => {
 
   try {
     const [limitResults] = await database.query(
-      `SELECT * FROM invoice
+      `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM alltransport.invoice
+      left join invoicestatus on invoice.statusId = invoicestatus.id
+      left join customercompany on invoice.customercompanyId = customercompany.id
 
     limit ? offset ?`,
       [+limit, +offset]
@@ -103,7 +105,22 @@ const allInvoicesPagination = async (req, res) => {
     //   },
     // };
 
-    limitResults ? res.status(200).send(limitResults) : res.sendstatus(400);
+    limitResults ? res.status(200).send(limitResults) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+const deleteInvoice = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [deleteInvoice] = await database.query(
+      "delete from invoice where id = ?",
+      [id]
+    );
+
+    deleteInvoice.affectedRows ? res.sendStatus(200) : res.sendStatus(404);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -114,4 +131,5 @@ module.exports = {
   lastInvoiceId,
   createInvoiceDetails,
   allInvoicesPagination,
+  deleteInvoice,
 };

@@ -6,6 +6,7 @@ const {
   lastInvoiceId,
   createInvoiceDetails,
   allInvoicesPagination,
+  deleteInvoice,
 } = require("../database/invoiceDB");
 const {
   validateInvoiceCreate,
@@ -15,6 +16,7 @@ const {
 router
   .get("/", allInvoicesPagination)
   .post("/", validateInvoiceCreate, createInvoice)
+  .delete("/:id", deleteInvoice)
   .get("/lastId", lastInvoiceId)
   .post("/details", validateCreateInvoiceDetails, createInvoiceDetails);
 

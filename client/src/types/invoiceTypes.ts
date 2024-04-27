@@ -16,3 +16,12 @@ export interface InvoiceDetailsType {
   description: string;
   price: number | null;
 }
+
+export interface AllInvoicesPaginationType {
+  id: number;
+  invoiceId: string;
+  customerName: string;
+  totalPrice: string;
+  currentDate: Date | string;
+  statusName: string;
+}
