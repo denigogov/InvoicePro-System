@@ -10,17 +10,23 @@ import { useAuth } from "../helpers/useAuth";
 
 const AppNavigation = () => {
   const [openNav, setOpenNav] = useState<boolean>(false);
-
+  const [_, setClickOnNavlink] = useState<boolean>(false);
   const auth = useAuth();
   const navigation = useNavigate();
 
   const handleNavBar = () => {
     setOpenNav((e) => !e);
+    setClickOnNavlink(false);
   };
 
   const handleLogout = () => {
     auth.logout();
     navigation("/");
+  };
+
+  const handleClickOnMenuItem = () => {
+    setClickOnNavlink(true);
+    setOpenNav(false);
   };
 
   return (
@@ -37,7 +43,7 @@ const AppNavigation = () => {
           }
           onClick={handleNavBar}
         ></span>
-        <ul>
+        <ul onClick={handleClickOnMenuItem}>
           <NavLink to="/dashboard">
             <li>
               <img src={dashboardIcon} alt="dashboardIcon" />

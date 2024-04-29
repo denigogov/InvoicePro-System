@@ -48,7 +48,7 @@ const App = () => {
 
   return (
     <div>
-      <div>{loading ? <p>loading...</p> : <RootRouter />}</div>
+      <div>{loading ? <p></p> : <RootRouter />}</div>
     </div>
   );
 };
