@@ -21,30 +21,74 @@ const lastInvoiceId = async (_, res) => {
 
 const createInvoice = async (req, res) => {
   try {
-    const {
-      invoiceId,
-      date,
-      companyInfoId,
-      customercompanyId,
-      createdById,
-      totalPrice,
-    } = req.body;
+    const { date, companyInfoId, customercompanyId, createdById, totalPrice } =
+      req.body;
+
+    // WHEN I CREATE INVOICE I DON'T ADD THE INVOICE NUMBER I UPDATE THE TABLE IN STEP-4 AND ADD THEN -- BECAUSE WHEN I DELETE SOME INVOICE LATER WHEN CREATE NEW INVOICE I DON'T GET THE CORRECT INVOICE ID
 
     const [createInvoiceQuery] = await database.query(
-      "insert into invoice (invoiceId,date,companyInfoId,customercompanyId,createdById,totalPrice) values(?,?,?,?,?,?)",
-      [
-        invoiceId,
-        date,
-        companyInfoId,
-        customercompanyId,
-        createdById,
-        totalPrice,
-      ]
+      "insert into invoice (date,companyInfoId,customercompanyId,createdById,totalPrice) values(?,?,?,?,?)",
+      [date, companyInfoId, customercompanyId, createdById, totalPrice]
     );
 
     createInvoiceQuery.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
   } catch (err) {
     res.status(500).send(err);
+  }
+};
+
+const updateInvoice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      invoiceId,
+      date,
+      companyInfoId,
+      customercompanyId,
+      totalPrice,
+      statusId,
+    } = req.body;
+
+    const updateFields = [];
+    const updateValues = [];
+
+    if (invoiceId !== undefined) {
+      updateFields.push("invoiceId = ?");
+      updateValues.push(invoiceId);
+    }
+    if (date !== undefined) {
+      updateFields.push("date = ?");
+      updateValues.push(date);
+    }
+    if (companyInfoId !== undefined) {
+      updateFields.push("companyInfoId = ?");
+      updateValues.push(companyInfoId);
+    }
+    if (customercompanyId !== undefined) {
+      updateFields.push("customercompanyId = ?");
+      updateValues.push(customercompanyId);
+    }
+    if (totalPrice !== undefined) {
+      updateFields.push("totalPrice = ?");
+      updateValues.push(totalPrice);
+    }
+    if (statusId !== undefined) {
+      updateFields.push("statusId = ?");
+      updateValues.push(statusId);
+    }
+
+    const updateInvoice = `UPDATE invoice SET ${updateFields.join(
+      ", "
+    )} WHERE id = ?`;
+
+    const [updateTable] = await database.query(updateInvoice, [
+      ...updateValues,
+      id,
+    ]);
+
+    updateTable.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 };
 
@@ -132,4 +176,5 @@ module.exports = {
   createInvoiceDetails,
   allInvoicesPagination,
   deleteInvoice,
+  updateInvoice,
 };

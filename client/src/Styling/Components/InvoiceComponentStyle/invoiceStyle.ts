@@ -1,7 +1,7 @@
 import { StyleSheet } from "@react-pdf/renderer";
 
-let globalPadding = "0 50px";
-let borderColor = "#cdc9c9";
+const globalPadding = "0 50px";
+const borderColor = "#cdc9c9";
 
 export const styles = StyleSheet.create({
   page: {

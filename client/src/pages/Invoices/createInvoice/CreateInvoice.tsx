@@ -27,6 +27,7 @@ import {
   createInvoice,
   createInvoiceDetails,
   fetchLastInvoiceId,
+  updateInvoice,
 } from "../../../api/invoiceAPI";
 import { InvoiceType, LastInvoiceIdType } from "../../../types/invoiceTypes";
 import { successRequest } from "../../../components/GlobalComponents/successPrompt";
@@ -207,13 +208,11 @@ const CreateInvoice: React.FC = () => {
       apiGeneralErrorHandle(err);
     }
   };
+  // query for last ID from Invoice
 
   const createInvoicePOST = async () => {
     try {
       const invoiceQuery: InvoiceType = {
-        invoiceId: invoiceDetailsData?.invoiceId
-          ? invoiceDetailsData?.invoiceId
-          : generateInvoiceID,
         date: invoiceDetailsData?.data,
         companyInfoId: companyId,
         customercompanyId: buyerId ? buyerId : buyerLastId,
@@ -233,13 +232,27 @@ const CreateInvoice: React.FC = () => {
 
   // create invoiceDetails in STEP4
   const createPOSTInvoiceDetails = async () => {
-    const formatedQuery = addDescriptionAndPrice.map(({ id, ...rest }) => ({
+    const formatedQuery = addDescriptionAndPrice.map(({ ...rest }) => ({
       ...rest,
       invoiceID: invoiceLastId,
     }));
+
+    const updateInvoiceIdQuery = {
+      invoiceId: invoiceDetailsData?.invoiceId
+        ? invoiceDetailsData?.invoiceId
+        : generateInvoiceNumber(
+            invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
+          ),
+    };
     try {
+      const updateInvoiceID = await updateInvoice(
+        invoiceLastId,
+        token ?? "",
+        updateInvoiceIdQuery
+      );
       const response = await createInvoiceDetails(token ?? "", formatedQuery);
-      if (response.ok) {
+
+      if (updateInvoiceID.ok && response.ok) {
         successRequest(
           "Invoice Created",
           "The invoice has been successfully created"
@@ -254,6 +267,7 @@ const CreateInvoice: React.FC = () => {
         // setInvoiceDetailsData(INITIAL_DATA_STEP3);
       }
     } catch (err) {
+      console.log("error", err);
       apiGeneralErrorHandle(err);
     }
   };

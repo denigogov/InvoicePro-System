@@ -7,16 +7,19 @@ const {
   createInvoiceDetails,
   allInvoicesPagination,
   deleteInvoice,
+  updateInvoice,
 } = require("../database/invoiceDB");
 const {
   validateInvoiceCreate,
   validateCreateInvoiceDetails,
+  validateUpdateInvoice,
 } = require("../validation/invoiceValidation");
 
 router
   .get("/", allInvoicesPagination)
   .post("/", validateInvoiceCreate, createInvoice)
   .delete("/:id", deleteInvoice)
+  .put("/:id", validateUpdateInvoice, updateInvoice)
   .get("/lastId", lastInvoiceId)
   .post("/details", validateCreateInvoiceDetails, createInvoiceDetails);
 

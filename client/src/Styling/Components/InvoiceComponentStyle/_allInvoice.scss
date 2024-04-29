@@ -1,6 +1,31 @@
 @use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
+@use "../../GlobalStyling/colors";
 .allInvoices {
   margin: 4rem 0;
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 1rem;
+
+    button {
+      padding: 0.5rem 0.7rem;
+      background-color: transparent;
+      color: colors.$font-Title;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s linear;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background-color: #ffffff;
+      }
+    }
+  }
 }
 
 .width600 {
@@ -22,31 +47,31 @@
 }
 
 .status-draft {
-  color: #8a8a8a; /* Light Gray */
-  background-color: #f8f9fa; /* Very Light Gray */
+  color: #959595;
+  background-color: #f9fafa;
 }
 
 .status-sent {
-  color: #549755; /* Light Green */
-  background-color: #f0fff4; /* Very Pale Green */
+  color: #5eaa61;
+  background-color: #f4fff5;
 }
 
 .status-paid {
-  color: #4d91a6; /* Light Blue */
-  background-color: #f0f8ff; /* Very Pale Blue */
+  color: #569db2;
+  background-color: #f3fbff;
 }
 
 .status-overdue {
-  color: #b82f3b; /* Light Red */
-  background-color: #fff0f1; /* Very Pale Red */
+  color: #c13e4b;
+  background-color: #ffe7e8;
 }
 
 .status-void {
-  color: #755ba8; /* Light Purple */
-  background-color: #f8f0ff; /* Very Pale Purple */
+  color: #7b65af;
+  background-color: #fcf6ff;
 }
 
 .noStatus {
-  color: #b82f3b; /* Light Red */
-  background-color: #fff0f1; /* Very Pale Red */
+  color: #c13e4b;
+  background-color: #ffe7e8;
 }

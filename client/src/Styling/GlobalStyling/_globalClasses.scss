@@ -40,8 +40,12 @@
 }
 // buttons end
 
+.tableWithPadding {
+  @include mixin.table(18px, 1.7rem);
+}
+
 .table {
-  @include mixin.table;
+  @include mixin.table();
 }
 
 // Input fileds

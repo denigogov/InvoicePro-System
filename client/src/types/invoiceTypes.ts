@@ -1,5 +1,4 @@
 export interface InvoiceType {
-  invoiceId: string;
   date: Date | string;
   companyInfoId: number | null;
   customercompanyId: number | null;

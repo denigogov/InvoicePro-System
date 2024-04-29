@@ -1,5 +1,5 @@
-import detailsIcon from "../../../assets/dashboardIcon.svg";
-import deleteIcon from "../../../assets/addIcon.svg";
+import detailsIcon from "../../../assets/detailsIcon.svg";
+import deleteIcon from "../../../assets/deleteIcon.svg";
 import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
@@ -10,44 +10,38 @@ interface InvoicesTableProps {
   allInvoicePaginationError: Error;
   allInvoicePaginationLoading: boolean;
   deleteInvoiceRequest: (id: number) => void;
+  openDetailsRoute: () => void;
 }
 const InvoicesTable: React.FC<InvoicesTableProps> = ({
   allInvoicePagination,
   allInvoicePaginationError,
   allInvoicePaginationLoading,
   deleteInvoiceRequest,
+  openDetailsRoute,
 }) => {
-  const status = allInvoicePagination?.length
-    ? allInvoicePagination?.map((item) => item.statusName)
-    : "noStatus";
-  let statusClass;
-
-  switch (status[0]) {
-    case "Draft":
-      statusClass = "status-draft";
-      break;
-
-    case "Sent":
-      statusClass = "status-sent";
-      break;
-
-    case "Paid":
-      statusClass = "status-paid";
-      break;
-
-    case "overdue":
-      statusClass = "status-overdue";
-      break;
-    case "void":
-      statusClass = "status-void";
-      break;
-    default:
-      statusClass = "noStatus";
-      break;
-  }
+  const getStatusClass = (statusName: string | undefined) => {
+    switch (statusName) {
+      case "Draft":
+        return "status-draft";
+      case "Sent":
+        return "status-sent";
+      case "Paid":
+        return "status-paid";
+      case "Overdue":
+        return "status-overdue";
+      case "Void":
+        return "status-void";
+      default:
+        return "noStatus";
+    }
+  };
 
   const handleDelete = (id: number) => {
     deleteInvoiceRequest(id);
+  };
+
+  const handleDetails = () => {
+    openDetailsRoute();
   };
 
   if (allInvoicePaginationError)
@@ -57,7 +51,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
   if (allInvoicePaginationLoading) return <LoadingRing />;
 
   return (
-    <div className="table width600">
+    <div className="tableWithPadding width600">
       <table>
         <thead>
           <tr>
@@ -78,16 +72,21 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                 <td data-cell="Customer">{invoice?.customerName ?? ""}</td>
                 <td data-cell="Total Price">€ {invoice?.totalPrice ?? 0}</td>
                 <td data-cell="Created At">
-                  {" "}
                   {moment(invoice?.currentDate ?? "").format("Do MMMM YYYY")}
                 </td>
                 <td data-cell="Status" className="td-status">
-                  <span className={`span-td ${statusClass}`}>
+                  <span
+                    className={`span-td ${getStatusClass(invoice?.statusName)}`}
+                  >
                     {invoice?.statusName ?? ""}
                   </span>
                 </td>
                 <td data-cell="Details">
-                  <img src={detailsIcon} alt="Details Icon" />
+                  <img
+                    src={detailsIcon}
+                    alt="Details Icon"
+                    onClick={handleDetails}
+                  />
                 </td>
                 <td data-cell="Delete">
                   <img
@@ -100,7 +99,9 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
             ))
           ) : (
             <tr>
-              <td colSpan={7}>No Data Found</td>
+              <td data-cell="status" colSpan={7}>
+                No Data Found
+              </td>
             </tr>
           )}
         </tbody>

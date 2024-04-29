@@ -10,9 +10,7 @@ import {
 } from "../../../components/GlobalComponents/updatePrompt";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
 
-interface EditInfoCompanyProps {}
-
-const EditInfoCompany: React.FC<EditInfoCompanyProps> = ({}) => {
+const EditInfoCompany: React.FC = () => {
   const { token } = useAuth();
 
   const navigate = useNavigate();

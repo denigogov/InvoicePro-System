@@ -75,6 +75,8 @@ export const createInvoiceDetails = async (
       body: JSON.stringify(queryData),
     });
 
+    console.log("post", res);
+
     if (!res.ok) {
       const errorResponse = await res.json();
 
@@ -132,5 +134,43 @@ export const deleteInvoice = async (token: string, id: number) => {
   } catch (err: unknown) {
     console.log(err);
     throw err;
+  }
+};
+
+/**
+ * API PUT REQUEST for update companyInfo data
+ * @param id invoiceID
+ * @param token
+ * @param queryData it can be only one or multiple values!
+ * @returns status 200 or 401
+ */
+
+export const updateInvoice = async (
+  id: number | null | undefined,
+  token: string,
+  queryData: Partial<AllInvoicesPaginationType>
+) => {
+  try {
+    const res = await fetch(`${API_URL}/invoice/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(queryData),
+    });
+
+    if (!res.ok) {
+      const errorResponse = await res.json();
+
+      console.log(errorResponse);
+
+      throw new Error(`${errorResponse.validationErrors[0].message}`);
+    } else {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };

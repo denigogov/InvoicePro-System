@@ -1,0 +1,46 @@
+@use "../GlobalStyling/mixin";
+@use "../GlobalStyling/colors";
+
+.invoiceDetails {
+  height: 100%;
+  width: 100%;
+  @include mixin.overflowScroll;
+  &__title {
+    height: 5rem;
+    background-color: colors.$background-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: colors.$font-Title;
+
+    h3 {
+      margin-left: 2rem;
+      font-weight: 500;
+    }
+
+    &-invoiceDate {
+      height: 100%;
+      display: flex;
+      align-items: end;
+
+      p {
+        font-size: 0.8rem;
+        padding: 10px;
+      }
+    }
+  }
+
+  //   body part
+  &__body {
+    padding: 0.5rem;
+    height: 100%;
+
+    ul {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-content: space-around;
+      justify-content: space-around;
+    }
+  }
+}

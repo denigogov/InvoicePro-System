@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { CompanyBankInfo } from "../../../types/companyInfoTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";

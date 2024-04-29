@@ -1,6 +1,7 @@
 @use "../GlobalStyling/colors";
 @use "../GlobalStyling/general";
 
+//button is connected to the gradient button don't delete
 @mixin button() {
   padding: 15px 50px;
   border-radius: 25px;
@@ -113,7 +114,7 @@
 //     background-color: $btnHoverColor;
 //   }
 
-@mixin table() {
+@mixin table($tdpadding: 8px, $iconSize: 24px) {
   table {
     background-color: #fff;
     width: 100%;
@@ -128,14 +129,14 @@
     th,
     td {
       position: relative;
-      padding: 8px;
+      padding: $tdpadding;
       text-align: center;
       border-bottom: 1px solid colors.$border-Primary;
 
       img {
         display: block;
         margin: 0 auto;
-        width: 24px;
+        width: $iconSize;
         cursor: pointer;
       }
     }
