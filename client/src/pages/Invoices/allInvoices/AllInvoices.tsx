@@ -17,7 +17,7 @@ const VITE_PAGINATION_RESULTS_PRO_PAGE = import.meta.env
   .VITE_PAGINATION_RESULTS_PRO_PAGE as number;
 
 const AllInvoices: React.FC = () => {
-  const [popUpOpen, setPopupOpen] = useState<boolean>(false);
+  const [popUpOpen, setPopupOpen] = useState<boolean>(!false);
   const [pageIndex, setPageIndex] = useState<number>(1);
   const navigator = useNavigate();
   const popupWindow = () => {

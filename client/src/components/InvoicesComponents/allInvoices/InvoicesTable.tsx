@@ -61,7 +61,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
             <th>Created At</th>
             <th>Status</th>
             <th>Details</th>
-            <th>Delete</th>
+            <th>Modify</th>
           </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                     onClick={handleDetails}
                   />
                 </td>
-                <td data-cell="Delete">
+                <td data-cell="Modify">
                   <img
                     src={deleteIcon}
                     alt="Delete Icon"

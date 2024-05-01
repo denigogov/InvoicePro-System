@@ -9,7 +9,7 @@ export const confirmDeletePrompt = (title: string, htmlText: string) =>
     iconColor: "#da0404",
     confirmButtonColor: "#da0404",
     cancelButtonColor: "#b7b7b7",
-    confirmButtonText: "Confirm !",
+    confirmButtonText: "Confirm ",
   });
 
 // When Delete Confirm is true !

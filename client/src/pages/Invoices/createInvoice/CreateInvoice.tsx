@@ -232,7 +232,8 @@ const CreateInvoice: React.FC = () => {
 
   // create invoiceDetails in STEP4
   const createPOSTInvoiceDetails = async () => {
-    const formatedQuery = addDescriptionAndPrice.map(({ ...rest }) => ({
+    // removin the ID from the query because the Id only was used as key in the looping component
+    const formatedQuery = addDescriptionAndPrice.map(({ id, ...rest }) => ({
       ...rest,
       invoiceID: invoiceLastId,
     }));

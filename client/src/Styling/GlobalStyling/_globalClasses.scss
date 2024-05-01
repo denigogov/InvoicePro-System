@@ -23,13 +23,23 @@
   color: white;
 }
 
-.button__submit {
-  @include mixin.saveAddBtn;
-}
-
 // Only avaiable on White Background
 .button__edit {
   @include mixin.button;
+}
+
+.button__delete {
+  @include mixin.buttonDelete("../../assets/deleteIcon.svg");
+}
+
+.button__downloadPDF {
+  @include mixin.buttonDelete(
+    "../../assets/downloadPDF.svg",
+    12px 25px,
+    #000000,
+    rgba(0, 55, 255, 0.04),
+    rgba(0, 55, 255, 0.07)
+  );
 }
 
 .button__table {
