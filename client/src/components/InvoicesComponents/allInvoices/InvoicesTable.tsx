@@ -10,7 +10,7 @@ interface InvoicesTableProps {
   allInvoicePaginationError: Error;
   allInvoicePaginationLoading: boolean;
   deleteInvoiceRequest: (id: number) => void;
-  openDetailsRoute: () => void;
+  openDetailsRoute: (invoiceId: string) => void;
 }
 const InvoicesTable: React.FC<InvoicesTableProps> = ({
   allInvoicePagination,
@@ -40,8 +40,8 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
     deleteInvoiceRequest(id);
   };
 
-  const handleDetails = () => {
-    openDetailsRoute();
+  const handleDetails = (invoiceId: string) => {
+    openDetailsRoute(invoiceId);
   };
 
   if (allInvoicePaginationError)
@@ -85,7 +85,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                   <img
                     src={detailsIcon}
                     alt="Details Icon"
-                    onClick={handleDetails}
+                    onClick={() => handleDetails(invoice?.invoiceId)}
                   />
                 </td>
                 <td data-cell="Modify">

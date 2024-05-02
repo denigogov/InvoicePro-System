@@ -26,9 +26,9 @@ const AllInvoices: React.FC = () => {
   };
 
   // when user click on the table details button
-  const openDetailsRoute = () => {
+  const openDetailsRoute = (invoiceId: string) => {
     setPopupOpen((x) => !x);
-    navigator("/invoices/all/details");
+    navigator(`/invoices/all/details/${invoiceId}`);
   };
 
   const { token } = useAuth();

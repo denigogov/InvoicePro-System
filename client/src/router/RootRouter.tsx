@@ -66,7 +66,7 @@ const RootRouter = () => {
 
           <Route path="/invoices" element={<Invoices />}>
             <Route path="all" element={<AllInvoices />}>
-              <Route path="details" element={<InvoiceDetails />} />
+              <Route path="details/:invoiceId" element={<InvoiceDetails />} />
             </Route>
             <Route path="create" element={<CreateInvoice />} />
           </Route>

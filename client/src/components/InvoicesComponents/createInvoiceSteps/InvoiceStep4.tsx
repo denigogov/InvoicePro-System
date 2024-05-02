@@ -10,11 +10,13 @@ interface InvoiceStep4Props {
   setAddDescriptionAndPrice: React.Dispatch<
     React.SetStateAction<Step4initialDateTypes[]>
   >;
+  setCheckboxSignature: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
   addDescriptionAndPrice,
   setAddDescriptionAndPrice,
+  setCheckboxSignature,
 }) => {
   const handleAddFiled = () => {
     const newId = addDescriptionAndPrice.length
@@ -70,7 +72,6 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
               required
               onChange={(e) => handleDescriptionChange(e, i)}
             />
-
             <label>Price</label>
             <input
               type="number"
@@ -78,8 +79,7 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
               min={0}
               required
               onChange={(e) => handlePriceChange(e, i)}
-            />
-
+            />{" "}
             <p className="invoiceStep4__removeFiled">
               {i + 1 > 1 && (
                 <img
@@ -91,13 +91,19 @@ const InvoiceStep4: React.FC<InvoiceStep4Props> = ({
             </p>
           </div>
         ))}
+        <div className="invoiceStep4__checkbox">
+          <label>Signature</label>
+          <input
+            type="checkbox"
+            onChange={() => setCheckboxSignature((e) => !e)}
+          />
+        </div>
       </MultiFormWraper>
-
       <div className="invoiceStep4__addFiled">
         <p>
           <img onClick={handleAddFiled} src={addIcon} alt="addIcon" />
         </p>
-      </div>
+      </div>{" "}
     </div>
   );
 };

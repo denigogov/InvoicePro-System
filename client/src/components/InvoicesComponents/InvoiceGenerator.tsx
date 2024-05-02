@@ -5,6 +5,7 @@ import {
   View,
   Font,
   PDFDownloadLink,
+  Image,
 } from "@react-pdf/renderer";
 
 import downloadIcon from "../../assets/downloadPDF.svg";
@@ -43,6 +44,8 @@ interface InvoiceGeneratorTypes {
   invoiceDetailsData: Step3initialDateTypes;
   invoiceLastId?: number | null;
   addDescriptionAndPrice: Step4initialDateTypes[];
+  signatureImg?: string;
+  checkboxSignature?: boolean;
 }
 
 const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
@@ -52,6 +55,8 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
   invoiceDetailsData,
   invoiceLastId,
   addDescriptionAndPrice,
+  signatureImg,
+  checkboxSignature,
 }) => {
   const generateInvoiceID = generateInvoiceNumber(
     invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
@@ -140,10 +145,17 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                   </View>
                 ))}
               </View>
+
               <View style={styles.footerTable}>
                 <Text>TOTAL DUE</Text>
                 <Text>€ {invoiceDetailsData?.totalPrice ?? "N/A"}</Text>
               </View>
+              {checkboxSignature && (
+                <View>
+                  <Text style={styles.signature}>Signature:</Text>
+                  <Image style={styles.signatureImage} src={signatureImg} />
+                </View>
+              )}
             </View>
 
             {/* Footer */}

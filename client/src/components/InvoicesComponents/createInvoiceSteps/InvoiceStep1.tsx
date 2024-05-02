@@ -4,6 +4,7 @@ import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
 import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
 import React from "react";
+
 interface InvoiceStep1Props {
   companyDataLoading: boolean;
   companyDataError: Error;

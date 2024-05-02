@@ -1,5 +1,5 @@
 import "../../../Styling/Components/InvoiceComponentStyle/_createInvoice.scss";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import ProgressBar from "../../../components/GlobalComponents/ProgressBar";
 import InvoiceStep1 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep1";
 import InvoiceStep2 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep2";
@@ -34,6 +34,7 @@ import { successRequest } from "../../../components/GlobalComponents/successProm
 import InvoiceStep4 from "../../../components/InvoicesComponents/createInvoiceSteps/InvoiceStep4";
 import { generateInvoiceNumber } from "../../../helpers/InvoiceID";
 import DownloadInvoice from "../../../components/InvoicesComponents/DownloadInvoice";
+import ReactSignatureCanvas from "react-signature-canvas";
 
 export interface StepsType {
   stepName: string;
@@ -62,8 +63,13 @@ const CreateInvoice: React.FC = () => {
 
   const [formSubmited, setFormSubmited] = useState<boolean>(false);
 
+  const [signatureImg, setSignatureImg] = useState<string>("");
+  const [checkboxSignature, setCheckboxSignature] = useState<boolean>(false);
+
   const { token, userInfo } = useAuth();
   const { mutate } = useSWRConfig();
+
+  let padRef = useRef<any>(null);
 
   const updateFileds = (
     fileds: Partial<Step3initialDateTypes | Step2initialDateTypes>
@@ -128,6 +134,18 @@ const CreateInvoice: React.FC = () => {
     (buyer) => buyer?.id === buyerId
   );
 
+  const clearSignaturePad = (e: React.FormEvent) => {
+    e.preventDefault();
+    padRef.current?.clear();
+    setSignatureImg("");
+  };
+
+  const saveSignature = (e: React.FormEvent) => {
+    e.preventDefault();
+    const url = padRef.current?.getTrimmedCanvas().toDataURL("image/png");
+    if (url) setSignatureImg(url);
+  };
+
   const {
     steps,
     currentStepIndex,
@@ -166,6 +184,7 @@ const CreateInvoice: React.FC = () => {
     <InvoiceStep4
       addDescriptionAndPrice={addDescriptionAndPrice}
       setAddDescriptionAndPrice={setAddDescriptionAndPrice}
+      setCheckboxSignature={setCheckboxSignature}
     />,
   ]);
 
@@ -309,7 +328,37 @@ const CreateInvoice: React.FC = () => {
           <ProgressBar stepNames={stepNames} />
           <form className="createInvoice__form" onSubmit={handleSubmitForm}>
             <div>{steps[currentStepIndex]}</div>
-
+            {checkboxSignature && (
+              <>
+                <div className="createInvoice__signatureBox">
+                  <ReactSignatureCanvas
+                    penColor="#0048a8"
+                    canvasProps={{
+                      width: 300,
+                      height: 200,
+                      className: "sigCanvas",
+                    }}
+                    ref={padRef}
+                  />
+                </div>
+                <div className="createInvoice__signatureBox-button">
+                  <button
+                    className="button__delete"
+                    onClick={clearSignaturePad}
+                  >
+                    clear
+                  </button>
+                  <button
+                    className={
+                      signatureImg.length ? "signatureConfirm" : "saveSignature"
+                    }
+                    onClick={saveSignature}
+                  >
+                    {signatureImg.length ? "saved" : "save"}
+                  </button>
+                </div>
+              </>
+            )}
             <div className="createInvoice__button-wrap">
               {!isFirstStep && (
                 <button type="button" onClick={previuse}>
@@ -332,6 +381,8 @@ const CreateInvoice: React.FC = () => {
           invoiceDetailsData={invoiceDetailsData}
           invoiceLastId={invoiceLastId}
           addDescriptionAndPrice={addDescriptionAndPrice}
+          signatureImg={signatureImg}
+          checkboxSignature={checkboxSignature}
         />
       )}
     </div>

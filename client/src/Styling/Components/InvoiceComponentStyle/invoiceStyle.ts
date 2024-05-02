@@ -108,6 +108,17 @@ export const styles = StyleSheet.create({
     fontFamily: "customFontWeight500",
   },
 
+  signature: {
+    paddingTop: 30,
+    fontFamily: "customFontWeight700",
+    fontSize: 12,
+  },
+
+  signatureImage: {
+    width: "65px",
+    height: "65px",
+  },
+
   footerTable: {
     paddingTop: 10,
     flexDirection: "row",

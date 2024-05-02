@@ -15,6 +15,39 @@
     align-items: none;
   }
 
+  &__signatureBox {
+    margin: 0 auto;
+    border: 1px solid colors.$border-Primary;
+    width: 300px;
+    height: 200px;
+
+    &-button {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+
+      .signatureConfirm {
+        @include mixin.buttonDelete(
+          "../../../assets/saveIcon.svg",
+          12px 25px,
+          #06c103,
+          rgba(17, 255, 0, 0.04),
+          rgba(43, 255, 0, 0.07)
+        );
+      }
+
+      .saveSignature {
+        @include mixin.buttonDelete(
+          "../../../assets/saveIcon.svg",
+          12px 25px,
+          #000000,
+          rgba(0, 55, 255, 0.04),
+          rgba(0, 55, 255, 0.07)
+        );
+      }
+    }
+  }
+
   &__form {
     border: 1px solid colors.$font-Primary;
     padding: 2rem;
@@ -30,6 +63,10 @@
     textarea,
     select {
       @include mixin.inputUpdateValue;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #c00000;
     }
 
     label {
