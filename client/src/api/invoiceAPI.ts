@@ -4,6 +4,7 @@ import {
   InvoiceDetailsType,
   InvoiceType,
   LastInvoiceIdType,
+  SingleInvoiceByIdType,
 } from "../types/invoiceTypes";
 import { apiFetcher } from "./apiHelper";
 
@@ -118,8 +119,23 @@ export const fetchAllInvoicesPagination = async (
     token || ""
   );
 };
+/**
+ *
+ * @param token string
+ * @param invoiceId example: 24-00010 not 1 or 2 or 10....
 
-export const deleteInvoice = async (token: string, id: number) => {
+ * @returns  
+(  all joined table with the value mainly used for route Invoice/details when user click on button details inside of the table)
+
+ */
+export const fetchSingleInvoiceById = async (
+  token?: string,
+  invoiceId?: string
+) => {
+  return apiFetcher<SingleInvoiceByIdType>(`invoice/${invoiceId}`, token || "");
+};
+
+export const deleteInvoice = async (token: string, id: string) => {
   try {
     const res = await fetch(`${API_URL}/invoice/${id}`, {
       method: "DELETE",

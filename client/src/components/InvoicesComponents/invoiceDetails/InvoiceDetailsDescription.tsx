@@ -1,27 +1,33 @@
-interface InvoiceDetailsDescriptionProps {}
+import React from "react";
+import { invoiceDetails } from "../../../types/invoiceTypes";
 
-const InvoiceDetailsDescription: React.FC<
-  InvoiceDetailsDescriptionProps
-> = ({}) => {
+interface InvoiceDetailsDescriptionProps {
+  invoiceDescription: (invoiceDetails | undefined)[] | undefined;
+  totalPrice: string | undefined;
+}
+
+const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
+  invoiceDescription,
+  totalPrice,
+}) => {
   return (
     <div>
       <div className="invoiceDetails__description-wrap">
         <h3>Description</h3>
-        <ul>
-          <li>
-            details:{" "}
-            <span>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit,
-              velit quas. Quas ipsam quam est nihil nam ad sed laborum.
-            </span>
+        {invoiceDescription?.map((details, i) => (
+          <ul key={i}>
             <li>
-              price: <span>€ 440</span>
+              details: <span>{details?.description ?? "not found"}</span>
+              <ul>
+                <li>
+                  price: <span>€ {details?.price ?? "not found"}</span>
+                </li>
+              </ul>
             </li>
-          </li>
-        </ul>
-
+          </ul>
+        ))}
         <h3>
-          Total Price: <span>€ 300</span>
+          Total Price: <span>€ {totalPrice ?? "not avaiable"}</span>
         </h3>
       </div>
     </div>

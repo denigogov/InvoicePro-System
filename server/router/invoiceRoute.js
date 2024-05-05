@@ -8,6 +8,7 @@ const {
   allInvoicesPagination,
   deleteInvoice,
   updateInvoice,
+  selectInvoiceById,
 } = require("../database/invoiceDB");
 const {
   validateInvoiceCreate,
@@ -17,10 +18,11 @@ const {
 
 router
   .get("/", allInvoicesPagination)
-  .post("/", validateInvoiceCreate, createInvoice)
-  .delete("/:id", deleteInvoice)
-  .put("/:id", validateUpdateInvoice, updateInvoice)
   .get("/lastId", lastInvoiceId)
-  .post("/details", validateCreateInvoiceDetails, createInvoiceDetails);
+  .get("/:id", selectInvoiceById)
+  .post("/", validateInvoiceCreate, createInvoice)
+  .post("/details", validateCreateInvoiceDetails, createInvoiceDetails)
+  .put("/:id", validateUpdateInvoice, updateInvoice)
+  .delete("/:id", deleteInvoice);
 
 module.exports = router;

@@ -127,8 +127,8 @@ const allInvoicesPagination = async (req, res) => {
       `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM alltransport.invoice
       left join invoicestatus on invoice.statusId = invoicestatus.id
       left join customercompany on invoice.customercompanyId = customercompany.id
-
-    limit ? offset ?`,
+      ORDER BY invoiceId desc
+      limit ? offset ?`,
       [+limit, +offset]
     );
 
@@ -160,13 +160,41 @@ const deleteInvoice = async (req, res) => {
     const { id } = req.params;
 
     const [deleteInvoice] = await database.query(
-      "delete from invoice where id = ?",
+      "delete from invoice where invoiceId = ?",
       [id]
     );
 
     deleteInvoice.affectedRows ? res.sendStatus(200) : res.sendStatus(404);
   } catch (err) {
     res.status(500).send(err.message);
+  }
+};
+
+const selectInvoiceById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [findInvoice] = await database.query(
+      `SELECT  invoiceId,currentDate,totalPrice ,statusName,customerName,country,city,street,zipcode,idNumber FROM alltransport.invoice
+    left join invoicestatus on invoice.statusId = invoicestatus.id
+    left join customercompany on invoice.customercompanyId = customercompany.id
+    where invoiceId = ? `,
+      [id]
+    );
+
+    const [findDetails] = await database.query(
+      `select description,price from invoicedetail
+    left join invoice on invoice.id = invoicedetail.invoiceID
+    where invoice.invoiceId = ?
+    `,
+      [id]
+    );
+
+    findDetails.length || findInvoice.length
+      ? res.status(200).send({ findInvoice, findDetails })
+      : res.sendStatus(404);
+  } catch (err) {
+    res.status(500).send(err?.message);
   }
 };
 
@@ -177,4 +205,5 @@ module.exports = {
   allInvoicesPagination,
   deleteInvoice,
   updateInvoice,
+  selectInvoiceById,
 };

@@ -9,14 +9,14 @@ interface InvoicesTableProps {
   allInvoicePagination?: AllInvoicesPaginationType[];
   allInvoicePaginationError: Error;
   allInvoicePaginationLoading: boolean;
-  deleteInvoiceRequest: (id: number) => void;
+
   openDetailsRoute: (invoiceId: string) => void;
 }
 const InvoicesTable: React.FC<InvoicesTableProps> = ({
   allInvoicePagination,
   allInvoicePaginationError,
   allInvoicePaginationLoading,
-  deleteInvoiceRequest,
+
   openDetailsRoute,
 }) => {
   const getStatusClass = (statusName: string | undefined) => {
@@ -34,10 +34,6 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
       default:
         return "noStatus";
     }
-  };
-
-  const handleDelete = (id: number) => {
-    deleteInvoiceRequest(id);
   };
 
   const handleDetails = (invoiceId: string) => {
@@ -89,11 +85,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                   />
                 </td>
                 <td data-cell="Modify">
-                  <img
-                    src={deleteIcon}
-                    alt="Delete Icon"
-                    onClick={() => handleDelete(invoice?.id)}
-                  />
+                  <img src={deleteIcon} alt="Delete Icon" />
                 </td>
               </tr>
             ))

@@ -1,15 +1,11 @@
 import "../../../Styling/Components/InvoiceComponentStyle/_allInvoice.scss";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import InvoiceTableNav from "../../../components/InvoicesComponents/allInvoices/InvoiceTableNav";
 import InvoicesTable from "../../../components/InvoicesComponents/allInvoices/InvoicesTable";
 import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
 import { useAuth } from "../../../helpers/useAuth";
-import {
-  deleteInvoice,
-  fetchAllInvoicesPagination,
-} from "../../../api/invoiceAPI";
-import { confirmDeletePrompt } from "../../../components/GlobalComponents/deletePrompt";
-import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
+import { fetchAllInvoicesPagination } from "../../../api/invoiceAPI";
+
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -17,7 +13,7 @@ const VITE_PAGINATION_RESULTS_PRO_PAGE = import.meta.env
   .VITE_PAGINATION_RESULTS_PRO_PAGE as number;
 
 const AllInvoices: React.FC = () => {
-  const [popUpOpen, setPopupOpen] = useState<boolean>(!false);
+  const [popUpOpen, setPopupOpen] = useState<boolean>(false);
   const [pageIndex, setPageIndex] = useState<number>(1);
   const navigator = useNavigate();
   const popupWindow = () => {
@@ -32,7 +28,6 @@ const AllInvoices: React.FC = () => {
   };
 
   const { token } = useAuth();
-  const { mutate } = useSWRConfig();
 
   const {
     data: allInvoicePagination,
@@ -52,21 +47,6 @@ const AllInvoices: React.FC = () => {
     setPageIndex(newPageIndex);
   };
 
-  const deleteInvoiceRequest = async (id: number) => {
-    const confirmDelete = confirmDeletePrompt(
-      "Confirm deletion",
-      `Do you want to proceed with deleting this invoice?`
-    );
-    try {
-      if ((await confirmDelete).isConfirmed) {
-        deleteInvoice(token ?? "", id);
-        mutate(["allInvoicePagination", token]);
-      }
-    } catch (err) {
-      apiGeneralErrorHandle(err);
-    }
-  };
-
   return (
     <div className="allInvoices">
       <InvoiceTableNav />
@@ -74,7 +54,6 @@ const AllInvoices: React.FC = () => {
         allInvoicePagination={allInvoicePagination}
         allInvoicePaginationError={allInvoicePaginationError}
         allInvoicePaginationLoading={allInvoicePaginationLoading}
-        deleteInvoiceRequest={deleteInvoiceRequest}
         openDetailsRoute={openDetailsRoute}
       />
       <div className="allInvoices__button">
@@ -89,7 +68,7 @@ const AllInvoices: React.FC = () => {
       {popUpOpen && (
         <div className="overlay" onClick={popupWindow}>
           <main className="popUp mdPopup" onClick={(e) => e.stopPropagation()}>
-            <Outlet context={[setPopupOpen]} />
+            <Outlet context={setPopupOpen} />
           </main>
         </div>
       )}

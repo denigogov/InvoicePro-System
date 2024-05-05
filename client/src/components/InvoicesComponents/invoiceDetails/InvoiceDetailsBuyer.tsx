@@ -1,27 +1,37 @@
+import { invoiceJoinDataTypes } from "../../../types/invoiceTypes";
+
 // Styling inside of parrent componetn
-const InvoiceDetailsBuyer: React.FC = () => {
+interface InvoiceDetailsBuyerProps {
+  invoiceData: (invoiceJoinDataTypes | undefined)[] | undefined;
+}
+
+const InvoiceDetailsBuyer: React.FC<InvoiceDetailsBuyerProps> = ({
+  invoiceData,
+}) => {
   return (
     <div>
-      <ul>
-        <li>
-          Company Name: <span>BadCompany GmbH</span>
-        </li>
-        <li>
-          Street: <span>Am SchlossBuckel 10</span>
-        </li>
-        <li>
-          City: <span>Bretten</span>
-        </li>
-        <li>
-          ZipCode: <span>75015</span>
-        </li>
-        <li>
-          Country: <span>Germany</span>
-        </li>
-        <li>
-          ID Number: <span>A34BB33o390</span>
-        </li>
-      </ul>
+      {invoiceData?.map((data) => (
+        <ul key={data?.invoiceId}>
+          <li>
+            Company Name: <span>{data?.customerName ?? "not found"}</span>
+          </li>
+          <li>
+            Street: <span>{data?.street}</span>
+          </li>
+          <li>
+            City: <span>{data?.city}</span>
+          </li>
+          <li>
+            ZipCode: <span>{data?.zipcode}</span>
+          </li>
+          <li>
+            Country: <span>{data?.country}</span>
+          </li>
+          <li>
+            ID Number: <span>{data?.idNumber}</span>
+          </li>
+        </ul>
+      ))}
     </div>
   );
 };

@@ -24,3 +24,25 @@ export interface AllInvoicesPaginationType {
   currentDate: Date | string;
   statusName: string;
 }
+
+export type invoiceDetails = {
+  description?: string;
+  price?: string;
+};
+
+export type invoiceJoinDataTypes = {
+  invoiceId: string;
+  currentDate: string;
+  totalPrice: string;
+  statusName: string;
+  customerName: string;
+  country: string;
+  city: string;
+  street: string;
+  zipcode: string;
+  idNumber: string;
+};
+export interface SingleInvoiceByIdType {
+  findInvoice?: Partial<invoiceJoinDataTypes[]>;
+  findDetails?: Partial<invoiceDetails[]>;
+}
