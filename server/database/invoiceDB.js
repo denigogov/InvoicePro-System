@@ -21,14 +21,20 @@ const lastInvoiceId = async (_, res) => {
 
 const createInvoice = async (req, res) => {
   try {
-    const { date, companyInfoId, customercompanyId, createdById, totalPrice } =
-      req.body;
+    const {
+      date,
+      companyInfoId,
+      customercompanyId,
+      createdById,
+      tax,
+      discount,
+    } = req.body;
 
     // WHEN I CREATE INVOICE I DON'T ADD THE INVOICE NUMBER I UPDATE THE TABLE IN STEP-4 AND ADD THEN -- BECAUSE WHEN I DELETE SOME INVOICE LATER WHEN CREATE NEW INVOICE I DON'T GET THE CORRECT INVOICE ID
 
     const [createInvoiceQuery] = await database.query(
-      "insert into invoice (date,companyInfoId,customercompanyId,createdById,totalPrice) values(?,?,?,?,?)",
-      [date, companyInfoId, customercompanyId, createdById, totalPrice]
+      "insert into invoice (date,companyInfoId,customercompanyId,createdById, tax,discount ) values(?,?,?,?,?,?)",
+      [date, companyInfoId, customercompanyId, createdById, tax, discount]
     );
 
     createInvoiceQuery.affectedRows ? res.sendStatus(200) : res.sendStatus(400);

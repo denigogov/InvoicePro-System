@@ -35,6 +35,8 @@ import InvoiceStep4 from "../../../components/InvoicesComponents/createInvoiceSt
 import { generateInvoiceNumber } from "../../../helpers/InvoiceID";
 import DownloadInvoice from "../../../components/InvoicesComponents/DownloadInvoice";
 import ReactSignatureCanvas from "react-signature-canvas";
+import { fetchInvoiceSettings } from "../../../api/invoiceSettings";
+import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
 
 export interface StepsType {
   stepName: string;
@@ -90,7 +92,6 @@ const CreateInvoice: React.FC = () => {
   } = useSWR<CompanyInfoTypes[]>(["companyData", token], () =>
     fetchCompanyInfo(token ?? "")
   );
-
   const {
     data: lastInvoiceId,
     error: lastInvoiceIdError,
@@ -98,7 +99,15 @@ const CreateInvoice: React.FC = () => {
   } = useSWR<LastInvoiceIdType[]>(["lastInvoiceId", token], () =>
     fetchLastInvoiceId(token ?? "")
   );
+  const {
+    data: invoiceSettingsData,
+    error: invoiceSettingsDataError,
+    isLoading: invoiceSettingsDataLoading,
+  } = useSWR<InvoiceSettingsTypes[]>(["invoiceSettings", token], () =>
+    fetchInvoiceSettings(token ?? "")
+  );
 
+  console.log(invoiceSettingsData);
   const {
     data: customerData,
     error: customerDataError,
@@ -129,7 +138,6 @@ const CreateInvoice: React.FC = () => {
   const filteredCompanyData = companyData?.filter(
     (company) => company?.id === companyId
   );
-
   const filterBuyerData = customerData?.filter(
     (buyer) => buyer?.id === buyerId
   );
@@ -178,8 +186,11 @@ const CreateInvoice: React.FC = () => {
       {...invoiceDetailsData}
       updateFileds={updateFileds}
       generateInvoiceID={generateInvoiceID}
+      invoiceSettingsData={invoiceSettingsData}
       lastInvoiceIdError={lastInvoiceIdError}
       lastInvoiceIdLoading={lastInvoiceIdLoading}
+      invoiceSettingsDataError={invoiceSettingsDataError}
+      invoiceSettingsDataLoading={invoiceSettingsDataLoading}
     />,
     <InvoiceStep4
       addDescriptionAndPrice={addDescriptionAndPrice}
@@ -211,7 +222,7 @@ const CreateInvoice: React.FC = () => {
     },
   ];
 
-  // create customerCompany in STEP2
+  // create customerCompany if user create new company in STEP2
   const createCustomerPOST = async () => {
     try {
       const response = await createCustomerCompany(
@@ -227,8 +238,8 @@ const CreateInvoice: React.FC = () => {
       apiGeneralErrorHandle(err);
     }
   };
-  // query for last ID from Invoice
 
+  // STEP 3
   const createInvoicePOST = async () => {
     try {
       const invoiceQuery: InvoiceType = {
@@ -236,7 +247,9 @@ const CreateInvoice: React.FC = () => {
         companyInfoId: companyId,
         customercompanyId: buyerId ? buyerId : buyerLastId,
         createdById: userInfo?.id ?? 1,
-        totalPrice: invoiceDetailsData?.totalPrice,
+        tax: invoiceDetailsData?.tax ?? invoiceSettingsData?.[0]?.tax,
+        discount:
+          invoiceDetailsData?.discount ?? invoiceSettingsData?.[0]?.discount,
       };
 
       const response = await createInvoice(token ?? "", invoiceQuery);
@@ -248,6 +261,16 @@ const CreateInvoice: React.FC = () => {
       apiGeneralErrorHandle(err);
     }
   };
+  const taxValue =
+    invoiceDetailsData?.tax ?? invoiceSettingsData?.[0]?.tax ?? 0;
+
+  const calcPrice = addDescriptionAndPrice
+    .map((detail) => detail?.price || 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  const calcTax = ((calcPrice * taxValue) / 100).toFixed(2);
+
+  const totalPrice = +calcPrice + +calcTax;
 
   // create invoiceDetails in STEP4
   const createPOSTInvoiceDetails = async () => {
@@ -263,6 +286,7 @@ const CreateInvoice: React.FC = () => {
         : generateInvoiceNumber(
             invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
           ),
+      totalPrice: addDescriptionAndPrice.length ? +calcPrice + +calcTax : 0,
     };
     try {
       const updateInvoiceID = await updateInvoice(
@@ -287,7 +311,6 @@ const CreateInvoice: React.FC = () => {
         // setInvoiceDetailsData(INITIAL_DATA_STEP3);
       }
     } catch (err) {
-      console.log("error", err);
       apiGeneralErrorHandle(err);
     }
   };
@@ -383,6 +406,9 @@ const CreateInvoice: React.FC = () => {
           addDescriptionAndPrice={addDescriptionAndPrice}
           signatureImg={signatureImg}
           checkboxSignature={checkboxSignature}
+          totalPrice={totalPrice}
+          taxValue={taxValue}
+          calcTax={calcTax}
         />
       )}
     </div>

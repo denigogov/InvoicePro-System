@@ -29,8 +29,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
     handleLogin(credentials);
   };
 
-  console.log(showPassword);
-
   return (
     <div className="loginForm">
       <div className="loginForm__comapny">

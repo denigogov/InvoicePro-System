@@ -3,7 +3,8 @@ export interface InvoiceType {
   companyInfoId: number | null;
   customercompanyId: number | null;
   createdById: number | null;
-  totalPrice: number | null;
+  tax?: number | null;
+  discount?: number | null;
 }
 
 export interface LastInvoiceIdType {
@@ -20,7 +21,8 @@ export interface AllInvoicesPaginationType {
   id: number;
   invoiceId: string;
   customerName: string;
-  totalPrice: string;
+  tax: number | null;
+  discount: number | null;
   currentDate: Date | string;
   statusName: string;
 }
@@ -41,6 +43,8 @@ export type invoiceJoinDataTypes = {
   street: string;
   zipcode: string;
   idNumber: string;
+  tax: string;
+  discount: string;
 };
 export interface SingleInvoiceByIdType {
   findInvoice?: Partial<invoiceJoinDataTypes[]>;

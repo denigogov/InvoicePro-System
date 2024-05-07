@@ -88,7 +88,7 @@
     }
 
     input[type="password"] {
-      background: url(../../assets//passwordIcon.svg) no-repeat;
+      background: url(../../assets//hidePassword.svg) no-repeat;
       background-color: white;
       @include mixin.inputLogin();
     }

@@ -1,21 +1,28 @@
-import useSWR, { mutate } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import "../../../Styling/Pages/_invoiceDetails.scss";
 import { deleteInvoice, fetchSingleInvoiceById } from "../../../api/invoiceAPI";
 import InvoiceDetailsBuyer from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsBuyer";
 import InvoiceDetailsDescription from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsDescription";
 import { useAuth } from "../../../helpers/useAuth";
-import { SingleInvoiceByIdType } from "../../../types/invoiceTypes";
+import {
+  AllInvoicesPaginationType,
+  SingleInvoiceByIdType,
+} from "../../../types/invoiceTypes";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import moment from "moment";
 import { confirmDeletePrompt } from "../../../components/GlobalComponents/deletePrompt";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
+import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
+import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinimalDisplay";
+import { ContextTypeRouter } from "./AllInvoices";
+import InvoicePDFGenerator from "../../../components/GlobalComponents/InvoicePDFGenerator";
 
 const InvoiceDetails: React.FC = () => {
-  const setPopupOpen =
-    useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
+  const [setPopupOpen, pageIndex] = useOutletContext<ContextTypeRouter>();
 
   const { token } = useAuth();
   const { invoiceId } = useParams();
+  const { mutate } = useSWRConfig();
   const navigator = useNavigate();
 
   const {
@@ -26,9 +33,6 @@ const InvoiceDetails: React.FC = () => {
     ["singleInvoiceById", token, invoiceId],
     () => fetchSingleInvoiceById(token ?? "", invoiceId)
   );
-
-  if (singleInvoiceDataError) return singleInvoiceDataError.error;
-  if (singleInvoiceDataLoading) return <p>loading</p>;
 
   const invoiceData = singleInvoiceData?.findInvoice;
   const invoiceDescription = singleInvoiceData?.findDetails;
@@ -42,7 +46,17 @@ const InvoiceDetails: React.FC = () => {
     try {
       if ((await confirmDelete).isConfirmed) {
         deleteInvoice(token ?? "", invoiceId ?? "");
-        mutate(["allInvoicePagination", token]);
+
+        mutate(
+          ["allInvoicePagination", pageIndex, token],
+          async (cachedData) => {
+            const updatedData = cachedData.filter(
+              (invoice: AllInvoicesPaginationType) =>
+                invoice.invoiceId !== invoiceId
+            );
+            return updatedData;
+          }
+        );
         navigator("/invoices/all");
         setPopupOpen((e) => !e);
       }
@@ -50,6 +64,17 @@ const InvoiceDetails: React.FC = () => {
       apiGeneralErrorHandle(err);
     }
   };
+
+  if (invoiceId === "null")
+    return (
+      <ErrorMinimalDisplay errorMessage="Error: Invalid Invoice ID. Please ensure that the invoice ID is generated properly before submission." />
+    );
+  if (singleInvoiceDataError)
+    return (
+      <ErrorMinimalDisplay errorMessage={singleInvoiceDataError.message} />
+    );
+
+  if (singleInvoiceDataLoading) return <LoadingRing />;
 
   return (
     <div className="invoiceDetails">
@@ -85,7 +110,12 @@ const InvoiceDetails: React.FC = () => {
           <button onClick={deleteInvoiceRequest} className="button__delete">
             Delete Invoice
           </button>
-          <button className="button__downloadPDF">Download as PDF</button>
+          {/* Button to download pdf document */}
+
+          <InvoicePDFGenerator
+            buyerData={invoiceData}
+            invoiceDescription={invoiceDescription}
+          />
         </div>
       </div>
     </div>

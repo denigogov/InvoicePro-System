@@ -119,8 +119,26 @@ export const styles = StyleSheet.create({
     height: "65px",
   },
 
+  footerTableDiscount: {
+    paddingTop: 11,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    fontFamily: "customFontWeight700",
+    fontSize: 10,
+    letterSpacing: 1,
+  },
+
+  footerTableTax: {
+    paddingTop: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    fontFamily: "customFontWeight700",
+    fontSize: 10,
+    letterSpacing: 1,
+  },
+
   footerTable: {
-    paddingTop: 10,
+    paddingTop: 13,
     flexDirection: "row",
     justifyContent: "space-between",
     fontFamily: "customFontWeight700",

@@ -1,5 +1,5 @@
 import detailsIcon from "../../../assets/detailsIcon.svg";
-import deleteIcon from "../../../assets/deleteIcon.svg";
+import editIcon from "../../../assets/editIcon.svg";
 import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
@@ -9,14 +9,14 @@ interface InvoicesTableProps {
   allInvoicePagination?: AllInvoicesPaginationType[];
   allInvoicePaginationError: Error;
   allInvoicePaginationLoading: boolean;
-
+  openEditRoute: (invoiceId: string) => void;
   openDetailsRoute: (invoiceId: string) => void;
 }
 const InvoicesTable: React.FC<InvoicesTableProps> = ({
   allInvoicePagination,
   allInvoicePaginationError,
   allInvoicePaginationLoading,
-
+  openEditRoute,
   openDetailsRoute,
 }) => {
   const getStatusClass = (statusName: string | undefined) => {
@@ -38,6 +38,9 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
 
   const handleDetails = (invoiceId: string) => {
     openDetailsRoute(invoiceId);
+  };
+  const handleClickEdit = (invoiceId: string) => {
+    openEditRoute(invoiceId);
   };
 
   if (allInvoicePaginationError)
@@ -85,7 +88,11 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                   />
                 </td>
                 <td data-cell="Modify">
-                  <img src={deleteIcon} alt="Delete Icon" />
+                  <img
+                    src={editIcon}
+                    alt="Edit Icon"
+                    onClick={() => handleClickEdit(invoice?.invoiceId)}
+                  />
                 </td>
               </tr>
             ))

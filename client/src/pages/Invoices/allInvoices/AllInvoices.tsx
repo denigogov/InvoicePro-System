@@ -5,10 +5,10 @@ import InvoicesTable from "../../../components/InvoicesComponents/allInvoices/In
 import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
 import { useAuth } from "../../../helpers/useAuth";
 import { fetchAllInvoicesPagination } from "../../../api/invoiceAPI";
-
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
+export type ContextTypeRouter = [Dispatch<SetStateAction<boolean>>, number];
 const VITE_PAGINATION_RESULTS_PRO_PAGE = import.meta.env
   .VITE_PAGINATION_RESULTS_PRO_PAGE as number;
 
@@ -25,6 +25,10 @@ const AllInvoices: React.FC = () => {
   const openDetailsRoute = (invoiceId: string) => {
     setPopupOpen((x) => !x);
     navigator(`/invoices/all/details/${invoiceId}`);
+  };
+  const openEditRoute = (invoiceId: string) => {
+    setPopupOpen((x) => !x);
+    navigator(`/invoices/all/edit/${invoiceId}`);
   };
 
   const { token } = useAuth();
@@ -55,6 +59,7 @@ const AllInvoices: React.FC = () => {
         allInvoicePaginationError={allInvoicePaginationError}
         allInvoicePaginationLoading={allInvoicePaginationLoading}
         openDetailsRoute={openDetailsRoute}
+        openEditRoute={openEditRoute}
       />
       <div className="allInvoices__button">
         {pageIndex > 1 && (
@@ -68,7 +73,7 @@ const AllInvoices: React.FC = () => {
       {popUpOpen && (
         <div className="overlay" onClick={popupWindow}>
           <main className="popUp mdPopup" onClick={(e) => e.stopPropagation()}>
-            <Outlet context={setPopupOpen} />
+            <Outlet context={[setPopupOpen, pageIndex]} />
           </main>
         </div>
       )}

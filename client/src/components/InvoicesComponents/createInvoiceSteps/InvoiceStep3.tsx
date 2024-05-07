@@ -1,3 +1,4 @@
+import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
 import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
@@ -7,21 +8,37 @@ type InvoiceStep3Props = Step3initialDateTypes & {
   updateFileds: (fileds: Partial<Step3initialDateTypes>) => void;
   generateInvoiceID: string;
   lastInvoiceIdError: Error;
+  invoiceSettingsDataError: Error;
   lastInvoiceIdLoading: boolean;
+  invoiceSettingsDataLoading: boolean;
+  invoiceSettingsData?: InvoiceSettingsTypes[];
 };
 
 const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
   invoiceId,
   data,
-  totalPrice,
+  tax,
+  discount,
   updateFileds,
   generateInvoiceID,
   lastInvoiceIdError,
   lastInvoiceIdLoading,
+  invoiceSettingsDataLoading,
+  invoiceSettingsDataError,
+  invoiceSettingsData,
 }) => {
-  if (lastInvoiceIdError)
-    return <ErrorMinimalDisplay errorMessage={lastInvoiceIdError?.message} />;
-  if (lastInvoiceIdLoading) return <LoadingRing />;
+  if (lastInvoiceIdError || invoiceSettingsDataError)
+    return (
+      <ErrorMinimalDisplay
+        errorMessage={
+          lastInvoiceIdError?.message || invoiceSettingsDataError?.message
+        }
+      />
+    );
+  if (lastInvoiceIdLoading || invoiceSettingsDataLoading)
+    return <LoadingRing />;
+
+  console.log("taksi", tax);
 
   return (
     <MultiFormWraper
@@ -43,15 +60,28 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
           onChange={(e) => updateFileds({ invoiceId: e.target.value })}
         />
 
-        <label>Total Price</label>
+        <label>Tax %</label>
         <input
           autoFocus
           type="number"
-          value={totalPrice?.toString() ?? ""}
+          // value={+tax}
+          defaultValue={invoiceSettingsData?.[0].tax ?? tax?.toFixed(2)}
           step={0.01}
           min={0}
-          required
-          onChange={(e) => updateFileds({ totalPrice: +e.target.value })}
+          onChange={(e) => updateFileds({ tax: +e.target.value })}
+        />
+
+        <label>Discount %</label>
+        <input
+          autoFocus
+          type="number"
+          defaultValue={
+            invoiceSettingsData?.[0].discount ?? discount?.toFixed(2)
+          }
+          // value={10}
+          step={0.01}
+          min={0}
+          onChange={(e) => updateFileds({ discount: +e.target.value })}
         />
 
         <label>Date</label>

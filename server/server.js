@@ -18,11 +18,13 @@ const loginRoute = require("./router/loginRoute");
 const companyInfoRoute = require("./router/companyInfoRoute");
 const customerRoute = require("./router/customerRoute");
 const invoiceRoute = require("./router/invoiceRoute");
+const invoicesettings = require("./router/invoiceSettingsRoute");
 
 app.use("/login", loginRoute);
 app.use("/company-info", companyInfoRoute);
 app.use("/customer", customerRoute);
 app.use("/invoice", invoiceRoute);
+app.use("/settings", invoicesettings);
 
 const welcomeMessage = (_, res) => {
   res.send("Backend App Server v0.0.1");

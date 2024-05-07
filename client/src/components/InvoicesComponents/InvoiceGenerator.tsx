@@ -46,6 +46,9 @@ interface InvoiceGeneratorTypes {
   addDescriptionAndPrice: Step4initialDateTypes[];
   signatureImg?: string;
   checkboxSignature?: boolean;
+  totalPrice: number;
+  taxValue: number;
+  calcTax: string;
 }
 
 const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
@@ -57,6 +60,9 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
   addDescriptionAndPrice,
   signatureImg,
   checkboxSignature,
+  totalPrice,
+  taxValue,
+  calcTax,
 }) => {
   const generateInvoiceID = generateInvoiceNumber(
     invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
@@ -146,9 +152,21 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                 ))}
               </View>
 
+              {calcTax && (
+                <View style={styles.footerTableDiscount}>
+                  <Text>Discount 20%</Text>
+                  <Text>€ {calcTax}</Text>
+                </View>
+              )}
+
+              <View style={styles.footerTableTax}>
+                <Text>Tax {taxValue}%</Text>
+                <Text>€ 21</Text>
+              </View>
+
               <View style={styles.footerTable}>
                 <Text>TOTAL DUE</Text>
-                <Text>€ {invoiceDetailsData?.totalPrice ?? "N/A"}</Text>
+                <Text>€ {totalPrice ?? "N/A"}</Text>
               </View>
               {checkboxSignature && (
                 <View>

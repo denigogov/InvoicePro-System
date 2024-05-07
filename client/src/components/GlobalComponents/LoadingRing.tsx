@@ -4,6 +4,7 @@ const LoadingRing = () => {
   return (
     <div
       style={{
+        height: "100%",
         textAlign: "center",
         alignContent: "center",
         justifyContent: "center",

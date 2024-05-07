@@ -23,6 +23,7 @@ import EditBankCompany from "../pages/Settings/companyInfo/EditBankCompany";
 import CreateInvoice from "../pages/Invoices/createInvoice/CreateInvoice";
 import AllInvoices from "../pages/Invoices/allInvoices/AllInvoices";
 import InvoiceDetails from "../pages/Invoices/allInvoices/InvoiceDetails";
+import InvoiceModify from "../pages/Invoices/allInvoices/InvoiceModify";
 
 const RootRouter = () => {
   const auth = useAuth;
@@ -67,6 +68,7 @@ const RootRouter = () => {
           <Route path="/invoices" element={<Invoices />}>
             <Route path="all" element={<AllInvoices />}>
               <Route path="details/:invoiceId" element={<InvoiceDetails />} />
+              <Route path="edit/:invoiceId" element={<InvoiceModify />} />
             </Route>
             <Route path="create" element={<CreateInvoice />} />
           </Route>

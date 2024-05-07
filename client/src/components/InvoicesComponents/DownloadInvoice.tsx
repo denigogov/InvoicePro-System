@@ -18,6 +18,9 @@ interface DownloadInvoiceProps {
   invoiceLastId?: number | null;
   signatureImg?: string;
   checkboxSignature: boolean;
+  totalPrice: number;
+  taxValue: number;
+  calcTax: string;
 }
 
 const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
@@ -29,6 +32,9 @@ const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
   addDescriptionAndPrice,
   signatureImg,
   checkboxSignature,
+  totalPrice,
+  taxValue,
+  calcTax,
 }) => {
   return (
     <div className="downloadInvoice">
@@ -46,6 +52,9 @@ const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
         addDescriptionAndPrice={addDescriptionAndPrice}
         signatureImg={signatureImg}
         checkboxSignature={checkboxSignature}
+        totalPrice={totalPrice}
+        taxValue={taxValue}
+        calcTax={calcTax}
       />
       {/* </PDFViewer> */}
     </div>
