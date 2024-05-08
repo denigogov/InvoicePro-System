@@ -69,22 +69,27 @@
     &-wrap {
       padding: 0 0.5rem;
 
-      h3 {
+      &-title {
         padding-bottom: 0.5rem;
         margin-left: 2rem;
         font-weight: 300;
         font-size: 1.1rem;
         color: colors.$font-Title;
         text-align: center;
+      }
 
-        &:last-child {
+      &-price {
+        color: colors.$font-Primary;
+
+        padding-right: 0.5rem;
+        h5 {
+          text-align: end;
+        }
+        h3 {
           font-weight: 600;
-          margin-left: 0rem;
-          padding-right: 1rem;
           gap: 0.5rem;
           display: flex;
           justify-content: end;
-          color: colors.$font-Primary;
         }
       }
 

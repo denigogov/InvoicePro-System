@@ -1,9 +1,7 @@
-@use "../GlobalStyling/mixin";
-@use "../GlobalStyling/colors";
+@use "../../GlobalStyling/mixin";
+@use "../../GlobalStyling/colors";
 
-// TWO MAIN CONTAINERS FROM COMPANY INFO FOLDER!
-.editInfoCompany,
-.editBankCompany {
+.inputFiledsGlobal {
   @include mixin.overflowScroll();
   width: 100%;
   height: 100vh;
@@ -49,10 +47,6 @@
       &:invalid[focused="true"] {
         border: 1px solid colors.$error;
       }
-    }
-
-    .action__button-global {
-      padding: 10px;
     }
   }
 }

@@ -37,11 +37,20 @@ import DownloadInvoice from "../../../components/InvoicesComponents/DownloadInvo
 import ReactSignatureCanvas from "react-signature-canvas";
 import { fetchInvoiceSettings } from "../../../api/invoiceSettings";
 import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
+import { taxDiscountCalculate } from "../../../helpers/taxCalc";
 
 export interface StepsType {
   stepName: string;
   stepIndex: boolean;
   stepNumber: string | number;
+}
+
+export interface TaxDiscountValuesProps {
+  taxValue: number;
+  totalTax: string;
+  discountValue: number;
+  totalDiscount: string;
+  totalPrice?: number;
 }
 
 const CreateInvoice: React.FC = () => {
@@ -107,7 +116,6 @@ const CreateInvoice: React.FC = () => {
     fetchInvoiceSettings(token ?? "")
   );
 
-  console.log(invoiceSettingsData);
   const {
     data: customerData,
     error: customerDataError,
@@ -263,14 +271,25 @@ const CreateInvoice: React.FC = () => {
   };
   const taxValue =
     invoiceDetailsData?.tax ?? invoiceSettingsData?.[0]?.tax ?? 0;
+  const discountValue =
+    invoiceDetailsData?.discount ?? invoiceSettingsData?.[0]?.discount ?? 0;
 
   const calcPrice = addDescriptionAndPrice
     .map((detail) => detail?.price || 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const calcTax = ((calcPrice * taxValue) / 100).toFixed(2);
+  // function for calculating the tax
+  const calcTax = taxDiscountCalculate(calcPrice, taxValue);
+  const calcDiscount = taxDiscountCalculate(calcPrice, discountValue);
+  const totalPrice = +calcPrice + +calcTax + +calcDiscount;
 
-  const totalPrice = +calcPrice + +calcTax;
+  const taxDiscountValues: TaxDiscountValuesProps = {
+    taxValue: taxValue,
+    discountValue: discountValue,
+    totalTax: calcTax,
+    totalDiscount: calcDiscount,
+    totalPrice: totalPrice,
+  };
 
   // create invoiceDetails in STEP4
   const createPOSTInvoiceDetails = async () => {
@@ -406,9 +425,7 @@ const CreateInvoice: React.FC = () => {
           addDescriptionAndPrice={addDescriptionAndPrice}
           signatureImg={signatureImg}
           checkboxSignature={checkboxSignature}
-          totalPrice={totalPrice}
-          taxValue={taxValue}
-          calcTax={calcTax}
+          taxDiscountValues={taxDiscountValues}
         />
       )}
     </div>

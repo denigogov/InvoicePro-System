@@ -5,8 +5,8 @@ const createInvoiceSchema = Joi.object({
   companyInfoId: Joi.number().positive().required(),
   customercompanyId: Joi.number().positive().required(),
   createdById: Joi.number().positive().required(),
-  tax: Joi.number().positive(),
-  discount: Joi.number().positive(),
+  tax: Joi.number().positive().allow(0),
+  discount: Joi.number().positive().allow(0),
 });
 
 const validateInvoiceCreate = (req, res, next) => {
@@ -35,7 +35,7 @@ const validateInvoiceCreate = (req, res, next) => {
 const createInvoiceDetail = Joi.object({
   invoiceID: Joi.number().positive().required(),
   description: Joi.string().min(3).max(200).required(),
-  price: Joi.number().positive().required(),
+  price: Joi.number().positive().allow(0).required(),
 });
 
 // VALIDATING ARRAY !

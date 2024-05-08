@@ -46,9 +46,11 @@ interface InvoiceGeneratorTypes {
   addDescriptionAndPrice: Step4initialDateTypes[];
   signatureImg?: string;
   checkboxSignature?: boolean;
-  totalPrice: number;
   taxValue: number;
-  calcTax: string;
+  totalTax: string;
+  discountValue: number;
+  totalDiscount: string;
+  totalPrice?: number;
 }
 
 const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
@@ -60,9 +62,11 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
   addDescriptionAndPrice,
   signatureImg,
   checkboxSignature,
-  totalPrice,
   taxValue,
-  calcTax,
+  totalTax,
+  discountValue,
+  totalDiscount,
+  totalPrice,
 }) => {
   const generateInvoiceID = generateInvoiceNumber(
     invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
@@ -152,21 +156,23 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                 ))}
               </View>
 
-              {calcTax && (
+              {totalDiscount === "0.00" || (
                 <View style={styles.footerTableDiscount}>
-                  <Text>Discount 20%</Text>
-                  <Text>€ {calcTax}</Text>
+                  <Text>Discount {discountValue}%</Text>
+                  <Text>€ {totalDiscount}</Text>
                 </View>
               )}
 
-              <View style={styles.footerTableTax}>
-                <Text>Tax {taxValue}%</Text>
-                <Text>€ 21</Text>
-              </View>
+              {totalTax === "0.00" || (
+                <View style={styles.footerTableTax}>
+                  <Text>Tax {taxValue}%</Text>
+                  <Text>€ {totalTax}</Text>
+                </View>
+              )}
 
               <View style={styles.footerTable}>
                 <Text>TOTAL DUE</Text>
-                <Text>€ {totalPrice ?? "N/A"}</Text>
+                <Text>€ {totalPrice?.toFixed(2) ?? "N/A"}</Text>
               </View>
               {checkboxSignature && (
                 <View>

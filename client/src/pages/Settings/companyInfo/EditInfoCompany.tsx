@@ -40,7 +40,6 @@ const EditInfoCompany: React.FC = () => {
         navigate("/settings/company-profile/");
       }
     } catch (err: unknown) {
-      console.log("error", err);
       apiGeneralErrorHandle(err);
     }
   };

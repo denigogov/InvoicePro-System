@@ -8,6 +8,7 @@ import {
   Step3initialDateTypes,
   Step4initialDateTypes,
 } from "./createInvoiceSteps/StepsInitialData";
+import { TaxDiscountValuesProps } from "../../pages/Invoices/createInvoice/CreateInvoice";
 
 interface DownloadInvoiceProps {
   filteredCompanyData?: CompanyInfoTypes[];
@@ -18,9 +19,7 @@ interface DownloadInvoiceProps {
   invoiceLastId?: number | null;
   signatureImg?: string;
   checkboxSignature: boolean;
-  totalPrice: number;
-  taxValue: number;
-  calcTax: string;
+  taxDiscountValues: TaxDiscountValuesProps;
 }
 
 const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
@@ -32,9 +31,7 @@ const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
   addDescriptionAndPrice,
   signatureImg,
   checkboxSignature,
-  totalPrice,
-  taxValue,
-  calcTax,
+  taxDiscountValues,
 }) => {
   return (
     <div className="downloadInvoice">
@@ -52,9 +49,7 @@ const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
         addDescriptionAndPrice={addDescriptionAndPrice}
         signatureImg={signatureImg}
         checkboxSignature={checkboxSignature}
-        totalPrice={totalPrice}
-        taxValue={taxValue}
-        calcTax={calcTax}
+        {...taxDiscountValues}
       />
       {/* </PDFViewer> */}
     </div>

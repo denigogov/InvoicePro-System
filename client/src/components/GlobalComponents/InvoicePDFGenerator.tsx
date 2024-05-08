@@ -16,15 +16,18 @@ import { CompanyInfoTypes } from "../../types/companyInfoTypes";
 import useSWR from "swr";
 import ErrorMinimalDisplay from "./ErrorMinimalDisplay";
 import LoadingRing from "./LoadingRing";
+import { TaxDiscountValuesProps } from "../../pages/Invoices/createInvoice/CreateInvoice";
 
 interface InvoicePDFGeneratorProps {
   buyerData?: (invoiceJoinDataTypes | undefined)[] | undefined;
   invoiceDescription?: (invoiceDetails | undefined)[] | undefined;
+  taxDiscountValues?: TaxDiscountValuesProps;
 }
 
 const InvoicePDFGenerator: React.FC<Partial<InvoicePDFGeneratorProps>> = ({
   buyerData,
   invoiceDescription,
+  taxDiscountValues,
 }) => {
   const { token } = useAuth();
 
@@ -119,9 +122,25 @@ const InvoicePDFGenerator: React.FC<Partial<InvoicePDFGeneratorProps>> = ({
                 </View>
               )}
 
+              {taxDiscountValues?.totalDiscount === "0.00" || (
+                <View style={styles.footerTableDiscount}>
+                  <Text>Discount {taxDiscountValues?.discountValue}%</Text>
+                  <Text>€ {taxDiscountValues?.totalDiscount}</Text>
+                </View>
+              )}
+
+              {taxDiscountValues?.totalTax === "0.00" || (
+                <View style={styles.footerTableTax}>
+                  <Text>Tax {taxDiscountValues?.taxValue}%</Text>
+                  <Text>€ {taxDiscountValues?.totalTax}</Text>
+                </View>
+              )}
+
               <View style={styles.footerTable}>
                 <Text>TOTAL DUE</Text>
-                <Text>€ {buyerData?.[0]?.totalPrice ?? "N/A"} </Text>
+                <Text>
+                  € {Number(taxDiscountValues?.totalPrice).toFixed(2)}{" "}
+                </Text>
               </View>
               {/* {checkboxSignature && (
                 <View>

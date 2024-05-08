@@ -1,5 +1,5 @@
-import useSWR, { useSWRConfig } from "swr";
 import "../../../Styling/Pages/_invoiceDetails.scss";
+import useSWR, { useSWRConfig } from "swr";
 import { deleteInvoice, fetchSingleInvoiceById } from "../../../api/invoiceAPI";
 import InvoiceDetailsBuyer from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsBuyer";
 import InvoiceDetailsDescription from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsDescription";
@@ -16,6 +16,8 @@ import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
 import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinimalDisplay";
 import { ContextTypeRouter } from "./AllInvoices";
 import InvoicePDFGenerator from "../../../components/GlobalComponents/InvoicePDFGenerator";
+import { taxDiscountCalculate } from "../../../helpers/taxCalc";
+import { TaxDiscountValuesProps } from "../createInvoice/CreateInvoice";
 
 const InvoiceDetails: React.FC = () => {
   const [setPopupOpen, pageIndex] = useOutletContext<ContextTypeRouter>();
@@ -36,7 +38,26 @@ const InvoiceDetails: React.FC = () => {
 
   const invoiceData = singleInvoiceData?.findInvoice;
   const invoiceDescription = singleInvoiceData?.findDetails;
-  const totalPrice = invoiceData?.[0]?.totalPrice;
+
+  const totalPrice = invoiceDescription
+    ?.map((a) => Number(a?.price) || 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  // const totalPrice = invoiceData?.[0]?.totalPrice ?? 0;
+  const taxValue = invoiceData?.[0]?.tax ?? 0;
+  const totalTax = taxDiscountCalculate(totalPrice ?? 0, +taxValue);
+  const discountValue = invoiceData?.[0]?.discount ?? 0;
+  const totalDiscount = taxDiscountCalculate(totalPrice ?? 0, +discountValue);
+
+  const taxDiscountValues: TaxDiscountValuesProps = {
+    taxValue: +taxValue,
+    totalTax: totalTax,
+    discountValue: +discountValue,
+    totalDiscount: totalDiscount,
+    totalPrice: Number(totalPrice) + Number(totalDiscount) + Number(totalTax),
+  };
+
+  console.log(singleInvoiceData);
 
   const deleteInvoiceRequest = async () => {
     const confirmDelete = confirmDeletePrompt(
@@ -100,7 +121,7 @@ const InvoiceDetails: React.FC = () => {
       <div className="invoiceDetails__description">
         <InvoiceDetailsDescription
           invoiceDescription={invoiceDescription}
-          totalPrice={totalPrice}
+          taxDiscountValues={taxDiscountValues}
         />
       </div>
 
@@ -115,6 +136,7 @@ const InvoiceDetails: React.FC = () => {
           <InvoicePDFGenerator
             buyerData={invoiceData}
             invoiceDescription={invoiceDescription}
+            taxDiscountValues={taxDiscountValues}
           />
         </div>
       </div>
