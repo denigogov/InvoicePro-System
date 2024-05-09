@@ -57,8 +57,6 @@ const InvoiceDetails: React.FC = () => {
     totalPrice: Number(totalPrice) + Number(totalDiscount) + Number(totalTax),
   };
 
-  console.log(singleInvoiceData);
-
   const deleteInvoiceRequest = async () => {
     const confirmDelete = confirmDeletePrompt(
       "Confirm deletion",

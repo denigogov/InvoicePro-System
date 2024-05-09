@@ -1,47 +1,43 @@
-import InputFields from "../../../components/GlobalComponents/InputFields";
+import useSWR from "swr";
+import { fetchStatusPriceTaxDiscount } from "../../../api/invoiceStatusAPI";
+import EditInvoice from "../../../components/InvoicesComponents/EditInvoice";
 import "../../../Styling/Components/GlobalComponentStyle/_inputFileds.scss";
-interface InvoiceModifyProps {}
+import { useAuth } from "../../../helpers/useAuth";
+import { SelectStatusAndPrice } from "../../../types/invoiceStatusTypes";
+import { useParams } from "react-router-dom";
 
-const InvoiceModify: React.FC<InvoiceModifyProps> = ({}) => {
-  const test = (e: any) => {
+const InvoiceModify: React.FC = () => {
+  const { token } = useAuth();
+  const { invoiceId } = useParams();
+
+  const {
+    data: invoiceStatusTaxDiscountPrice,
+    error: invoiceStatusTaxDiscountPriceDataError,
+    isLoading: invoiceStatusTaxDiscountPriceDataLoading,
+  } = useSWR<SelectStatusAndPrice>(["invoiceSettings", token, invoiceId], () =>
+    fetchStatusPriceTaxDiscount(token ?? "", invoiceId)
+  );
+
+  const invoiceAllStatus = invoiceStatusTaxDiscountPrice?.selectAllStatus;
+  const invoiceEditData = invoiceStatusTaxDiscountPrice?.findPriceTaxDiscount;
+
+  const updateInvoice = (e: any) => {
     e.preventDefault();
     console.log(e);
   };
 
   return (
-    <InputFields title={"Invoice Details Modify"}>
-      <label>Invoice Status</label>
-      <select>
-        <option>status</option>
-        <option>status1</option>
-        <option>status2</option>
-        <option>status3</option>
-      </select>
-      <span></span>
-      <label>Total Price</label>
-      <input
-        style={{ fontSize: ".9rem" }}
-        type="text"
-        minLength={15}
-        maxLength={40}
-      />
-      <span></span>
-      <label>Tax</label>
-      <input type="text" minLength={8} maxLength={11} />
-      <span></span>
-      <label>Discount</label>
-      <input type="text" minLength={8} maxLength={11} />
-      <span></span>
-
-      <button
-        onClick={test}
-        form="editCompanyForm"
-        type="submit"
-        className="action__button-global"
-      >
-        update
-      </button>
-    </InputFields>
+    <EditInvoice
+      updateInvoice={updateInvoice}
+      invoiceStatusTaxDiscountPriceDataError={
+        invoiceStatusTaxDiscountPriceDataError
+      }
+      invoiceStatusTaxDiscountPriceDataLoading={
+        invoiceStatusTaxDiscountPriceDataLoading
+      }
+      invoiceAllStatus={invoiceAllStatus}
+      invoiceEditData={invoiceEditData}
+    />
   );
 };
 

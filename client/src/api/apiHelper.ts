@@ -39,6 +39,10 @@ export const apiFetcher = async <T>(url: string, token: string): Promise<T> => {
       },
     });
 
+    if (res.status === 404) {
+      throw new Response("Not Found", { status: 404 });
+    }
+
     if (!res.ok) {
       throw Error(
         res.status === 401
