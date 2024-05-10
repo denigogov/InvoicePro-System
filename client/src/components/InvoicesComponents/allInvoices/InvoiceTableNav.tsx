@@ -1,6 +1,4 @@
-interface InvoiceTableNavProps {}
-
-const InvoiceTableNav: React.FC<InvoiceTableNavProps> = ({}) => {
+const InvoiceTableNav: React.FC = () => {
   return <div>table Filters</div>;
 };
 

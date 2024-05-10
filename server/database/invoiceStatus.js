@@ -8,7 +8,7 @@ const invoiceStatus = async (req, res) => {
       "select * from invoicestatus"
     );
     const [findPriceTaxDiscount] = await database.query(
-      "select totalPrice,statusId,tax,discount from invoice where invoiceId = ? ",
+      "select id, totalPrice,statusId,tax,discount from invoice where invoiceId = ? ",
       [id]
     );
 

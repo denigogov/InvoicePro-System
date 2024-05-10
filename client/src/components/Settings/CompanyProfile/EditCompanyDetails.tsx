@@ -74,6 +74,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
               defaultValue={value?.companyName ?? ""}
               minLength={3}
               maxLength={40}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -86,6 +87,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
               defaultValue={value?.street ?? ""}
               minLength={3}
               maxLength={60}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -98,6 +100,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
               defaultValue={value?.city ?? ""}
               minLength={3}
               maxLength={20}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -110,6 +113,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
               defaultValue={value?.zipcode ?? ""}
               minLength={4}
               maxLength={10}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -122,6 +126,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
               defaultValue={value?.country ?? ""}
               minLength={3}
               maxLength={15}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -134,6 +139,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({
               defaultValue={value?.idNumber ?? ""}
               minLength={4}
               maxLength={20}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />

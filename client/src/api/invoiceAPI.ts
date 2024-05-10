@@ -157,17 +157,19 @@ export const deleteInvoice = async (token: string, id: string) => {
  * API PUT REQUEST for update companyInfo data
  * @param id invoiceID
  * @param token
+ * @param ulr api update url
  * @param queryData it can be only one or multiple values!
  * @returns status 200 or 401
  */
 
-export const updateInvoice = async (
+export const updateInvoice = async <T>(
   id: number | null | undefined,
   token: string,
-  queryData: Partial<AllInvoicesPaginationType>
+  url: string,
+  queryData: T
 ) => {
   try {
-    const res = await fetch(`${API_URL}/invoice/${id}`, {
+    const res = await fetch(`${API_URL}/${url}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -178,8 +180,6 @@ export const updateInvoice = async (
 
     if (!res.ok) {
       const errorResponse = await res.json();
-
-      console.log(errorResponse);
 
       throw new Error(`${errorResponse.validationErrors[0].message}`);
     } else {

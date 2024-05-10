@@ -86,6 +86,7 @@
           text-align: end;
         }
         h3 {
+          font-size: 1rem;
           font-weight: 600;
           gap: 0.5rem;
           display: flex;
@@ -93,15 +94,46 @@
         }
       }
 
-      li {
-        padding: 0.7rem 0;
-        font-size: 12px;
-        color: colors.$font-Title;
+      ul {
+        position: relative;
+        li {
+          padding: 0.7rem 0;
+          font-size: 12px;
+          color: colors.$font-Title;
 
-        span {
-          font-size: 14px;
-          color: colors.$font-Primary;
-          font-weight: 500;
+          span {
+            font-size: 14px;
+            color: colors.$font-Primary;
+            font-weight: 500;
+            display: flex;
+          }
+        }
+
+        // When user Click Edit
+        textArea,
+        input {
+          border: none;
+          outline: none;
+          border-bottom: 1px solid colors.$border-Primary;
+        }
+
+        img {
+          width: 20px;
+          cursor: pointer;
+        }
+
+        .updateIcon {
+          position: absolute;
+          top: 30%;
+          left: 10%;
+          transform: translate(50%, 50%);
+        }
+
+        .editIcon {
+          position: absolute;
+          top: 30%;
+          left: 30%;
+          transform: translate(50%, 50%);
         }
       }
     }
@@ -124,6 +156,7 @@
       width: 100%;
       display: flex;
       justify-content: space-around;
+      gap: 1rem;
     }
   }
 }
@@ -162,6 +195,20 @@
 
           &:last-child {
             justify-content: flex-end;
+          }
+        }
+
+        ul {
+          .updateIcon {
+            position: absolute;
+            top: 30%;
+            left: 40%;
+          }
+
+          .editIcon {
+            position: absolute;
+            top: 30%;
+            left: 60%;
           }
         }
 

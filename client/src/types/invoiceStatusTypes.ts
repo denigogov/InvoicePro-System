@@ -4,6 +4,7 @@ export interface FetchAllInvoiceStatusTypes {
 }
 
 export interface findTaxPriceDiscountStatus {
+  id: number;
   totalPrice: string;
   statusId: number;
   tax: string;

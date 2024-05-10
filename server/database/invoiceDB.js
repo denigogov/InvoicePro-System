@@ -53,6 +53,8 @@ const updateInvoice = async (req, res) => {
       customercompanyId,
       totalPrice,
       statusId,
+      tax,
+      discount,
     } = req.body;
 
     const updateFields = [];
@@ -61,6 +63,16 @@ const updateInvoice = async (req, res) => {
     if (invoiceId !== undefined) {
       updateFields.push("invoiceId = ?");
       updateValues.push(invoiceId);
+    }
+
+    if (tax !== undefined) {
+      updateFields.push("tax = ?");
+      updateValues.push(tax);
+    }
+
+    if (discount !== undefined) {
+      updateFields.push("discount = ?");
+      updateValues.push(discount);
     }
     if (date !== undefined) {
       updateFields.push("date = ?");
@@ -133,7 +145,7 @@ const allInvoicesPagination = async (req, res) => {
       `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM alltransport.invoice
       left join invoicestatus on invoice.statusId = invoicestatus.id
       left join customercompany on invoice.customercompanyId = customercompany.id
-      ORDER BY invoiceId desc
+      ORDER BY currentDate desc
       limit ? offset ?`,
       [+limit, +offset]
     );
@@ -189,9 +201,9 @@ const selectInvoiceById = async (req, res) => {
     );
 
     const [findDetails] = await database.query(
-      `select description,price from invoicedetail
-    left join invoice on invoice.id = invoicedetail.invoiceID
-    where invoice.invoiceId = ?
+      `select invoicedetail.invoiceID, description,price from invoicedetail
+      left join invoice on invoice.id = invoicedetail.invoiceID
+      where invoice.invoiceId = ?
     `,
       [id]
     );
@@ -204,6 +216,39 @@ const selectInvoiceById = async (req, res) => {
   }
 };
 
+const updateInvoiceDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { description, price } = req.body;
+
+    const updateFields = [];
+    const updateValues = [];
+
+    if (description !== undefined) {
+      updateFields.push("description = ?");
+      updateValues.push(description);
+    }
+
+    if (price !== undefined) {
+      updateFields.push("price = ?");
+      updateValues.push(price);
+    }
+
+    const invoiceDetails = `UPDATE invoicedetail SET ${updateFields.join(
+      ", "
+    )} WHERE id = ?`;
+
+    const [updateTable] = await database.query(invoiceDetails, [
+      ...updateValues,
+      id,
+    ]);
+
+    updateTable.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
 module.exports = {
   createInvoice,
   lastInvoiceId,
@@ -212,4 +257,5 @@ module.exports = {
   deleteInvoice,
   updateInvoice,
   selectInvoiceById,
+  updateInvoiceDetails,
 };

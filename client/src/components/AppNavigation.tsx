@@ -10,7 +10,7 @@ import { useAuth } from "../helpers/useAuth";
 
 const AppNavigation = () => {
   const [openNav, setOpenNav] = useState<boolean>(false);
-  const [_, setClickOnNavlink] = useState<boolean>(false);
+  const [, setClickOnNavlink] = useState<boolean>(false);
   const auth = useAuth();
   const navigation = useNavigate();
 

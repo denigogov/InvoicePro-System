@@ -24,10 +24,12 @@ export interface AllInvoicesPaginationType {
   tax: number | null;
   discount: number | null;
   currentDate: Date | string;
+  totalPrice: number;
   statusName: string;
 }
 
 export type invoiceDetails = {
+  invoiceID?: number;
   description?: string;
   price?: string;
 };

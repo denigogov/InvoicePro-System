@@ -16,13 +16,13 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
   companyData,
   handleUpdate,
 }) => {
-  if (companyDataError)
-    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
-  if (companyDataLoading) return <LoadingRing />;
-
   const bankNameRef = useRef<HTMLInputElement>(null);
   const ibanRef = useRef<HTMLInputElement>(null);
   const bicRef = useRef<HTMLInputElement>(null);
+
+  if (companyDataError)
+    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
+  if (companyDataLoading) return <LoadingRing />;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,6 +60,7 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
               defaultValue={value?.bankName ?? ""}
               minLength={3}
               maxLength={20}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -72,6 +73,7 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
               defaultValue={value?.iban ?? ""}
               minLength={15}
               maxLength={40}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />
@@ -83,6 +85,7 @@ const EditBankAccount: React.FC<EditBankAccountProps> = ({
               defaultValue={value?.bic ?? ""}
               minLength={8}
               maxLength={11}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               focused="true"
             />

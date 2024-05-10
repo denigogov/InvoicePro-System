@@ -3,9 +3,7 @@ import { NavLink } from "react-router-dom";
 import createInvoiceIcon from "../../assets/createInvoiceIcon.svg";
 import viewInvoiceIcon from "../../assets/invoiceView.svg";
 
-interface InvoiceNavProps {}
-
-const InvoiceNav: React.FC<InvoiceNavProps> = ({}) => {
+const InvoiceNav: React.FC = () => {
   return (
     <div className="invoiceNav">
       <nav>

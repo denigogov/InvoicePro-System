@@ -6,16 +6,17 @@ import Swal from "sweetalert2";
  * @param confirmBtnText string | btn name
  */
 export const confirmUpdatePrompt = (
-  title: string,
-  htmlText: string,
-  confirmBtnText: string
+  title?: string,
+  htmlText?: string,
+  confirmBtnText?: string
 ) =>
   Swal.fire({
     title: title,
     html: htmlText,
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#ffda79",
+    confirmButtonColor: "#003366",
+    iconColor: "#003366",
     cancelButtonColor: "#b7b7b7",
     confirmButtonText: confirmBtnText,
   });
@@ -29,7 +30,7 @@ export const updateActionPrompt = (title: string, htmlText: string) => {
   Swal.fire({
     position: "center",
     icon: "success",
-    iconColor: "#ffda79",
+    iconColor: "#003366",
     title: title,
     text: htmlText,
     showConfirmButton: false,

@@ -80,7 +80,9 @@ const CreateInvoice: React.FC = () => {
   const { token, userInfo } = useAuth();
   const { mutate } = useSWRConfig();
 
-  let padRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const padRef = useRef<React.MutableRefObject>(null);
 
   const updateFileds = (
     fileds: Partial<Step3initialDateTypes | Step2initialDateTypes>
@@ -294,6 +296,8 @@ const CreateInvoice: React.FC = () => {
   // create invoiceDetails in STEP4
   const createPOSTInvoiceDetails = async () => {
     // removin the ID from the query because the Id only was used as key in the looping component
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const formatedQuery = addDescriptionAndPrice.map(({ id, ...rest }) => ({
       ...rest,
       invoiceID: invoiceLastId,
@@ -311,6 +315,7 @@ const CreateInvoice: React.FC = () => {
       const updateInvoiceID = await updateInvoice(
         invoiceLastId,
         token ?? "",
+        "invoice",
         updateInvoiceIdQuery
       );
       const response = await createInvoiceDetails(token ?? "", formatedQuery);

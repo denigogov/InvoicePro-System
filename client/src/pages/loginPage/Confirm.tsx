@@ -29,7 +29,7 @@ const Confirm: React.FC = () => {
         throw new Error(data?.error);
       }
 
-      return data as any;
+      return data;
     } catch (err) {
       setConfirmError(`${err}`);
     } finally {

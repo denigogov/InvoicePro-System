@@ -67,6 +67,7 @@ const AllInvoices: React.FC = () => {
             Previous
           </button>
         )}
+
         <button onClick={() => handleNextPage(pageIndex + 1)}>Next</button>
       </div>
 

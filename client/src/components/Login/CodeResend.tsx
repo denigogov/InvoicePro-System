@@ -44,7 +44,7 @@ const CodeResend: React.FC<CodeResendProps> = ({ setPopupOpen }) => {
       if (!response.ok) {
         throw new Error("Invalid Email");
       } else {
-        successMessage();
+        successMessage("Code Send Successful");
       }
 
       return data as string;

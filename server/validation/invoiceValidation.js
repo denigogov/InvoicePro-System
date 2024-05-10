@@ -93,8 +93,32 @@ const validateUpdateInvoice = (req, res, next) => {
   }
 };
 
+const updateInvoiceDetailsSchema = Joi.object({
+  description: Joi.string().min(2).max(200),
+  price: Joi.number().positive().allow(0),
+});
+
+const validateUpdateInvoiceDetails = (req, res, next) => {
+  const { description, price } = req.body;
+
+  const { error } = updateInvoiceDetailsSchema.validate(
+    {
+      description,
+      price,
+    },
+    { abortEarly: false }
+  );
+
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    next();
+  }
+};
+
 module.exports = {
   validateInvoiceCreate,
   validateCreateInvoiceDetails,
   validateUpdateInvoice,
+  validateUpdateInvoiceDetails,
 };

@@ -10,8 +10,8 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import AppRoute from "./AppRoute";
 import Settings from "../pages/Settings/Settings";
 import Invoices from "../pages/Invoices/Invoices";
-import { useAuth } from "../helpers/useAuth";
-import { RequireAuth } from "../helpers/RequireAuth";
+// import { useAuth } from "../helpers/useAuth";
+// import { RequireAuth } from "../helpers/RequireAuth";
 import Confirm from "../pages/loginPage/Confirm";
 import LoginRoot from "../pages/loginPage/LoginRoot";
 import { RequireValidation } from "../helpers/RequireValidation";
@@ -27,7 +27,7 @@ import InvoiceModify from "../pages/Invoices/allInvoices/InvoiceModify";
 import ErrorMinimalDisplay from "../components/GlobalComponents/ErrorMinimalDisplay";
 
 const RootRouter = () => {
-  const auth = useAuth;
+  // const auth = useAuth;
 
   const router = createBrowserRouter(
     createRoutesFromElements(

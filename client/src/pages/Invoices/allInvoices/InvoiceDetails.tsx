@@ -1,12 +1,17 @@
 import "../../../Styling/Pages/_invoiceDetails.scss";
 import useSWR, { useSWRConfig } from "swr";
-import { deleteInvoice, fetchSingleInvoiceById } from "../../../api/invoiceAPI";
+import {
+  deleteInvoice,
+  fetchSingleInvoiceById,
+  updateInvoice,
+} from "../../../api/invoiceAPI";
 import InvoiceDetailsBuyer from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsBuyer";
 import InvoiceDetailsDescription from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsDescription";
 import { useAuth } from "../../../helpers/useAuth";
 import {
   AllInvoicesPaginationType,
   SingleInvoiceByIdType,
+  invoiceDetails,
 } from "../../../types/invoiceTypes";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import moment from "moment";
@@ -18,9 +23,13 @@ import { ContextTypeRouter } from "./AllInvoices";
 import InvoicePDFGenerator from "../../../components/GlobalComponents/InvoicePDFGenerator";
 import { taxDiscountCalculate } from "../../../helpers/taxCalc";
 import { TaxDiscountValuesProps } from "../createInvoice/CreateInvoice";
+import { useState } from "react";
+import { successMessage } from "../../../components/GlobalComponents/successPrompt";
+import { confirmUpdatePrompt } from "../../../components/GlobalComponents/updatePrompt";
 
 const InvoiceDetails: React.FC = () => {
   const [setPopupOpen, pageIndex] = useOutletContext<ContextTypeRouter>();
+  const [updateDetails, setUpdateDetails] = useState<boolean>(false);
 
   const { token } = useAuth();
   const { invoiceId } = useParams();
@@ -76,11 +85,36 @@ const InvoiceDetails: React.FC = () => {
             return updatedData;
           }
         );
+
         navigator("/invoices/all");
         setPopupOpen((e) => !e);
       }
     } catch (err) {
       apiGeneralErrorHandle(err);
+    }
+  };
+
+  const handleUpdateDescription = async (query: invoiceDetails) => {
+    if (query?.description || query?.price) {
+      const confirmUpdateMessage = await confirmUpdatePrompt(
+        "Please Confirm",
+        "",
+        "confirm"
+      );
+      try {
+        if (confirmUpdateMessage.isConfirmed) {
+          await updateInvoice<invoiceDetails>(
+            invoiceDescription?.[0]?.invoiceID ?? 0,
+            token ?? "",
+            "invoice/details",
+            query
+          );
+          mutate(["singleInvoiceById", token, invoiceId]);
+          successMessage("Invoice details success updated");
+        }
+      } catch (err) {
+        apiGeneralErrorHandle(err);
+      }
     }
   };
 
@@ -120,6 +154,9 @@ const InvoiceDetails: React.FC = () => {
         <InvoiceDetailsDescription
           invoiceDescription={invoiceDescription}
           taxDiscountValues={taxDiscountValues}
+          setUpdateDetails={setUpdateDetails}
+          updateDetails={updateDetails}
+          handleUpdateDescription={handleUpdateDescription}
         />
       </div>
 
