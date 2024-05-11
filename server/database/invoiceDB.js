@@ -1,9 +1,10 @@
 const database = require("./database");
+require("dotenv").config();
 
 const lastInvoiceId = async (_, res) => {
   try {
     const [lastId] = await database.query(
-      "SELECT id as lastId FROM alltransport.invoice ORDER BY id DESC LIMIT 1"
+      `SELECT id as lastId FROM ${process.env.DB_NAME}.invoice ORDER BY id DESC LIMIT 1`
     );
 
     lastId.length
@@ -142,7 +143,7 @@ const allInvoicesPagination = async (req, res) => {
 
   try {
     const [limitResults] = await database.query(
-      `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM alltransport.invoice
+      `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM ${process.env.DB_NAME}.invoice
       left join invoicestatus on invoice.statusId = invoicestatus.id
       left join customercompany on invoice.customercompanyId = customercompany.id
       ORDER BY currentDate desc
@@ -193,7 +194,7 @@ const selectInvoiceById = async (req, res) => {
     const { id } = req.params;
 
     const [findInvoice] = await database.query(
-      `SELECT  invoiceId,currentDate,totalPrice ,statusName,customerName,country,city,street,zipcode,idNumber,tax,discount FROM alltransport.invoice
+      `SELECT  invoiceId,currentDate,totalPrice ,statusName,customerName,country,city,street,zipcode,idNumber,tax,discount FROM ${process.env.DB_NAME}.invoice
     left join invoicestatus on invoice.statusId = invoicestatus.id
     left join customercompany on invoice.customercompanyId = customercompany.id
     where invoiceId = ? `,

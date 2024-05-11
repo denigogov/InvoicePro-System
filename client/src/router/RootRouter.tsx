@@ -11,7 +11,7 @@ import AppRoute from "./AppRoute";
 import Settings from "../pages/Settings/Settings";
 import Invoices from "../pages/Invoices/Invoices";
 // import { useAuth } from "../helpers/useAuth";
-// import { RequireAuth } from "../helpers/RequireAuth";
+import { RequireAuth } from "../helpers/RequireAuth";
 import Confirm from "../pages/loginPage/Confirm";
 import LoginRoot from "../pages/loginPage/LoginRoot";
 import { RequireValidation } from "../helpers/RequireValidation";
@@ -58,9 +58,9 @@ const RootRouter = () => {
           path="/"
           element={
             // need to uncoment --> comment  for styling purpose
-            // <RequireAuth>
-            <AppRoute />
-            // </RequireAuth>
+            <RequireAuth>
+              <AppRoute />
+            </RequireAuth>
           }
         >
           <Route index element={<Dashboard />} />

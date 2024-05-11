@@ -20,7 +20,7 @@ const findUserData = async (req, res, next) => {
       res.status(401).send("Unauthorized: Invalid credentials");
     }
   } catch (err) {
-    res.status(500).send(`username not valid , ${err.message}`);
+    res.status(500).send(`user not valid , ${err.message}`);
   }
 };
 
@@ -95,8 +95,6 @@ const resendCode = async (req, res) => {
       "select email from users where id = ? AND email = ?  ",
       [sub, email]
     );
-
-    console.log("emial", req.decodedToken);
 
     if (findEmail.length) {
       const message = {

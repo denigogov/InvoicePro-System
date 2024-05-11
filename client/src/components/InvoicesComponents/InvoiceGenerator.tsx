@@ -26,15 +26,21 @@ import { styles } from "../../Styling/Components/InvoiceComponentStyle/invoiceSt
 Font.register({
   family: "customFontWeight400",
   src: "http://fonts.gstatic.com/s/quicksand/v6/sKd0EMYPAh5PYCRKSryvW6CWcynf_cDxXwCLxiixG1c.ttf",
+  format: "truetype",
+  onError: (err: Error) => console.error("Font loading error:", err),
 });
 
 Font.register({
   family: "customFontWeight500",
   src: "https://cdn.jsdelivr.net/gh/webfontworld/Quicksand/Quicksand-Medium.ttf",
+  format: "truetype",
+  onError: (err: Error) => console.error("Font loading error:", err),
 });
 Font.register({
   family: "customFontWeight700",
   src: "https://cdn.jsdelivr.net/gh/webfontworld/Quicksand/Quicksand-Bold.ttf",
+  format: "truetype",
+  onError: (err: Error) => console.error("Font loading error:", err),
 });
 
 interface InvoiceGeneratorTypes {
