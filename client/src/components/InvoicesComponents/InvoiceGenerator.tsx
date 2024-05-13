@@ -19,27 +19,27 @@ import {
 } from "./createInvoiceSteps/StepsInitialData";
 import moment from "moment";
 import { generateInvoiceNumber } from "../../helpers/InvoiceID";
+import customFontWeight400 from "../../Styling/Components/InvoiceComponentStyle/Quicksand-Light.ttf";
+import customFontWeight500 from "../../Styling/Components/InvoiceComponentStyle/Quicksand-Medium.ttf";
+import customFontWeight700 from "../../Styling/Components/InvoiceComponentStyle/Quicksand-Bold.ttf";
 
 // PDF STYLING CSS
 import { styles } from "../../Styling/Components/InvoiceComponentStyle/invoiceStyle";
 
 Font.register({
   family: "customFontWeight400",
-  src: "http://fonts.gstatic.com/s/quicksand/v6/sKd0EMYPAh5PYCRKSryvW6CWcynf_cDxXwCLxiixG1c.ttf",
-  format: "truetype",
+  src: customFontWeight400,
   onError: (err: Error) => <p>{err.message},hello error font</p>,
 });
 
 Font.register({
   family: "customFontWeight500",
-  src: "https://cdn.jsdelivr.net/gh/webfontworld/Quicksand/Quicksand-Medium.ttf",
-  format: "truetype",
+  src: customFontWeight500,
   onError: (err: Error) => <p>{err.message},hello error font</p>,
 });
 Font.register({
   family: "customFontWeight700",
-  src: "https://cdn.jsdelivr.net/gh/webfontworld/Quicksand/Quicksand-Bold.ttf",
-  format: "truetype",
+  src: customFontWeight700,
   onError: (err: Error) => <p>{err.message},hello error font</p>,
 });
 
