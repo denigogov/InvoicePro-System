@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { invoiceDetails } from "../../../types/invoiceTypes";
 import { TaxDiscountValuesProps } from "../../../pages/Invoices/createInvoice/CreateInvoice";
 import editIcon from "../../../assets/editInvoiceDetailsIcon.svg";
@@ -9,7 +9,10 @@ interface InvoiceDetailsDescriptionProps {
   taxDiscountValues: TaxDiscountValuesProps;
   setUpdateDetails: React.Dispatch<React.SetStateAction<boolean>>;
   updateDetails: boolean;
-  handleUpdateDescription: (query: invoiceDetails) => void;
+  handleUpdateDescription: (
+    query: invoiceDetails,
+    editDescriptionId: number | null
+  ) => void;
 }
 
 const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
@@ -19,8 +22,18 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
   updateDetails,
   handleUpdateDescription,
 }) => {
+  const [editDescriptionId, setEditDesciptionId] = useState<number | null>(
+    null
+  );
+
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+
+  const handleEditClick = (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    setEditDesciptionId(id);
+    setUpdateDetails(true);
+  };
 
   const handleUpdateField = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +48,7 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
       : null;
 
     if (Object.keys(query).length) {
-      handleUpdateDescription(query);
+      handleUpdateDescription(query, editDescriptionId);
     }
   };
 
@@ -45,7 +58,7 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
         <h3 className="invoiceDetails__description-wrap-title">Description</h3>
         {invoiceDescription?.map((details, i) => (
           <ul key={i}>
-            {updateDetails ? (
+            {updateDetails && editDescriptionId === details?.id ? (
               <>
                 <li>
                   <textarea
@@ -75,12 +88,23 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
                 </li>
               </>
             )}
-            <img
-              className={updateDetails ? "editIcon" : "updateIcon"}
-              onClick={handleUpdateField}
-              src={updateDetails ? saveIcon : editIcon}
-              alt="editIcon"
-            />
+            {updateDetails && (
+              <img
+                className="editIcon"
+                src={saveIcon}
+                alt="editIcon"
+                onClick={handleUpdateField}
+              />
+            )}
+
+            {!updateDetails && (
+              <img
+                className="updateIcon"
+                onClick={(e) => handleEditClick(e, details?.id ?? 0)}
+                src={editIcon}
+                alt="editIcon"
+              />
+            )}
           </ul>
         ))}
         <div className="invoiceDetails__description-wrap-price">

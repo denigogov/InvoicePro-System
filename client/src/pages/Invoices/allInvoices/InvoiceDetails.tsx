@@ -94,17 +94,21 @@ const InvoiceDetails: React.FC = () => {
     }
   };
 
-  const handleUpdateDescription = async (query: invoiceDetails) => {
+  const handleUpdateDescription = async (
+    query: invoiceDetails,
+    id: number | null
+  ) => {
     if (query?.description || query?.price) {
       const confirmUpdateMessage = await confirmUpdatePrompt(
         "Please Confirm",
         "",
         "confirm"
       );
+
       try {
         if (confirmUpdateMessage.isConfirmed) {
           await updateInvoice<invoiceDetails>(
-            invoiceDescription?.[0]?.invoiceID ?? 0,
+            id,
             token ?? "",
             "invoice/details",
             query

@@ -202,7 +202,7 @@ const selectInvoiceById = async (req, res) => {
     );
 
     const [findDetails] = await database.query(
-      `select invoicedetail.invoiceID, description,price from invoicedetail
+      `select invoicedetail.id, description,price from invoicedetail
       left join invoice on invoice.id = invoicedetail.invoiceID
       where invoice.invoiceId = ?
     `,

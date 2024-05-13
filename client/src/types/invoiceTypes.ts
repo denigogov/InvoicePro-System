@@ -29,7 +29,7 @@ export interface AllInvoicesPaginationType {
 }
 
 export type invoiceDetails = {
-  invoiceID?: number;
+  id?: number;
   description?: string;
   price?: string;
 };
