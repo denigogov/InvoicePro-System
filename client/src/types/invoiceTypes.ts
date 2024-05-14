@@ -28,6 +28,13 @@ export interface AllInvoicesPaginationType {
   statusName: string;
 }
 
+export interface PaginationRequestType {
+  minPrice?: string;
+  maxPrice?: string;
+  statusId?: string;
+  createdDate?: string;
+}
+
 export type invoiceDetails = {
   id?: number;
   description?: string;

@@ -28,50 +28,37 @@
   }
 }
 
-.width600 {
-  max-width: 70vw;
-  margin: 0 auto;
-
-  @media (max-width: general.$lg) {
-    max-width: 75vw;
-  }
-
-  @media (max-width: general.$md) {
-    max-width: none;
-  }
-}
-
 .span-td {
   padding: 4px 1rem;
   border-radius: 0.4rem;
 }
 
 .status-draft {
-  color: #959595;
-  background-color: #f9fafa;
+  color: #949494;
+  background-color: #f8f9f9;
 }
 
 .status-sent {
-  color: #5eaa61;
-  background-color: #f4fff5;
+  color: #5fa862;
+  background-color: #e9fff0;
 }
 
 .status-paid {
-  color: #569db2;
-  background-color: #f3fbff;
+  color: #568fb3;
+  background-color: #f1f9ff;
 }
 
 .status-overdue {
-  color: #c13e4b;
-  background-color: #ffe7e8;
+  color: #c64d5a;
+  background-color: #ffd6d9;
 }
 
 .status-void {
-  color: #7b65af;
-  background-color: #fcf6ff;
+  color: #896eb1;
+  background-color: #f6f0ff;
 }
 
 .noStatus {
-  color: #c13e4b;
-  background-color: #ffe7e8;
+  color: #c64d5a;
+  background-color: #ffd6d9;
 }

@@ -62,3 +62,16 @@
 .inputFiledBold {
   font-weight: 600;
 }
+
+.width600 {
+  max-width: 70vw;
+  margin: 0 auto;
+
+  @media (max-width: general.$lg) {
+    max-width: 75vw;
+  }
+
+  @media (max-width: general.$md) {
+    max-width: none;
+  }
+}

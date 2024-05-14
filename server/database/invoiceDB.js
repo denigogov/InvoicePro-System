@@ -136,37 +136,89 @@ const createInvoiceDetails = async (req, res) => {
   }
 };
 
+// const [totalPageData] = await database.query(
+//   `select count(*) as count from invoice`
+// );
+
+// console.log("totalSIze", +totalPageData[0]?.count);
+
+// const totalPages = Math.ceil(+totalPageData[0]?.count / limit);
+
+// const paginationData = {
+//   data: limitResults,
+//   pagination: {
+//     page: +page,
+//     limit: +limit,
+//     totalPages,
+//   },
+// };
+
 const allInvoicesPagination = async (req, res) => {
   const { page, limit } = req.query;
+  const { minPrice, maxPrice, createdDate, statusId } = req.body;
+
+  const whereQuery = [];
+  const requestValue = [];
+
+  if (statusId !== undefined && statusId !== null && statusId !== "") {
+    whereQuery.push("invoice.statusId = ?");
+    requestValue.push(+statusId);
+  }
+
+  if (
+    minPrice !== undefined &&
+    maxPrice === undefined &&
+    minPrice !== null &&
+    minPrice !== ""
+  ) {
+    whereQuery.push("totalPrice >= ?");
+    requestValue.push(minPrice);
+  }
+
+  if (
+    maxPrice !== undefined &&
+    minPrice === undefined &&
+    maxPrice !== null &&
+    maxPrice !== ""
+  ) {
+    whereQuery.push("totalPrice <= ?");
+    requestValue.push(maxPrice);
+  }
+
+  if (
+    minPrice !== undefined &&
+    maxPrice !== undefined &&
+    minPrice !== null &&
+    maxPrice !== null &&
+    minPrice !== "" &&
+    maxPrice !== ""
+  ) {
+    whereQuery.push(`totalPrice between ? and ?`);
+    requestValue.push(minPrice, maxPrice);
+  }
+
+  if (createdDate !== undefined && createdDate !== null && createdDate !== "") {
+    whereQuery.push("DATE(currentDate) = ?");
+    requestValue.push(createdDate);
+  }
 
   const offset = (page - 1) * limit;
 
   try {
-    const [limitResults] = await database.query(
-      `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM ${process.env.DB_NAME}.invoice
+    const whereClause = ` WHERE ${whereQuery.join(" AND ")}`;
+
+    const queryString = `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM ${
+      process.env.DB_NAME
+    }.invoice
       left join invoicestatus on invoice.statusId = invoicestatus.id
       left join customercompany on invoice.customercompanyId = customercompany.id
+      ${whereQuery.length ? whereClause : ""} 
       ORDER BY currentDate desc
-      limit ? offset ?`,
-      [+limit, +offset]
-    );
+      limit ? offset ?`;
 
-    // const [totalPageData] = await database.query(
-    //   `select count(*) as count from invoice`
-    // );
+    const queryParams = [...requestValue, +limit, +offset];
 
-    // console.log("totalSIze", +totalPageData[0]?.count);
-
-    // const totalPages = Math.ceil(+totalPageData[0]?.count / limit);
-
-    // const paginationData = {
-    //   data: limitResults,
-    //   pagination: {
-    //     page: +page,
-    //     limit: +limit,
-    //     totalPages,
-    //   },
-    // };
+    const [limitResults] = await database.query(queryString, queryParams);
 
     limitResults ? res.status(200).send(limitResults) : res.sendStatus(400);
   } catch (err) {

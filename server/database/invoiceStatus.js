@@ -20,4 +20,18 @@ const invoiceStatus = async (req, res) => {
   }
 };
 
-module.exports = { invoiceStatus };
+const allInvoiceStatus = async (_, res) => {
+  try {
+    const [selectAllStatus] = await database.query(
+      "select * from invoicestatus"
+    );
+
+    selectAllStatus.length
+      ? res.status(200).send(selectAllStatus)
+      : res.sendstatus(404);
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
+
+module.exports = { invoiceStatus, allInvoiceStatus };

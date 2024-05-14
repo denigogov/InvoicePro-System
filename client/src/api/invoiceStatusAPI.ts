@@ -1,5 +1,17 @@
-import { SelectStatusAndPrice } from "../types/invoiceStatusTypes";
+import {
+  FetchAllInvoiceStatusTypes,
+  SelectStatusAndPrice,
+} from "../types/invoiceStatusTypes";
 import { apiFetcher } from "./apiHelper";
+
+/**
+ *
+ * @param token string
+ * @returns fetch all Inovice Status
+ */
+export const fetchAllInvoiceStatus = async (token?: string) => {
+  return apiFetcher<FetchAllInvoiceStatusTypes[]>("invoiceStatus", token || "");
+};
 
 /**
  *

@@ -10,7 +10,7 @@
   background-color: #fff;
   width: 50%;
   height: 70%;
-  z-index: 3;
+  z-index: 12;
   border-radius: 1rem;
 
   display: flex;
@@ -25,7 +25,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-  z-index: 1;
+  z-index: 12;
   transition: all 0.5s;
 }
 

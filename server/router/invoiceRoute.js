@@ -19,7 +19,7 @@ const {
 } = require("../validation/invoiceValidation");
 
 router
-  .get("/", allInvoicesPagination)
+  .post("/pagination", allInvoicesPagination)
   .get("/lastId", lastInvoiceId)
   .get("/:id", selectInvoiceById)
   .post("/", validateInvoiceCreate, createInvoice)

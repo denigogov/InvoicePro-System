@@ -4,6 +4,7 @@ import {
   InvoiceDetailsType,
   InvoiceType,
   LastInvoiceIdType,
+  PaginationRequestType,
   SingleInvoiceByIdType,
 } from "../types/invoiceTypes";
 import { apiFetcher } from "./apiHelper";
@@ -93,6 +94,41 @@ export const createInvoiceDetails = async (
   }
 };
 
+const fetchingPagination = async <T>(
+  url: string,
+  token: string,
+  query: Partial<PaginationRequestType>
+): Promise<T> => {
+  try {
+    const res = await fetch(`${API_URL}/${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(query as PaginationRequestType),
+    });
+
+    if (res.status === 404) {
+      throw new Response("Not Found", { status: 404 });
+    }
+
+    if (!res.ok) {
+      throw Error(
+        res.status === 401
+          ? `API request failed, ${res.statusText}`
+          : `API request failed with status ${res.status} - ${res.statusText}`
+      );
+    }
+    const data = await res.json();
+
+    return data as T;
+  } catch (err) {
+    console.log((err as Error)?.message);
+    throw new Error((err as Error).message);
+  }
+};
+
 /**
  *
  * @param token string
@@ -112,13 +148,16 @@ export const createInvoiceDetails = async (
 export const fetchAllInvoicesPagination = async (
   token?: string,
   pageNumber?: number,
-  limitResult?: number
+  limitResult?: number,
+  query?: PaginationRequestType
 ) => {
-  return apiFetcher<AllInvoicesPaginationType[]>(
-    `invoice/?page=${pageNumber}&limit=${limitResult}`,
-    token || ""
+  return fetchingPagination<AllInvoicesPaginationType[]>(
+    `invoice/pagination/?page=${pageNumber}&limit=${limitResult}`,
+    token || "",
+    query ?? {}
   );
 };
+
 /**
  *
  * @param token string

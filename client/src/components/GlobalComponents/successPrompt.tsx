@@ -5,7 +5,7 @@ export const successMessage = (title: string) => {
     toast: true,
     position: "top-end",
     showConfirmButton: false,
-    timer: 3000,
+    timer: 1700,
     timerProgressBar: true,
     iconColor: "#003366",
     icon: "success",

@@ -1,0 +1,45 @@
+@use "../../GlobalStyling/mixin";
+@use "../../GlobalStyling/general";
+
+.invoiceTableNav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+
+  @media (max-width: general.$sm) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__search {
+    flex: 1;
+    input {
+      background: url("../../../assets/searchIcon.svg");
+      @include mixin.inputFiledsAddIcon;
+      @include mixin.inputUpdateValue;
+      border: none;
+    }
+  }
+
+  &__filter {
+    display: flex;
+    position: relative;
+    gap: 1rem;
+    &-btn {
+      @include mixin.inputUpdateValue;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  button {
+    @include mixin.buttonDelete(
+      "",
+      12px 25px,
+      #000000,
+      rgba(0, 55, 255, 0.079),
+      rgba(0, 55, 255, 0.153)
+    );
+  }
+}

@@ -2,7 +2,10 @@ import "../../../Styling/Components/InvoiceComponentStyle/_allInvoice.scss";
 import useSWR from "swr";
 import InvoiceTableNav from "../../../components/InvoicesComponents/allInvoices/InvoiceTableNav";
 import InvoicesTable from "../../../components/InvoicesComponents/allInvoices/InvoicesTable";
-import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
+import {
+  AllInvoicesPaginationType,
+  PaginationRequestType,
+} from "../../../types/invoiceTypes";
 import { useAuth } from "../../../helpers/useAuth";
 import { fetchAllInvoicesPagination } from "../../../api/invoiceAPI";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -15,6 +18,8 @@ const VITE_PAGINATION_RESULTS_PRO_PAGE = import.meta.env
 const AllInvoices: React.FC = () => {
   const [popUpOpen, setPopupOpen] = useState<boolean>(false);
   const [pageIndex, setPageIndex] = useState<number>(1);
+  const [query, setQuery] = useState<PaginationRequestType>();
+
   const navigator = useNavigate();
   const popupWindow = () => {
     setPopupOpen((x) => !x);
@@ -33,17 +38,32 @@ const AllInvoices: React.FC = () => {
 
   const { token } = useAuth();
 
+  const filterCookies = JSON.parse(
+    decodeURIComponent(
+      document.cookie.replace(
+        /(?:(?:^|.*;\s*)filterData\s*=\s*([^;]*).*$)|^.*$/,
+        "$1"
+      )
+    ) || "{}"
+  );
+
   const {
     data: allInvoicePagination,
     error: allInvoicePaginationError,
     isLoading: allInvoicePaginationLoading,
   } = useSWR<AllInvoicesPaginationType[]>(
-    ["allInvoicePagination", pageIndex, token],
+    [
+      "allInvoicePagination",
+      pageIndex,
+      token,
+      query === undefined ? filterCookies : query,
+    ],
     () =>
       fetchAllInvoicesPagination(
         token ?? "",
         pageIndex,
-        VITE_PAGINATION_RESULTS_PRO_PAGE
+        VITE_PAGINATION_RESULTS_PRO_PAGE,
+        query === undefined ? filterCookies : query
       )
   );
 
@@ -51,9 +71,13 @@ const AllInvoices: React.FC = () => {
     setPageIndex(newPageIndex);
   };
 
+  const handleFilterSubmitBtn = (queryData: PaginationRequestType) => {
+    setQuery(queryData);
+  };
+
   return (
     <div className="allInvoices">
-      <InvoiceTableNav />
+      <InvoiceTableNav handleFilterSubmitBtn={handleFilterSubmitBtn} />
       <InvoicesTable
         allInvoicePagination={allInvoicePagination}
         allInvoicePaginationError={allInvoicePaginationError}

@@ -1,0 +1,42 @@
+@use "../../GlobalStyling/mixin";
+@use "../../GlobalStyling/colors";
+
+.tableFilter,
+.tableSort {
+  z-index: 9;
+  position: absolute;
+  top: 120%;
+
+  background-color: #fff;
+  box-shadow: colors.$box-shadow-secondary;
+  color: colors.$font-Secound;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem 5px;
+  gap: 2rem;
+
+  &__status {
+    select {
+      @include mixin.inputUpdateValue;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+    }
+  }
+
+  &__price {
+    input {
+      @include mixin.inputUpdateValue;
+      padding: 0.3rem 0.5rem;
+      width: 70px;
+    }
+  }
+
+  &__date {
+    input {
+      @include mixin.inputUpdateValue;
+      padding: 0.3rem 0.5rem;
+    }
+  }
+}
