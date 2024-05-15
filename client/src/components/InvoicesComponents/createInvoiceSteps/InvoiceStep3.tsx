@@ -38,8 +38,6 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
   if (lastInvoiceIdLoading || invoiceSettingsDataLoading)
     return <LoadingRing />;
 
-  console.log("taksi", tax);
-
   return (
     <MultiFormWraper
       title=" Invoice details"

@@ -153,12 +153,15 @@ const createInvoiceDetails = async (req, res) => {
 //   },
 // };
 
+// invoice pagination data together with filter  !
 const allInvoicesPagination = async (req, res) => {
   const { page, limit } = req.query;
-  const { minPrice, maxPrice, createdDate, statusId } = req.body;
+  const { minPrice, maxPrice, createdDate, statusId, field, direction } =
+    req.body;
 
   const whereQuery = [];
   const requestValue = [];
+  const orderByQuery = [];
 
   if (statusId !== undefined && statusId !== null && statusId !== "") {
     whereQuery.push("invoice.statusId = ?");
@@ -202,10 +205,24 @@ const allInvoicesPagination = async (req, res) => {
     requestValue.push(createdDate);
   }
 
+  // ORDER BY
+  if (field === "totalPrice") {
+    orderByQuery.push(` ${field} ${direction}`);
+  }
+
+  if (field === "currentDate") {
+    orderByQuery.push(`${field} ${direction}`);
+  }
+
+  if (field === "customerName") {
+    orderByQuery.push(`${field} ${direction}`);
+  }
+
   const offset = (page - 1) * limit;
 
   try {
     const whereClause = ` WHERE ${whereQuery.join(" AND ")}`;
+    const orderClause = `ORDER BY ${orderByQuery.join(", ")} `;
 
     const queryString = `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM ${
       process.env.DB_NAME
@@ -213,7 +230,7 @@ const allInvoicesPagination = async (req, res) => {
       left join invoicestatus on invoice.statusId = invoicestatus.id
       left join customercompany on invoice.customercompanyId = customercompany.id
       ${whereQuery.length ? whereClause : ""} 
-      ORDER BY currentDate desc
+      ${orderByQuery.length ? orderClause : ""}
       limit ? offset ?`;
 
     const queryParams = [...requestValue, +limit, +offset];

@@ -1,5 +1,5 @@
-import useSWR from "swr";
 import "../../../Styling/Components/InvoiceComponentStyle/_invoiceTableFilter.scss";
+import useSWR from "swr";
 import { fetchAllInvoiceStatus } from "../../../api/invoiceStatusAPI";
 import { useAuth } from "../../../helpers/useAuth";
 
@@ -26,8 +26,6 @@ const TableFilter: React.FC<TableFilterProps> = ({
 
   const handleSubmitFilter = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log(statusRef?.current?.value.length);
 
     const query = {
       statusId: statusRef?.current?.value.length

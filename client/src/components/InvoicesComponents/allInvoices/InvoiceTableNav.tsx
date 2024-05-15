@@ -5,10 +5,14 @@ import TableSort from "./TableSort";
 import { PaginationRequestType } from "../../../types/invoiceTypes";
 interface InvoiceTableNavTypes {
   handleFilterSubmitBtn: (query: PaginationRequestType) => void;
+  handleSort: (query: PaginationRequestType) => void;
+  checkIsFilterEmpty: boolean;
 }
 
 const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
   handleFilterSubmitBtn,
+  checkIsFilterEmpty,
+  handleSort,
 }) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [openSort, setOpenSort] = useState<boolean>(false);
@@ -34,11 +38,16 @@ const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
       </div>
       <div className="invoiceTableNav__filter">
         <span
-          className="invoiceTableNav__filter-btn"
+          className={
+            checkIsFilterEmpty
+              ? "invoiceTableNav__filter-btn"
+              : "invoiceTableNav__filter-btn  activeFilterSort"
+          }
           onClick={() => handleToggle("filter")}
         >
           Filter By ↓
         </span>
+
         {openFilter && (
           <TableFilter
             setOpenFilter={setOpenFilter}
@@ -51,7 +60,7 @@ const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
         >
           Sort By ↓
         </span>
-        {openSort && <TableSort />}
+        {openSort && <TableSort handleSort={handleSort} />}
       </div>
     </div>
   );

@@ -1,0 +1,34 @@
+@use "../../GlobalStyling/colors";
+
+.tableSort {
+  ul {
+    position: relative;
+    border-bottom: 1px solid colors.$border-Primary;
+
+    &:last-child {
+      border: none;
+    }
+    li {
+      font-size: 0.8rem;
+      padding: 0.4rem 2rem;
+      line-height: 1.3rem;
+      cursor: pointer;
+
+      &:hover {
+        background: colors.$background-secondary;
+      }
+    }
+  }
+  span {
+    color: colors.$font-Secound;
+    font-size: 0.7rem;
+  }
+}
+
+.activeSort {
+  &::before {
+    content: "\2713";
+    position: absolute;
+    left: 5%;
+  }
+}

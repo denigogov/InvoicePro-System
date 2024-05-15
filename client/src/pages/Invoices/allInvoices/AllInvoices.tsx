@@ -21,6 +21,7 @@ const AllInvoices: React.FC = () => {
   const [query, setQuery] = useState<PaginationRequestType>();
 
   const navigator = useNavigate();
+
   const popupWindow = () => {
     setPopupOpen((x) => !x);
     navigator("/invoices/all");
@@ -47,6 +48,19 @@ const AllInvoices: React.FC = () => {
     ) || "{}"
   );
 
+  const sortCookies = JSON.parse(
+    decodeURIComponent(
+      document.cookie.replace(
+        /(?:(?:^|.*;\s*)sortData\s*=\s*([^;]*).*$)|^.*$/,
+        "$1"
+      )
+    ) || "{}"
+  );
+
+  const checkIsFilterEmpty =
+    filterCookies === "" ||
+    Object.values(filterCookies).every((value) => value === "");
+
   const {
     data: allInvoicePagination,
     error: allInvoicePaginationError,
@@ -56,14 +70,14 @@ const AllInvoices: React.FC = () => {
       "allInvoicePagination",
       pageIndex,
       token,
-      query === undefined ? filterCookies : query,
+      query === undefined ? { ...sortCookies, ...filterCookies } : query,
     ],
     () =>
       fetchAllInvoicesPagination(
         token ?? "",
         pageIndex,
         VITE_PAGINATION_RESULTS_PRO_PAGE,
-        query === undefined ? filterCookies : query
+        query === undefined ? { ...sortCookies, ...filterCookies } : query
       )
   );
 
@@ -75,9 +89,17 @@ const AllInvoices: React.FC = () => {
     setQuery(queryData);
   };
 
+  const handleSort = (queryData: PaginationRequestType) => {
+    setQuery({ ...query, ...queryData });
+  };
+
   return (
     <div className="allInvoices">
-      <InvoiceTableNav handleFilterSubmitBtn={handleFilterSubmitBtn} />
+      <InvoiceTableNav
+        handleFilterSubmitBtn={handleFilterSubmitBtn}
+        checkIsFilterEmpty={checkIsFilterEmpty}
+        handleSort={handleSort}
+      />
       <InvoicesTable
         allInvoicePagination={allInvoicePagination}
         allInvoicePaginationError={allInvoicePaginationError}

@@ -77,8 +77,6 @@ export const createInvoiceDetails = async (
       body: JSON.stringify(queryData),
     });
 
-    console.log("post", res);
-
     if (!res.ok) {
       const errorResponse = await res.json();
 

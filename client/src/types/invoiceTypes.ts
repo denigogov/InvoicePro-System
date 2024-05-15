@@ -33,6 +33,8 @@ export interface PaginationRequestType {
   maxPrice?: string;
   statusId?: string;
   createdDate?: string;
+  field?: string;
+  direction?: string;
 }
 
 export type invoiceDetails = {

@@ -1,5 +1,6 @@
 @use "../../GlobalStyling/mixin";
 @use "../../GlobalStyling/general";
+@use "../../GlobalStyling/colors";
 
 .invoiceTableNav {
   display: flex;
@@ -22,10 +23,23 @@
     }
   }
 
+  .activeFilterSort {
+    &::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background-color: colors.$font-Title;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+  }
+
   &__filter {
     display: flex;
     position: relative;
     gap: 1rem;
+
     &-btn {
       @include mixin.inputUpdateValue;
       border: none;
