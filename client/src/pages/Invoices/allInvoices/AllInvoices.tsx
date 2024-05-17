@@ -10,6 +10,7 @@ import { useAuth } from "../../../helpers/useAuth";
 import { fetchAllInvoicesPagination } from "../../../api/invoiceAPI";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import TableNavPagination from "../../../components/InvoicesComponents/allInvoices/TableNavPagination";
 
 export type ContextTypeRouter = [Dispatch<SetStateAction<boolean>>, number];
 const VITE_PAGINATION_RESULTS_PRO_PAGE = import.meta.env
@@ -85,12 +86,12 @@ const AllInvoices: React.FC = () => {
   const paginationSettings = invoiceDataPagination?.pagination;
 
   const totalPagePagination = Array.from(
-    { length: paginationSettings?.totalPages ?? 0 },
-    (_, m) => m + 1
+    { length: paginationSettings?.totalPages || 0 },
+    (_, i) => i + 1
   );
 
   /**
-   *
+   * Handle Pagination
    * @param newPageIndex number
    * ... Handle Next Page, Prev Page and the wish page number that user click  !
    */
@@ -106,13 +107,22 @@ const AllInvoices: React.FC = () => {
     setQuery({ ...query, ...queryData });
   };
 
+  const handleSearchInvoice = (searchParam: string) => {
+    const searchQuery = {
+      searchInvoice: searchParam,
+    };
+    setQuery({ ...query, ...searchQuery });
+  };
+
   return (
     <div className="allInvoices">
       <InvoiceTableNav
         handleFilterSubmitBtn={handleFilterSubmitBtn}
         checkIsFilterEmpty={checkIsFilterEmpty}
         handleSort={handleSort}
+        handleSearchInvoice={handleSearchInvoice}
       />
+      {/* Table */}
       <InvoicesTable
         allInvoicePagination={allInvoicePagination}
         allInvoicePaginationError={allInvoicePaginationError}
@@ -120,27 +130,14 @@ const AllInvoices: React.FC = () => {
         openDetailsRoute={openDetailsRoute}
         openEditRoute={openEditRoute}
       />
-      <div className="allInvoices__button">
-        {pageIndex > 1 && (
-          <button onClick={() => handleNextPage(pageIndex - 1)}>
-            Previous
-          </button>
-        )}
-        {totalPagePagination.map((pages) => (
-          <span
-            className={paginationSettings?.page === pages ? "activePage" : ""}
-            onClick={() => handleNextPage(pages)}
-            key={pages}
-          >
-            {pages}
-          </span>
-        ))}
-        <span>...</span>
 
-        {paginationSettings?.page !== paginationSettings?.totalPages && (
-          <button onClick={() => handleNextPage(pageIndex + 1)}>Next</button>
-        )}
-      </div>
+      {/* Table Navigation page Numbers */}
+      <TableNavPagination
+        handleNextPage={handleNextPage}
+        pageIndex={pageIndex}
+        totalPagePagination={totalPagePagination}
+        paginationSettings={paginationSettings}
+      />
 
       {popUpOpen && (
         <div className="overlay" onClick={popupWindow}>

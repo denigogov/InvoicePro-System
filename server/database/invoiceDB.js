@@ -139,12 +139,30 @@ const createInvoiceDetails = async (req, res) => {
 // invoice pagination data together with filter  !
 const allInvoicesPagination = async (req, res) => {
   const { page, limit } = req.query;
-  const { minPrice, maxPrice, createdDate, statusId, field, direction } =
-    req.body;
+  const {
+    searchInvoice,
+    minPrice,
+    maxPrice,
+    createdDate,
+    statusId,
+    field,
+    direction,
+  } = req.body;
 
   const whereQuery = [];
   const requestValue = [];
   const orderByQuery = [];
+
+  if (
+    searchInvoice !== undefined &&
+    searchInvoice !== null &&
+    searchInvoice !== ""
+  ) {
+    whereQuery.push(
+      `(LOWER(customerName) LIKE LOWER(CONCAT('%', ?, '%')) OR LOWER(invoiceId) LIKE LOWER(CONCAT('%', ?, '%')))`
+    );
+    requestValue.push(searchInvoice, searchInvoice);
+  }
 
   if (statusId !== undefined && statusId !== null && statusId !== "") {
     whereQuery.push("invoice.statusId = ?");
@@ -206,6 +224,8 @@ const allInvoicesPagination = async (req, res) => {
   try {
     const whereClause = ` WHERE ${whereQuery.join(" AND ")}`;
     const orderClause = `ORDER BY ${orderByQuery.join(", ")} `;
+
+    console.log(whereClause);
 
     const queryString = `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM ${
       process.env.DB_NAME

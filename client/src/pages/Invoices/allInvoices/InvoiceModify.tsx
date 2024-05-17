@@ -12,7 +12,7 @@ import {
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
 import { updateInvoice } from "../../../api/invoiceAPI";
 import { ContextTypeRouter } from "./AllInvoices";
-import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
+import { InvoicePaginationDataType } from "../../../types/invoiceTypes";
 
 export type UpdateInvoiceQueryTypes = {
   totalPrice: string;
@@ -71,7 +71,7 @@ const InvoiceModify: React.FC = () => {
           ["allInvoicePagination", pageIndex, token],
           async (cachedData) => {
             const updatedData = cachedData.filter(
-              (invoice: AllInvoicesPaginationType) =>
+              (invoice: InvoicePaginationDataType) =>
                 invoice.invoiceId !== invoiceId
             );
             return updatedData;

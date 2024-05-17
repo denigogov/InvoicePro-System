@@ -16,7 +16,7 @@ export interface InvoiceDetailsType {
   description: string;
   price: number | null;
 }
-export interface PaginationType {
+export interface PaginationSettingsType {
   limit: number;
   page: number;
   totalPages: number;
@@ -33,7 +33,7 @@ export interface InvoicePaginationDataType {
 }
 export interface AllInvoicesPaginationType {
   invoiceData: InvoicePaginationDataType[];
-  pagination: PaginationType;
+  pagination: PaginationSettingsType;
 }
 
 export interface PaginationRequestType {

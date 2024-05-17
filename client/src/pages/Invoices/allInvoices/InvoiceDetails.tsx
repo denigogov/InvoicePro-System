@@ -9,7 +9,7 @@ import InvoiceDetailsBuyer from "../../../components/InvoicesComponents/invoiceD
 import InvoiceDetailsDescription from "../../../components/InvoicesComponents/invoiceDetails/InvoiceDetailsDescription";
 import { useAuth } from "../../../helpers/useAuth";
 import {
-  AllInvoicesPaginationType,
+  InvoicePaginationDataType,
   SingleInvoiceByIdType,
   invoiceDetails,
 } from "../../../types/invoiceTypes";
@@ -79,7 +79,7 @@ const InvoiceDetails: React.FC = () => {
           ["allInvoicePagination", pageIndex, token],
           async (cachedData) => {
             const updatedData = cachedData.filter(
-              (invoice: AllInvoicesPaginationType) =>
+              (invoice: InvoicePaginationDataType) =>
                 invoice.invoiceId !== invoiceId
             );
             return updatedData;

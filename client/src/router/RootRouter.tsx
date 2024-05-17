@@ -67,6 +67,7 @@ const RootRouter = () => {
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/invoices" element={<Invoices />}>
+            <Route index element={<AllInvoices />} />
             <Route path="all" element={<AllInvoices />}>
               <Route path="details/:invoiceId" element={<InvoiceDetails />} />
               <Route

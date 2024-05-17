@@ -7,12 +7,14 @@ interface InvoiceTableNavTypes {
   handleFilterSubmitBtn: (query: PaginationRequestType) => void;
   handleSort: (query: PaginationRequestType) => void;
   checkIsFilterEmpty: boolean;
+  handleSearchInvoice: (searchParam: string) => void;
 }
 
 const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
   handleFilterSubmitBtn,
   checkIsFilterEmpty,
   handleSort,
+  handleSearchInvoice,
 }) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [openSort, setOpenSort] = useState<boolean>(false);
@@ -31,9 +33,10 @@ const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
     <div className="invoiceTableNav width600">
       <div className="invoiceTableNav__search">
         <input
-          type="text"
+          type="search"
           placeholder="Search an Invoice"
           className="search-input"
+          onChange={(e) => handleSearchInvoice(e.target?.value)}
         />
       </div>
       <div className="invoiceTableNav__filter">
