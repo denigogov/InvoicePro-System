@@ -52,6 +52,7 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
     }
   };
 
+  // styling in invoiceDetails component !
   return (
     <div>
       <div className="invoiceDetails__description-wrap">
@@ -89,21 +90,25 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
               </>
             )}
             {updateDetails && (
-              <img
-                className="editIcon"
-                src={saveIcon}
-                alt="editIcon"
-                onClick={handleUpdateField}
-              />
+              <span className="toolTipSaveDetails">
+                <img
+                  className="editIcon "
+                  src={saveIcon}
+                  alt="editIcon"
+                  onClick={handleUpdateField}
+                />
+              </span>
             )}
 
             {!updateDetails && (
-              <img
-                className="updateIcon"
-                onClick={(e) => handleEditClick(e, details?.id ?? 0)}
-                src={editIcon}
-                alt="editIcon"
-              />
+              <span className="toolTipEditDetails">
+                <img
+                  className="updateIcon"
+                  onClick={(e) => handleEditClick(e, details?.id ?? 0)}
+                  src={editIcon}
+                  alt="editIcon"
+                />
+              </span>
             )}
           </ul>
         ))}

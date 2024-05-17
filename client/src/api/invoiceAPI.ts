@@ -149,7 +149,7 @@ export const fetchAllInvoicesPagination = async (
   limitResult?: number,
   query?: PaginationRequestType
 ) => {
-  return fetchingPagination<AllInvoicesPaginationType[]>(
+  return fetchingPagination<AllInvoicesPaginationType>(
     `invoice/pagination/?page=${pageNumber}&limit=${limitResult}`,
     token || "",
     query ?? {}

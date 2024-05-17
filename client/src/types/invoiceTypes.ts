@@ -16,8 +16,12 @@ export interface InvoiceDetailsType {
   description: string;
   price: number | null;
 }
-
-export interface AllInvoicesPaginationType {
+export interface PaginationType {
+  limit: number;
+  page: number;
+  totalPages: number;
+}
+export interface InvoicePaginationDataType {
   id: number;
   invoiceId: string;
   customerName: string;
@@ -26,6 +30,10 @@ export interface AllInvoicesPaginationType {
   currentDate: Date | string;
   totalPrice: number;
   statusName: string;
+}
+export interface AllInvoicesPaginationType {
+  invoiceData: InvoicePaginationDataType[];
+  pagination: PaginationType;
 }
 
 export interface PaginationRequestType {

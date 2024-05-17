@@ -62,10 +62,10 @@ const AllInvoices: React.FC = () => {
     Object.values(filterCookies).every((value) => value === "");
 
   const {
-    data: allInvoicePagination,
+    data: invoiceDataPagination,
     error: allInvoicePaginationError,
     isLoading: allInvoicePaginationLoading,
-  } = useSWR<AllInvoicesPaginationType[]>(
+  } = useSWR<AllInvoicesPaginationType>(
     [
       "allInvoicePagination",
       pageIndex,
@@ -81,6 +81,19 @@ const AllInvoices: React.FC = () => {
       )
   );
 
+  const allInvoicePagination = invoiceDataPagination?.invoiceData ?? [];
+  const paginationSettings = invoiceDataPagination?.pagination;
+
+  const totalPagePagination = Array.from(
+    { length: paginationSettings?.totalPages ?? 0 },
+    (_, m) => m + 1
+  );
+
+  /**
+   *
+   * @param newPageIndex number
+   * ... Handle Next Page, Prev Page and the wish page number that user click  !
+   */
   const handleNextPage = (newPageIndex: number) => {
     setPageIndex(newPageIndex);
   };
@@ -113,8 +126,20 @@ const AllInvoices: React.FC = () => {
             Previous
           </button>
         )}
+        {totalPagePagination.map((pages) => (
+          <span
+            className={paginationSettings?.page === pages ? "activePage" : ""}
+            onClick={() => handleNextPage(pages)}
+            key={pages}
+          >
+            {pages}
+          </span>
+        ))}
+        <span>...</span>
 
-        <button onClick={() => handleNextPage(pageIndex + 1)}>Next</button>
+        {paginationSettings?.page !== paginationSettings?.totalPages && (
+          <button onClick={() => handleNextPage(pageIndex + 1)}>Next</button>
+        )}
       </div>
 
       {popUpOpen && (

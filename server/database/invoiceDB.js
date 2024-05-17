@@ -136,23 +136,6 @@ const createInvoiceDetails = async (req, res) => {
   }
 };
 
-// const [totalPageData] = await database.query(
-//   `select count(*) as count from invoice`
-// );
-
-// console.log("totalSIze", +totalPageData[0]?.count);
-
-// const totalPages = Math.ceil(+totalPageData[0]?.count / limit);
-
-// const paginationData = {
-//   data: limitResults,
-//   pagination: {
-//     page: +page,
-//     limit: +limit,
-//     totalPages,
-//   },
-// };
-
 // invoice pagination data together with filter  !
 const allInvoicesPagination = async (req, res) => {
   const { page, limit } = req.query;
@@ -237,7 +220,22 @@ const allInvoicesPagination = async (req, res) => {
 
     const [limitResults] = await database.query(queryString, queryParams);
 
-    limitResults ? res.status(200).send(limitResults) : res.sendStatus(400);
+    const [totalPageData] = await database.query(
+      `select count(*) as count from invoice`
+    );
+
+    const totalPages = Math.ceil(+totalPageData[0]?.count / limit);
+
+    const paginationData = {
+      invoiceData: limitResults,
+      pagination: {
+        page: +page,
+        limit: +limit,
+        totalPages,
+      },
+    };
+
+    limitResults ? res.status(200).send(paginationData) : res.sendStatus(400);
   } catch (err) {
     res.status(500).send(err.message);
   }

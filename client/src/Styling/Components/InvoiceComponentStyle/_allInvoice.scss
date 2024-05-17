@@ -4,14 +4,19 @@
 .allInvoices {
   margin: 4rem 0;
 
+  .activePage {
+    background-color: #ffffff;
+  }
   &__button {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 1rem;
     text-align: center;
     padding: 1rem;
 
-    button {
+    button,
+    span {
       padding: 0.5rem 0.7rem;
       background-color: transparent;
       color: colors.$font-Title;

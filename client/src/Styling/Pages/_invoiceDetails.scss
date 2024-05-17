@@ -163,6 +163,26 @@
   }
 }
 
+.toolTipEditDetails {
+  @include mixin.tooltip(
+    $text: "edit details",
+    $top: 25px,
+    $left: 17%,
+    $topArrow: 44px,
+    $leftArrow: 15.7%
+  );
+}
+
+.toolTipSaveDetails {
+  @include mixin.tooltip(
+    $text: "save details",
+    $top: 25px,
+    $left: 38%,
+    $topArrow: 44px,
+    $leftArrow: 36.6%
+  );
+}
+
 @media (max-width: general.$sm) {
   .invoiceDetails {
     &__title {
@@ -219,5 +239,25 @@
         }
       }
     }
+  }
+
+  .toolTipEditDetails {
+    @include mixin.tooltip(
+      $text: "edit details",
+      $top: 25px,
+      $left: 55%,
+      $topArrow: 45px,
+      $leftArrow: 53%
+    );
+  }
+
+  .toolTipSaveDetails {
+    @include mixin.tooltip(
+      $text: "save details",
+      $top: 35px,
+      $left: 70%,
+      $topArrow: 50px,
+      $leftArrow: 69%
+    );
   }
 }

@@ -1,12 +1,12 @@
 import detailsIcon from "../../../assets/detailsIcon.svg";
 import editIcon from "../../../assets/editIcon.svg";
-import { AllInvoicesPaginationType } from "../../../types/invoiceTypes";
+import { InvoicePaginationDataType } from "../../../types/invoiceTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
 import moment from "moment";
 
 interface InvoicesTableProps {
-  allInvoicePagination?: AllInvoicesPaginationType[];
+  allInvoicePagination?: InvoicePaginationDataType[];
   allInvoicePaginationError: Error;
   allInvoicePaginationLoading: boolean;
   openEditRoute: (invoiceId: string) => void;
