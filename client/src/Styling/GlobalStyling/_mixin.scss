@@ -177,23 +177,29 @@
     }
   }
   @media (max-width: general.$md) {
-    td {
-      display: grid;
-      gap: 0.5rem;
-      grid-template-columns: 15ch auto;
+    // TR extra edded just for testing making the table mroe beauty
+    tr {
+      border: 2px solid #ddd;
+      display: inline-block;
 
-      &:first-child {
-        margin-top: 2rem;
-      }
+      td {
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: 15ch auto;
 
-      &:last-child {
-        margin-bottom: 2rem;
-      }
+        &:first-child {
+          margin-top: 2rem;
+        }
 
-      &::before {
-        content: attr(data-cell) ": ";
-        font-weight: 600;
-        float: left;
+        &:last-child {
+          margin-bottom: 2rem;
+        }
+
+        &::before {
+          content: attr(data-cell) ": ";
+          font-weight: 600;
+          float: left;
+        }
       }
     }
 

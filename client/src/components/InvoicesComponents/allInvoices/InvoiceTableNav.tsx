@@ -29,6 +29,10 @@ const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
     }
   };
 
+  const handleCloseSortFilter = () => {
+    setOpenSort(false);
+    setOpenFilter(false);
+  };
   return (
     <div className="invoiceTableNav width600">
       <div className="invoiceTableNav__search">
@@ -39,7 +43,10 @@ const InvoiceTableNav: React.FC<InvoiceTableNavTypes> = ({
           onChange={(e) => handleSearchInvoice(e.target?.value)}
         />
       </div>
-      <div className="invoiceTableNav__filter">
+      <div className="invoiceTableNav__filter ">
+        {(openSort || openFilter) && (
+          <span onClick={handleCloseSortFilter} className="over"></span>
+        )}
         <span
           className={
             checkIsFilterEmpty

@@ -197,7 +197,7 @@ const allInvoicesPagination = async (req, res) => {
     minPrice !== "" &&
     maxPrice !== ""
   ) {
-    whereQuery.push(`totalPrice between ? and ?`);
+    whereQuery.push(`totalPrice between ? AND  ?`);
     requestValue.push(minPrice, maxPrice);
   }
 
@@ -222,16 +222,15 @@ const allInvoicesPagination = async (req, res) => {
   const offset = (page - 1) * limit;
 
   try {
-    const whereClause = ` WHERE ${whereQuery.join(" AND ")}`;
+    const whereClause = `${whereQuery.join(" AND ")}`;
     const orderClause = `ORDER BY ${orderByQuery.join(", ")} `;
-
-    console.log(whereClause);
 
     const queryString = `SELECT invoice.id,invoiceId, customerName, totalPrice,currentDate, statusName FROM ${
       process.env.DB_NAME
     }.invoice
       left join invoicestatus on invoice.statusId = invoicestatus.id
       left join customercompany on invoice.customercompanyId = customercompany.id
+      where invoiceId is not null  ${whereQuery.length ? "AND" : ""} 
       ${whereQuery.length ? whereClause : ""} 
       ${orderByQuery.length ? orderClause : ""}
       limit ? offset ?`;
@@ -241,7 +240,7 @@ const allInvoicesPagination = async (req, res) => {
     const [limitResults] = await database.query(queryString, queryParams);
 
     const [totalPageData] = await database.query(
-      `select count(*) as count from invoice`
+      `select count(*) as count from invoice where invoiceId is not null `
     );
 
     const totalPages = Math.ceil(+totalPageData[0]?.count / limit);

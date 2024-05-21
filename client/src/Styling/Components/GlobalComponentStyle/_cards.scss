@@ -1,0 +1,68 @@
+@use "../../GlobalStyling/colors";
+
+.cards {
+  padding: 1rem;
+  width: 230px;
+  height: 140px;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  // align-items: center;
+
+  color: colors.$font-Title;
+  position: relative;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #000a39;
+    color: #ffffff;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    // color: #8d9ff8;
+    font-size: 1.2rem;
+  }
+  &__title {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  &__value {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  &__subTitle {
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+}
+
+.Draft-card {
+  color: #494848;
+  background-color: #fafbfb; /* slightly lighter than #f8f9f9 */
+}
+
+.Paid-card {
+  color: #006caf;
+  background-color: #f5fbff; /* slightly lighter than #f1f9ff */
+}
+.Void-card {
+  color: #4f00c5;
+  background-color: #f9f4ff9c; /* slightly lighter than #f6f0ff */
+}
+.Send-card {
+  color: #204c21;
+  background-color: #edfaf1; /* slightly lighter than #e9fff0 */
+}
+
+.Overdue-card {
+  color: #ce0015;
+  background-color: #f7f4f4; /* slightly lighter than #ffd6d9 */
+}
