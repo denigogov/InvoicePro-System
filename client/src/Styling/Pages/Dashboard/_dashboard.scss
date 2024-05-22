@@ -1,7 +1,11 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
+
 .dashboard {
   padding: 20px;
   background-color: #f9fafb;
-  color: #333;
+  color: colors.$font-Title;
 
   &-header {
     display: flex;
@@ -9,7 +13,7 @@
     align-items: center;
     margin-bottom: 20px;
 
-    @media (max-width: 768px) {
+    @media (max-width: general.$md) {
       flex-wrap: wrap;
     }
 
@@ -29,7 +33,7 @@
       display: flex;
       gap: 10px;
 
-      @media (max-width: 768px) {
+      @media (max-width: general.$md) {
         flex-direction: column;
 
         width: 100%;
@@ -60,7 +64,7 @@
     margin-bottom: 20px;
     flex-wrap: wrap;
 
-    @media (max-width: 768px) {
+    @media (max-width: general.$md) {
       flex-direction: column;
       align-items: center;
       gap: 10px;
@@ -80,14 +84,14 @@
       padding: 20px;
       width: calc(50% - 10px);
 
-      @media (max-width: 768px) {
+      @media (max-width: general.$md) {
         width: 100%;
       }
 
       h3 {
         margin: 0 0 20px;
         font-size: 18px;
-        color: #333;
+        color: #007bff;
       }
 
       .analytics {
@@ -127,7 +131,7 @@
         .pie-chart {
           width: 50%;
 
-          @media (max-width: 768px) {
+          @media (max-width: general.$md) {
             width: 100%;
           }
         }
@@ -139,62 +143,13 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    // padding: 20px;
+    @include mixin.table(15px);
 
     h3 {
       margin: 0 0 20px;
       font-size: 1.5rem;
-      color: #4e73df;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-
-      th,
-      td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: left;
-
-        @media (max-width: 768px) {
-          display: block;
-          width: 100%;
-        }
-      }
-
-      th {
-        background-color: #f4f4f4;
-
-        @media (max-width: 768px) {
-          display: none;
-        }
-      }
-
-      tr {
-        @media (max-width: 768px) {
-          display: block;
-          margin-bottom: 10px;
-          border-bottom: 2px solid #ddd;
-
-          td {
-            display: block;
-            text-align: right;
-            position: relative;
-            padding-left: 50%;
-            text-align: right;
-
-            &:before {
-              content: attr(data-label);
-              position: absolute;
-              left: 10px;
-              top: 10px;
-              white-space: nowrap;
-              text-align: left;
-            }
-          }
-        }
-      }
+      color: #007bff;
     }
   }
 }

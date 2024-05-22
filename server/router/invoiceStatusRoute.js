@@ -7,6 +7,12 @@ const {
   allInvoiceStatus,
 } = require("../database/invoiceStatus");
 
-router.get("/", allInvoiceStatus).get("/:id", invoiceStatus);
+const { invoiceCountByStatus } = require("../database/chartData");
+
+// Route Name invoiceStatus
+router
+  .get("/chart", invoiceCountByStatus)
+  .get("/", allInvoiceStatus)
+  .get("/:id", invoiceStatus);
 
 module.exports = router;

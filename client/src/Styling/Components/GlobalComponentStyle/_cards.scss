@@ -1,4 +1,5 @@
 @use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
 
 .cards {
   padding: 1rem;
@@ -20,12 +21,16 @@
     color: #ffffff;
   }
 
-  &__arrow {
+  @media (max-width: general.$md) {
+    width: 90%;
+  }
+
+  &__totalInovices {
     position: absolute;
-    top: 10px;
+    top: 19px;
     right: 20px;
     // color: #8d9ff8;
-    font-size: 1.2rem;
+    font-size: 0.7rem;
   }
   &__title {
     border-bottom: 1px solid rgb(221, 221, 221);
@@ -44,25 +49,30 @@
   }
 }
 
-.Draft-card {
+.card1 {
   color: #494848;
   background-color: #fafbfb; /* slightly lighter than #f8f9f9 */
 }
 
-.Paid-card {
+.card3 {
   color: #006caf;
   background-color: #f5fbff; /* slightly lighter than #f1f9ff */
 }
-.Void-card {
+.card5 {
   color: #4f00c5;
   background-color: #f9f4ff9c; /* slightly lighter than #f6f0ff */
 }
-.Send-card {
+.card2 {
   color: #204c21;
   background-color: #edfaf1; /* slightly lighter than #e9fff0 */
 }
 
-.Overdue-card {
+.card4 {
+  color: #ce0015;
+  background-color: #f7f4f4; /* slightly lighter than #ffd6d9 */
+}
+
+.card0 {
   color: #ce0015;
   background-color: #f7f4f4; /* slightly lighter than #ffd6d9 */
 }

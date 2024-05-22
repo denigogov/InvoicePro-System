@@ -1,5 +1,6 @@
 import {
   FetchAllInvoiceStatusTypes,
+  FetchtStatusCountChartTypes,
   SelectStatusAndPrice,
 } from "../types/invoiceStatusTypes";
 import { apiFetcher } from "./apiHelper";
@@ -25,6 +26,23 @@ export const fetchStatusPriceTaxDiscount = async (
 ) => {
   return apiFetcher<SelectStatusAndPrice>(
     `invoiceStatus/${invoiceID}`,
+    token || ""
+  );
+};
+
+/**
+ *
+ * @param token string
+ * @returns all invoices count by status 
+ * {
+    statusId: number,
+    statusName: string,
+    totalInvoices: number
+  },
+ */
+export const fetchtStatusCountChart = async (token?: string) => {
+  return apiFetcher<FetchtStatusCountChartTypes[]>(
+    "invoiceStatus/chart",
     token || ""
   );
 };

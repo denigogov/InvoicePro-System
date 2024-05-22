@@ -15,3 +15,10 @@ export interface SelectStatusAndPrice {
   selectAllStatus?: Partial<FetchAllInvoiceStatusTypes[]>;
   findPriceTaxDiscount?: Partial<findTaxPriceDiscountStatus[]>;
 }
+
+export interface FetchtStatusCountChartTypes {
+  statusId: number;
+  statusName: string;
+  totalPrice: string;
+  totalInvoices: number;
+}

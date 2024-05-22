@@ -177,28 +177,21 @@
     }
   }
   @media (max-width: general.$md) {
-    // TR extra edded just for testing making the table mroe beauty
     tr {
-      border: 2px solid #ddd;
+      border: 1px solid colors.$border-Primary;
       display: inline-block;
+      margin: 1rem;
 
       td {
+        padding: 8px;
         display: grid;
         gap: 0.5rem;
         grid-template-columns: 15ch auto;
 
-        &:first-child {
-          margin-top: 2rem;
-        }
-
-        &:last-child {
-          margin-bottom: 2rem;
-        }
-
         &::before {
           content: attr(data-cell) ": ";
-          font-weight: 600;
-          float: left;
+          font-weight: 500;
+          text-align: start;
         }
       }
     }
