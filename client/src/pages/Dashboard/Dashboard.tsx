@@ -17,6 +17,9 @@ import { useAuth } from "../../helpers/useAuth";
 import { FetchtStatusCountChartTypes } from "../../types/invoiceStatusTypes";
 import useSWR from "swr";
 import { fetchtStatusCountChart } from "../../api/invoiceStatusAPI";
+import CardSkeletonLoading from "../../components/GlobalComponents/CardSkeletonLoading";
+import { fetchInvoiceTotalMonthly } from "../../api/chartAPI";
+import { InvoiceTotalMonthly } from "../../types/chartDataTypes";
 
 ChartJS.register(
   CategoryScale,
@@ -35,9 +38,18 @@ const Dashboard: React.FC = () => {
     data: invoiceStatusCount,
     error: invoiceStatusCountError,
     isLoading: invoiceStatusCountLoading,
-  } = useSWR<FetchtStatusCountChartTypes[]>(["singleInvoiceById", token], () =>
+  } = useSWR<FetchtStatusCountChartTypes[]>(["invoiceStatusCount", token], () =>
     fetchtStatusCountChart(token ?? "")
   );
+  const {
+    data: invoiceTotalMonthly,
+    error: invoiceTotalMonthlyError,
+    isLoading: invoiceTotalMonthlyLoading,
+  } = useSWR<InvoiceTotalMonthly[]>(["invoiceTotalMonthly", token], () =>
+    fetchInvoiceTotalMonthly(token ?? "")
+  );
+
+  console.log(invoiceTotalMonthly);
 
   return (
     <div className="dashboard">
@@ -52,23 +64,34 @@ const Dashboard: React.FC = () => {
 
       {/* Cards */}
       <section className="dashboard-cards">
-        {invoiceStatusCount?.map((status) => (
-          <Cards
-            errorMessage={invoiceStatusCountError}
-            loading={invoiceStatusCountLoading}
-            statusName={status?.statusName ?? ""}
-            statusPrice={status.totalPrice}
-            statusId={status?.statusId ?? 0}
-            totalInvoices={status?.totalInvoices}
-          />
-        ))}
+        {!invoiceStatusCountLoading ? (
+          <>
+            {invoiceStatusCount?.map((status) => (
+              <Cards
+                key={status.statusId}
+                errorMessage={invoiceStatusCountError}
+                loading={invoiceStatusCountLoading}
+                statusName={status?.statusName ?? ""}
+                statusPrice={status.totalPrice}
+                statusId={status?.statusId ?? 0}
+                totalInvoices={status?.totalInvoices}
+              />
+            ))}
+          </>
+        ) : (
+          <CardSkeletonLoading />
+        )}
       </section>
 
       {/* Line Chart  */}
       <section className="dashboard-charts">
         <article className="chart">
           <h3>Sales Overview</h3>
-          <DashLineChart />
+          <DashLineChart
+            invoiceTotalMonthly={invoiceTotalMonthly}
+            invoiceTotalMonthlyError={invoiceTotalMonthlyError}
+            invoiceTotalMonthlyLoading={invoiceTotalMonthlyLoading}
+          />
         </article>
 
         {/* PIE Chart  */}

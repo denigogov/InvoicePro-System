@@ -27,7 +27,7 @@ export interface InvoicePaginationDataType {
   customerName: string;
   tax: number | null;
   discount: number | null;
-  currentDate: Date | string;
+  date: Date | string;
   totalPrice: number;
   statusName: string;
 }

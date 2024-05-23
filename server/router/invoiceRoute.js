@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../auth/auth");
+
 const {
   createInvoice,
   lastInvoiceId,
@@ -18,7 +19,11 @@ const {
   validateUpdateInvoiceDetails,
 } = require("../validation/invoiceValidation");
 
+const { invoiceTotalProMonth } = require("../database/chartData");
+
+// Route name invoice
 router
+  .get("/totalMonthly", invoiceTotalProMonth)
   .post("/pagination", allInvoicesPagination)
   .get("/lastId", lastInvoiceId)
   .get("/:id", selectInvoiceById)

@@ -57,7 +57,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
             <th>Invoice Id</th>
             <th>Customer</th>
             <th>Total Price</th>
-            <th>Created At</th>
+            <th>Invoice Date</th>
             <th>Status</th>
             <th>Details</th>
             <th>Modify</th>
@@ -70,8 +70,8 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                 <td data-cell="Invoice Id">{invoice?.invoiceId ?? "#"}</td>
                 <td data-cell="Customer">{invoice?.customerName ?? ""}</td>
                 <td data-cell="Total Price">€ {invoice?.totalPrice ?? 0}</td>
-                <td data-cell="Created At">
-                  {moment(invoice?.currentDate ?? "").format("Do MMMM YYYY")}
+                <td data-cell="Invoice Date">
+                  {moment(invoice?.date ?? "").format("Do MMMM YYYY")}
                 </td>
                 <td data-cell="Status" className="td-status">
                   <span

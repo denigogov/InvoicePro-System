@@ -1,6 +1,6 @@
 import "../../Styling/Components/GlobalComponentStyle/_cards.scss";
+import CardSkeletonLoading from "./CardSkeletonLoading";
 import ErrorMinimalDisplay from "./ErrorMinimalDisplay";
-import LoadingRing from "./LoadingRing";
 
 interface CardsProps {
   errorMessage?: Error;
@@ -32,7 +32,7 @@ const Cards: React.FC<CardsProps> = ({
       ? statusDescriptions[statusId]
       : "No description available.";
 
-  if (loading) return <LoadingRing />;
+  if (loading) return <CardSkeletonLoading />;
 
   if (errorMessage)
     return (
