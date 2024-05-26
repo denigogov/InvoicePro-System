@@ -30,7 +30,6 @@ const CompanyProfile: React.FC = () => {
   } = useSWR<CompanyInfoTypes[]>(["companyData", token], () =>
     fetchCompanyInfo(token ?? "")
   );
-
   const companyDetails: DetailItem[] = companyData
     ? [
         { label: "Company Name", value: companyData[0]?.companyName ?? "N/A" },

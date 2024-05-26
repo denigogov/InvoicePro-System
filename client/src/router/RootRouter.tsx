@@ -25,6 +25,9 @@ import AllInvoices from "../pages/Invoices/allInvoices/AllInvoices";
 import InvoiceDetails from "../pages/Invoices/allInvoices/InvoiceDetails";
 import InvoiceModify from "../pages/Invoices/allInvoices/InvoiceModify";
 import ErrorMinimalDisplay from "../components/GlobalComponents/ErrorMinimalDisplay";
+import UserProfile from "../pages/Settings/userInfo/UserProfile";
+import InvoiceSettings from "../pages/Settings/invoiceInfo/InvoiceSettings";
+import EmployeesSettings from "../pages/Settings/employeesInfo/EmployeesSettings";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -86,6 +89,9 @@ const RootRouter = () => {
               <Route path="edit-info" element={<EditInfoCompany />} />
               <Route path="edit-bank" element={<EditBankCompany />} />
             </Route>
+            <Route path="user-profile" element={<UserProfile />}></Route>
+            <Route path="employees" element={<EmployeesSettings />}></Route>
+            <Route path="invoices" element={<InvoiceSettings />}></Route>
           </Route>
         </Route>
         <Route path="*" element={<h1>Pae Not Found</h1>} />

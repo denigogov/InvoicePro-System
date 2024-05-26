@@ -1,41 +1,59 @@
 @use "../../GlobalStyling/colors";
 @use "../../GlobalStyling/general";
 
-.settingsNav {
-  border: 1px solid colors.$border-Primary;
-  padding: 0.6rem;
-  transition: general.$transition;
+.settingsActiveLink {
+  border-bottom: 1px solid colors.$font-sectionTitle;
+  color: colors.$font-sectionTitle;
+}
 
-  img {
-    width: 2rem;
+.settingsNav {
+  transition: general.$transition;
+  margin: 1.3rem;
+  padding: 1.3rem;
+
+  &__title {
+    color: colors.$font-Title;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    &-head {
+      font-size: 1.4rem;
+    }
+
+    &-subHead {
+      font-size: 0.87rem;
+      color: colors.$font-Secound;
+    }
   }
 
   ul {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: start;
+    gap: 2rem;
+    border-bottom: 1px solid colors.$border-Primary;
     li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-
-      span {
-        font-size: 13px;
-        font-weight: 500;
-        color: colors.$font-Primary;
-      }
+      padding: 1rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      // color: colors.$font-Primary;
     }
 
     &:hover {
       opacity: 0.8;
     }
+  }
 
-    &:active {
-      transform: scale(0.98);
+  @media (max-width: general.$sm) {
+    ul {
+      flex-direction: column;
     }
   }
 }
 
 .settingsRoot {
-  height: 100vh;
+  height: 100%;
   background-image: linear-gradient(
       90deg,
       rgba(165, 165, 165, 0.03) 0%,

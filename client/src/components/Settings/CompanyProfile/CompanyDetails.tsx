@@ -1,5 +1,5 @@
 import "../../../Styling/Components/SettingsComponent/_companyDetails.scss";
-import { NavLink, To } from "react-router-dom";
+import { Link, To } from "react-router-dom";
 import LoadingRing from "../../GlobalComponents/LoadingRing";
 import React from "react";
 import { DetailItem } from "../../../pages/Settings/companyInfo/CompanyProfile";
@@ -31,9 +31,10 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({
       <div className="card">
         <div className="card-header">
           <h2>{title}</h2>
-          <NavLink to={navigateTo}>
+
+          <Link to={navigateTo} unstable_viewTransition>
             <p onClick={() => setPopupOpen((x) => !x)}>Edit</p>
-          </NavLink>
+          </Link>
         </div>
         <div className="card-body">
           <dl>

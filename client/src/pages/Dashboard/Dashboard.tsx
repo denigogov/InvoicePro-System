@@ -49,8 +49,6 @@ const Dashboard: React.FC = () => {
     fetchInvoiceTotalMonthly(token ?? "")
   );
 
-  console.log(invoiceTotalMonthly);
-
   return (
     <div className="dashboard">
       <header className="dashboard-header">

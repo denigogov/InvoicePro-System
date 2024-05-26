@@ -20,22 +20,19 @@
     h1 {
       font-size: 24px;
       margin: 0;
-      flex: 1 1 100%;
     }
 
     p {
       margin: 0;
       color: #666;
-      flex: 1 1 100%;
     }
 
     .header-buttons {
       display: flex;
-      gap: 10px;
+      gap: 20px;
 
       @media (max-width: general.$md) {
         flex-direction: column;
-
         width: 100%;
       }
 
@@ -48,9 +45,26 @@
         color: #333;
         font-weight: bold;
         flex: 1;
+        transition: all 0.5s ease;
+
+        &:active {
+          transform: scale(0.9);
+        }
 
         &.primary {
-          background-color: #007bff;
+          background-color: colors.$font-sectionTitle;
+
+          color: #fff;
+
+          &:hover {
+            // background-color: colors.$font-Title;
+            background-color: #e2e6ea;
+            color: #333;
+          }
+        }
+
+        &:hover {
+          background-color: colors.$font-sectionTitle;
           color: #fff;
         }
       }
@@ -91,7 +105,7 @@
       h3 {
         margin: 0 0 20px;
         font-size: 18px;
-        color: #007bff;
+        color: colors.$font-sectionTitle;
       }
 
       .analytics {
@@ -149,7 +163,7 @@
     h3 {
       margin: 0 0 20px;
       font-size: 1.5rem;
-      color: #007bff;
+      color: colors.$font-sectionTitle;
     }
   }
 }
