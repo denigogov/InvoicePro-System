@@ -1,0 +1,68 @@
+@use "../../../GlobalStyling/general";
+
+.tableSkeleton {
+  height: calc(100vh - 30vh);
+  &__head {
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+    padding: 0.7rem;
+  }
+
+  &__row {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+
+    @media (max-width: general.$md) {
+      flex-wrap: wrap;
+    }
+
+    p {
+      background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+      background-size: 200% 100%;
+      animation: 1.5s shine linear infinite;
+      padding: 10px 5rem;
+
+      margin: 10px 0;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    p {
+      background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+      background-size: 200% 100%;
+      animation: 1.5s shine linear infinite;
+      padding: 10px 20px;
+    }
+  }
+}
+
+//   @media (max-width: general.$md) {
+//     tr {
+//       border: 1px solid colors.$border-Primary;
+//       display: inline-block;
+//       margin: 1rem;
+
+//       td {
+//         padding: 8px;
+//         display: grid;
+//         gap: 0.5rem;
+//         grid-template-columns: 15ch auto;
+
+//         &::before {
+//           content: attr(data-cell) ": ";
+//           font-weight: 500;
+//           text-align: start;
+//         }
+//       }
+//     }
+
+//     th {
+//       display: none;
+//     }
+//   }

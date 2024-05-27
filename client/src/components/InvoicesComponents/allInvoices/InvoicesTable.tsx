@@ -2,8 +2,8 @@ import detailsIcon from "../../../assets/detailsIcon.svg";
 import editIcon from "../../../assets/editIcon.svg";
 import { InvoicePaginationDataType } from "../../../types/invoiceTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
-import LoadingRing from "../../GlobalComponents/LoadingRing";
 import moment from "moment";
+import TableSkeletonLoading from "../../GlobalComponents/SkeletonLoading/TableSkeletonLoading";
 
 interface InvoicesTableProps {
   allInvoicePagination?: InvoicePaginationDataType[];
@@ -47,7 +47,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
     return (
       <ErrorMinimalDisplay errorMessage={allInvoicePaginationError?.message} />
     );
-  if (allInvoicePaginationLoading) return <LoadingRing />;
+  if (allInvoicePaginationLoading) return <TableSkeletonLoading />;
 
   return (
     <div className="tableWithPadding width600">

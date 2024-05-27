@@ -1,0 +1,7 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/mixin";
+@use "../../GlobalStyling/general";
+
+.employeesSettings {
+  @include mixin.table(20px);
+}
