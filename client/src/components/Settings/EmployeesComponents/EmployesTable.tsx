@@ -1,18 +1,27 @@
 import { FetchAllUsersTypes } from "../../../types/userDataTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import TableSkeletonLoading from "../../GlobalComponents/SkeletonLoading/TableSkeletonLoading";
+import editIcon from "../../../assets/editIcon.svg";
+import { Link } from "react-router-dom";
 
 interface EmployesTableProps {
   allUserData?: FetchAllUsersTypes[];
   allUserDataError: Error;
   allUserDataLoading: boolean;
+  setPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EmployesTable: React.FC<EmployesTableProps> = ({
   allUserData,
   allUserDataError,
   allUserDataLoading,
+
+  setPopupOpen,
 }) => {
+  const handleEditUser = () => {
+    setPopupOpen((e) => !e);
+  };
+
   if (allUserDataLoading) return <TableSkeletonLoading />;
   if (allUserDataError)
     return <ErrorMinimalDisplay errorMessage={allUserDataError?.message} />;
@@ -39,7 +48,15 @@ const EmployesTable: React.FC<EmployesTableProps> = ({
                   <td data-cell="Last Name">{user?.lastName}</td>
                   <td data-cell="Email">{user?.email ?? ""}</td>
                   <td data-cell="Department">{user?.departmentName}</td>
-                  <td data-cell="Modify">img</td>
+                  <td data-cell="Modify">
+                    <Link to={`edit/${user?.userId}`} unstable_viewTransition>
+                      <img
+                        src={editIcon}
+                        alt="editIcon"
+                        onClick={handleEditUser}
+                      />
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </>

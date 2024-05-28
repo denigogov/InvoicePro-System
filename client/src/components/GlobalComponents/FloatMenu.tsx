@@ -14,14 +14,14 @@ const FloatMenu: React.FC = () => {
               <li>
                 <a href="#0">
                   <i className="ri-mic-line">
-                    <img src={iconTest} alt="" />
+                    <img src={iconTest} alt="iconTest" />
                   </i>
                 </a>
               </li>
               <li>
                 <a href="#0">
                   <i className="ri-message-2-line">
-                    <img src={iconTest} alt="" />
+                    <img src={iconTest} alt="iconTest" />
                   </i>
                 </a>
               </li>
@@ -29,14 +29,14 @@ const FloatMenu: React.FC = () => {
                 <a href="#0">
                   <i className="ri-file-line">
                     {" "}
-                    <img src={iconTest} alt="" />
+                    <img src={iconTest} alt="iconTest" />
                   </i>
                 </a>
               </li>
               <li>
                 <a href="#0">
                   <i className="ri-send-plane-2-line">
-                    <img src={iconTest} alt="" />
+                    <img src={iconTest} alt="iconTest" />
                   </i>
                 </a>
               </li>

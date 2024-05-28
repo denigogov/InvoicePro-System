@@ -28,6 +28,7 @@ import ErrorMinimalDisplay from "../components/GlobalComponents/ErrorMinimalDisp
 import UserProfile from "../pages/Settings/userInfo/UserProfile";
 import InvoiceSettings from "../pages/Settings/invoiceInfo/InvoiceSettings";
 import EmployeesSettings from "../pages/Settings/employeesInfo/EmployeesSettings";
+import EditEmployer from "../pages/Settings/employeesInfo/EditEmployer";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -90,7 +91,9 @@ const RootRouter = () => {
               <Route path="edit-bank" element={<EditBankCompany />} />
             </Route>
             <Route path="user-profile" element={<UserProfile />}></Route>
-            <Route path="employees" element={<EmployeesSettings />}></Route>
+            <Route path="employees" element={<EmployeesSettings />}>
+              <Route path="edit/:id" element={<EditEmployer />} />
+            </Route>
             <Route path="invoices" element={<InvoiceSettings />}></Route>
           </Route>
         </Route>

@@ -5,3 +5,10 @@
 .employeesSettings {
   @include mixin.table(20px);
 }
+
+// EDIT USER COMPONENT
+.editEmployer {
+  @include mixin.overflowScroll();
+  height: 100vh;
+  width: 100%;
+}

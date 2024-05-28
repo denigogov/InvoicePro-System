@@ -1,0 +1,53 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
+
+.editInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.3rem;
+  padding: 1rem 0;
+
+  &__title {
+    color: colors.$font-Primary;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-right: 108px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    position: relative;
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: colors.$font-Primary;
+    }
+
+    input,
+    select {
+      @include mixin.inputUpdateValue;
+
+      &:invalid + ::after {
+        position: absolute;
+        right: 5%;
+        transform: translateY(-37px);
+        content: "✖";
+        font-size: 13px;
+        color: colors.$error;
+      }
+
+      &:invalid[focused="true"] {
+        border: 1px solid colors.$error;
+      }
+    }
+  }
+  &__error {
+    color: colors.$error;
+    font-size: 0.7rem;
+  }
+}
