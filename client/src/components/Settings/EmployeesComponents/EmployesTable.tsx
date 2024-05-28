@@ -26,8 +26,8 @@ const EmployesTable: React.FC<EmployesTableProps> = ({
   if (allUserDataError)
     return <ErrorMinimalDisplay errorMessage={allUserDataError?.message} />;
   return (
-    <div>
-      <table className="width600">
+    <div className="table width600">
+      <table>
         <thead>
           <tr>
             <th>First Name</th>

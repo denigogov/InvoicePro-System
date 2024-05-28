@@ -2,13 +2,13 @@
 @use "../../GlobalStyling/mixin";
 @use "../../GlobalStyling/general";
 
-.employeesSettings {
-  @include mixin.table(20px);
-}
+// editEmployer Main container
+// .employeesSettings {
+// }
 
-// EDIT USER COMPONENT
+// EDIT USER COMPONENT // popup window container
 .editEmployer {
-  @include mixin.overflowScroll();
-  height: 100vh;
   width: 100%;
+  height: 100%;
+  @include mixin.overflowScroll();
 }

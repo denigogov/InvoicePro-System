@@ -31,6 +31,10 @@ const AppNavigation = () => {
 
   return (
     <div className="appNavigation">
+      <div
+        className={`${openNav ? "overlayNav" : ""}`}
+        onClick={handleNavBar}
+      ></div>
       <nav className={`navbar  ${openNav ? "openNav" : "closeNav"} `}>
         <span className="logo">
           <img src={logoIcon} alt="Logo" />

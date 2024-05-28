@@ -5,6 +5,7 @@
 .editInput {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 1.3rem;
   padding: 1rem 0;
@@ -20,7 +21,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.7em;
-    position: relative;
 
     label {
       font-size: 0.9rem;
@@ -31,19 +31,10 @@
     input,
     select {
       @include mixin.inputUpdateValue;
+    }
 
-      &:invalid + ::after {
-        position: absolute;
-        right: 5%;
-        transform: translateY(-37px);
-        content: "✖";
-        font-size: 13px;
-        color: colors.$error;
-      }
-
-      &:invalid[focused="true"] {
-        border: 1px solid colors.$error;
-      }
+    button {
+      margin: 1rem 0;
     }
   }
   &__error {

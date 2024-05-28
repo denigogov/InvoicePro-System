@@ -6,6 +6,8 @@ import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinim
 import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
 import EditInput from "../../../components/GlobalComponents/EditInput";
 import { DefaultInputValuesTypes } from "../../../types/InputTypes";
+import { fetchtStatusCountChart } from "../../../api/invoiceStatusAPI";
+import { FetchtStatusCountChartTypes } from "../../../types/invoiceStatusTypes";
 
 interface EditEmployerProps {}
 
@@ -18,6 +20,19 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
     error: allUserDataError,
     isLoading: allUserDataLoading,
   } = useSWR<FetchAllUsersTypes[]>(["allUserData", token]);
+
+  const {
+    data: allUserData1,
+    error: allUserDataError1,
+    isLoading: allUserDataLoading1,
+  } = useSWR<FetchtStatusCountChartTypes[]>(["allUserDatas", token], () =>
+    fetchtStatusCountChart(token ?? "")
+  );
+
+  console.log(allUserData);
+
+  if (allUserDataError1) return allUserDataError1.message;
+  if (allUserDataLoading1) return <p>loading</p>;
 
   const userData = allUserData?.filter(
     (user) => user?.userId === Number(id) ?? 0
@@ -67,16 +82,21 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
     },
 
     {
-      id: 5,
+      id: 4,
       name: "department",
       type: "select",
       required: false,
       defaultValue: "",
       label: "Department",
-      options: [
-        { value: 1, label: userData?.[0].departmentName ?? "" },
-        { value: 2, label: "Driver" },
-      ],
+      // options: [
+      //   { value: 1, label: userData?.[0].departmentName ?? "" },
+      //   { value: 2, label: "Driver" },
+      // ],
+      options:
+        allUserData1?.map((arr) => ({
+          value: arr?.statusId,
+          label: arr?.statusName ?? "hoho",
+        })) || [],
     },
   ];
 

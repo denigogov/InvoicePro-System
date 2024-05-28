@@ -144,7 +144,7 @@
 //     background-color: $btnHoverColor;
 //   }
 
-@mixin table($tdpadding: 8px, $iconSize: 24px) {
+@mixin table($tdpadding: 16px, $iconSize: 24px) {
   table {
     background-color: #fff;
     width: 100%;
@@ -179,16 +179,21 @@
   @media (max-width: general.$md) {
     tr {
       border: 1px solid colors.$border-Primary;
-      display: inline-block;
+      display: block;
       margin: 1rem;
 
       td {
-        padding: 8px;
+        padding: 10px;
         display: grid;
-        gap: 0.5rem;
-        grid-template-columns: 15ch auto;
+        grid-template-columns: 1fr auto;
+        color: colors.$font-Secound;
+
+        //In case something went wrong this will work !
+        // grid-template-columns: 10ch auto;
+        // justify-content: space-between;
 
         &::before {
+          color: colors.$font-Title;
           content: attr(data-cell) ": ";
           font-weight: 500;
           text-align: start;
