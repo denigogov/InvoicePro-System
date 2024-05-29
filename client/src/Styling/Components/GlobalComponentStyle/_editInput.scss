@@ -40,5 +40,11 @@
   &__error {
     color: colors.$error;
     font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    img {
+      width: 1rem;
+    }
   }
 }

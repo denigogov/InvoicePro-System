@@ -283,7 +283,7 @@ const CreateInvoice: React.FC = () => {
   // function for calculating the tax
   const calcTax = taxDiscountCalculate(calcPrice, taxValue);
   const calcDiscount = taxDiscountCalculate(calcPrice, discountValue);
-  const totalPrice = +calcPrice + +calcTax + +calcDiscount;
+  const totalPrice = +calcPrice - +calcTax + +calcDiscount;
 
   const taxDiscountValues: TaxDiscountValuesProps = {
     taxValue: taxValue,
@@ -293,10 +293,12 @@ const CreateInvoice: React.FC = () => {
     totalPrice: totalPrice,
   };
 
+  console.log(taxDiscountValues);
+
   // create invoiceDetails in STEP4
   const createPOSTInvoiceDetails = async () => {
     // removin the ID from the query because the Id only was used as key in the looping component
-
+    console.log(discountValue);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const formatedQuery = addDescriptionAndPrice.map(({ id, ...rest }) => ({
       ...rest,
@@ -309,8 +311,11 @@ const CreateInvoice: React.FC = () => {
         : generateInvoiceNumber(
             invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
           ),
-      totalPrice: addDescriptionAndPrice.length ? +calcPrice + +calcTax : 0,
+      totalPrice: addDescriptionAndPrice.length
+        ? +calcPrice - +calcDiscount + +calcTax
+        : 0,
     };
+
     try {
       const updateInvoiceID = await updateInvoice(
         invoiceLastId,

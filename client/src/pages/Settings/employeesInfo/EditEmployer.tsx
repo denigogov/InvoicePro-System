@@ -29,8 +29,6 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
     fetchtStatusCountChart(token ?? "")
   );
 
-  console.log(allUserData);
-
   if (allUserDataError1) return allUserDataError1.message;
   if (allUserDataLoading1) return <p>loading</p>;
 
@@ -46,28 +44,26 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
   const defaultInputValues: DefaultInputValuesTypes[] = [
     {
       id: 1,
+      label: "First Name",
       name: "firstName",
       type: "text",
-      required: false,
       defaultValue: userData?.[0].firstName ?? "",
       minLength: 3,
-      maxLength: 20,
-      pattern: "",
-      label: "First Name",
-      minLengthMessage: "Lenght should be min 3 letters",
-      maxLengthMessage: "Lenght should be max 20 letters",
+      maxLength: 30,
+      minLengthMessage: "First Name should be min 3 letters",
+      maxLengthMessage: "First Name should be max 30 letters",
     },
 
     {
       id: 2,
       name: "lastName",
       type: "text",
-      required: false,
-      defaultValue: userData?.[0].lastName ?? "",
-      minLength: null,
-      maxLength: null,
-      pattern: "",
       label: "Last Name",
+      defaultValue: userData?.[0].lastName ?? "",
+      minLength: 3,
+      maxLength: 30,
+      minLengthMessage: "Last Name should be min 3 letters",
+      maxLengthMessage: "Last Name5 should be max 30 letters",
     },
 
     {
@@ -75,23 +71,25 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
       name: "email",
       type: "email",
       label: "Email",
-      required: false,
       defaultValue: userData?.[0].email ?? "",
-      minLength: 3,
-      pattern: "",
+      pattern:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      patternMessage: "Invalid email format",
     },
 
     {
       id: 4,
       name: "department",
       type: "select",
-      required: false,
-      defaultValue: "",
       label: "Department",
       // options: [
       //   { value: 1, label: userData?.[0].departmentName ?? "" },
       //   { value: 2, label: "Driver" },
       // ],
+      defaultSelectValue: {
+        value: userData?.[0].departmentId ?? "",
+        label: userData?.[0].departmentName ?? "",
+      },
       options:
         allUserData1?.map((arr) => ({
           value: arr?.statusId,

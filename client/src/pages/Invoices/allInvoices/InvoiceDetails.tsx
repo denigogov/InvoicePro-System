@@ -63,7 +63,7 @@ const InvoiceDetails: React.FC = () => {
     totalTax: totalTax,
     discountValue: +discountValue,
     totalDiscount: totalDiscount,
-    totalPrice: Number(totalPrice) + Number(totalDiscount) + Number(totalTax),
+    totalPrice: Number(totalPrice) - Number(totalDiscount) + Number(totalTax),
   };
 
   const deleteInvoiceRequest = async () => {

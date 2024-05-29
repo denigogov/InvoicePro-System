@@ -1,4 +1,5 @@
 import "../../Styling/Components/GlobalComponentStyle/_editInput.scss";
+import errorIcon from "../../assets/errorIcon.svg";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DefaultInputValuesTypes } from "../../types/InputTypes";
@@ -44,6 +45,9 @@ const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
                   required: field?.required,
                 })}
               >
+                <option value={field.defaultSelectValue?.value}>
+                  {field.defaultSelectValue?.label}
+                </option>
                 {field.options?.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -56,7 +60,7 @@ const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
                 {...register(field?.name, {
                   required: field?.required,
                   minLength: {
-                    value: field?.minLength || Infinity,
+                    value: field?.minLength || 0,
                     message: field?.minLengthMessage ?? "",
                   },
                   maxLength: {
@@ -64,7 +68,7 @@ const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
                     message: field?.maxLengthMessage ?? "",
                   },
                   pattern: {
-                    value: new RegExp(field.pattern ?? ""),
+                    value: (field?.pattern ?? null) as RegExp,
                     message: field?.patternMessage ?? "",
                   },
                 })}
@@ -73,7 +77,10 @@ const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
               />
             )}
             {errors[field?.name] && (
-              <p className="editInput__error">{errors[field?.name]?.message}</p>
+              <p className="editInput__error">
+                <img src={errorIcon} alt="errorIcon" />
+                {errors[field?.name]?.message}
+              </p>
             )}
           </React.Fragment>
         ))}

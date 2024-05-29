@@ -1,9 +1,9 @@
 import "../../../Styling/Components/SettingsComponent/_companyDetails.scss";
 import { Link, To } from "react-router-dom";
-import LoadingRing from "../../GlobalComponents/LoadingRing";
 import React from "react";
 import { DetailItem } from "../../../pages/Settings/companyInfo/CompanyProfile";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
+import SettingsInfoSkeletonLoading from "../../GlobalComponents/SkeletonLoading/SettingsInfoSkeletonLoading";
 
 interface CompanyDetailsProps {
   companyDataError: Error;
@@ -24,7 +24,7 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({
 }) => {
   if (companyDataError)
     return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
-  if (companyDataLoading) return <LoadingRing />;
+  if (companyDataLoading) return <SettingsInfoSkeletonLoading />;
 
   return (
     <div className="companyDetails">
