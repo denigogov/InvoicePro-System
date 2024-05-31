@@ -10,11 +10,13 @@
   gap: 1.3rem;
   padding: 1rem 0;
 
+  width: 0%; // made width 0 because error message when text is too big its going out from the form keep the size width 100%
+  margin: 0 auto;
+
   &__title {
     color: colors.$font-Primary;
     font-weight: 700;
     font-size: 1.1rem;
-    margin-right: 108px;
   }
 
   form {
@@ -43,6 +45,8 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    text-align: justify;
+
     img {
       width: 1rem;
     }

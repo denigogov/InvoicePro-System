@@ -15,6 +15,53 @@ const selectAllUsers = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { firstName, lastName, email, password, departmentId } = req.body;
+
+    const updateFields = [];
+    const updateValues = [];
+
+    if (firstName !== undefined) {
+      updateFields.push("firstName = ?");
+      updateValues.push(firstName);
+    }
+
+    if (lastName !== undefined) {
+      updateFields.push("lastName = ?");
+      updateValues.push(lastName);
+    }
+
+    if (email !== undefined) {
+      updateFields.push("email = ?");
+      updateValues.push(email);
+    }
+    if (password !== undefined) {
+      updateFields.push("password = ?");
+      updateValues.push(password);
+    }
+    if (departmentId !== undefined) {
+      updateFields.push("departmentId = ?");
+      updateValues.push(departmentId);
+    }
+
+    const updateInvoice = `UPDATE users SET ${updateFields.join(
+      ", "
+    )} WHERE id = ?`;
+
+    const [updateTable] = await database.query(updateInvoice, [
+      ...updateValues,
+      id,
+    ]);
+
+    updateTable.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
 module.exports = {
   selectAllUsers,
+  updateUser,
 };

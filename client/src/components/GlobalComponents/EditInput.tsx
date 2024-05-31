@@ -7,35 +7,55 @@ import { DefaultInputValuesTypes } from "../../types/InputTypes";
 interface EditInputProps {
   defaultInputValues?: DefaultInputValuesTypes[];
   title?: string;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  sendRequestFn: (queryData) => void;
 }
 
 type FormData = {
   [key: string]: string | number | boolean | undefined;
 };
 // STYLING IN EDIT _employeesSettings.scss
-const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
+const EditInput: React.FC<EditInputProps> = ({
+  defaultInputValues,
+  title,
+  sendRequestFn,
+}) => {
   const {
-    register,
-    handleSubmit,
     formState: { errors, dirtyFields },
+    register,
+    getValues,
+    handleSubmit,
   } = useForm<FormData>({
     mode: "all",
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    const changedValues = Object.keys(dirtyFields).reduce((acc, fieldName) => {
-      if (data[fieldName] !== undefined) {
-        acc[fieldName] = data[fieldName]; // Add only changed values to the object
+    const filteredData = Object.keys(data).reduce((acc, key) => {
+      if (key !== "confirm") {
+        acc[key] = data[key];
       }
       return acc;
     }, {} as FormData);
 
-    console.log(changedValues);
+    const changedValues = Object.keys(dirtyFields).reduce((acc, fieldName) => {
+      if (filteredData[fieldName] !== undefined) {
+        acc[fieldName] = filteredData[fieldName];
+      }
+      return acc;
+    }, {} as FormData);
+
+    if (Object.keys(changedValues).length === 0) return;
+
+    // function for sending the request to server
+    sendRequestFn(changedValues);
   };
+
   return (
     <div className="editInput">
-      <p className="editInput__title">{title}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <p className="editInput__title">{title}</p>
         {defaultInputValues?.map((field) => (
           <React.Fragment key={field?.id}>
             <label>{field?.label}</label>
@@ -71,9 +91,21 @@ const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
                     value: (field?.pattern ?? null) as RegExp,
                     message: field?.patternMessage ?? "",
                   },
+                  validate:
+                    field.name === "confirm"
+                      ? {
+                          matchesPreviousPassword: (value) => {
+                            const { password } = getValues();
+                            return (
+                              password === value || "Passwords don't match!"
+                            );
+                          },
+                        }
+                      : undefined,
                 })}
                 step={field?.step}
                 defaultValue={field?.defaultValue}
+                placeholder={field?.placeholder}
               />
             )}
             {errors[field?.name] && (
@@ -84,7 +116,6 @@ const EditInput: React.FC<EditInputProps> = ({ defaultInputValues, title }) => {
             )}
           </React.Fragment>
         ))}
-
         <button className="action__button-global" type="submit">
           Update
         </button>

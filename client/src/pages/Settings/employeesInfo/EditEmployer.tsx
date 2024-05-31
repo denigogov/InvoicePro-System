@@ -1,15 +1,27 @@
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useParams } from "react-router-dom";
-import { FetchAllUsersTypes } from "../../../types/userDataTypes";
+import {
+  FetchAllUsersTypes,
+  UpdateUserTypes,
+} from "../../../types/userDataTypes";
 import { useAuth } from "../../../helpers/useAuth";
 import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinimalDisplay";
 import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
 import EditInput from "../../../components/GlobalComponents/EditInput";
 import { DefaultInputValuesTypes } from "../../../types/InputTypes";
-import { fetchtStatusCountChart } from "../../../api/invoiceStatusAPI";
-import { FetchtStatusCountChartTypes } from "../../../types/invoiceStatusTypes";
+import { fetchAllDepartments } from "../../../api/departmentAPI";
+import { AllDepartmentsTypes } from "../../../types/departmentTypes";
+import { updateUser } from "../../../api/userAPI";
+import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
+import {
+  confirmUpdatePrompt,
+  updateActionPrompt,
+} from "../../../components/GlobalComponents/updatePrompt";
+import { generateDefaultInputValues } from "./editUserInput";
 
 interface EditEmployerProps {}
+
+// Styling in _employeesSettings
 
 const EditEmployer: React.FC<EditEmployerProps> = () => {
   const { token } = useAuth();
@@ -22,87 +34,58 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
   } = useSWR<FetchAllUsersTypes[]>(["allUserData", token]);
 
   const {
-    data: allUserData1,
-    error: allUserDataError1,
-    isLoading: allUserDataLoading1,
-  } = useSWR<FetchtStatusCountChartTypes[]>(["allUserDatas", token], () =>
-    fetchtStatusCountChart(token ?? "")
+    data: allDepartmentsData,
+    error: allDepartmentsDataError,
+    isLoading: allDepartmentsDataLoading,
+  } = useSWR<AllDepartmentsTypes[]>(["allDepartmentsData", token], () =>
+    fetchAllDepartments(token ?? "")
   );
 
-  if (allUserDataError1) return allUserDataError1.message;
-  if (allUserDataLoading1) return <p>loading</p>;
+  if (allDepartmentsDataError) return allDepartmentsDataError.message;
+  if (allDepartmentsDataLoading) return <p>loading</p>;
 
   const userData = allUserData?.filter(
     (user) => user?.userId === Number(id) ?? 0
   );
 
-  if (allUserDataError)
-    return <ErrorMinimalDisplay errorMessage={allUserDataError?.messasge} />;
+  if (allUserDataError || allDepartmentsDataError)
+    return (
+      <ErrorMinimalDisplay
+        errorMessage={
+          allUserDataError?.messasge || allDepartmentsDataError?.message
+        }
+      />
+    );
 
-  if (allUserDataLoading) return <LoadingRing />;
+  if (allUserDataLoading || allDepartmentsDataLoading) return <LoadingRing />;
 
-  const defaultInputValues: DefaultInputValuesTypes[] = [
-    {
-      id: 1,
-      label: "First Name",
-      name: "firstName",
-      type: "text",
-      defaultValue: userData?.[0].firstName ?? "",
-      minLength: 3,
-      maxLength: 30,
-      minLengthMessage: "First Name should be min 3 letters",
-      maxLengthMessage: "First Name should be max 30 letters",
-    },
+  const defaultInputValues: DefaultInputValuesTypes[] =
+    generateDefaultInputValues(userData ?? [], allDepartmentsData ?? []);
 
-    {
-      id: 2,
-      name: "lastName",
-      type: "text",
-      label: "Last Name",
-      defaultValue: userData?.[0].lastName ?? "",
-      minLength: 3,
-      maxLength: 30,
-      minLengthMessage: "Last Name should be min 3 letters",
-      maxLengthMessage: "Last Name5 should be max 30 letters",
-    },
+  const sendUpdatedUser = async (query: Partial<UpdateUserTypes>) => {
+    try {
+      const confirmUpdateMessage = await confirmUpdatePrompt(
+        "Update Employer Details",
+        "Are you sure you want to save the changes to this employer's details?",
+        "Yes, update it!"
+      );
 
-    {
-      id: 3,
-      name: "email",
-      type: "email",
-      label: "Email",
-      defaultValue: userData?.[0].email ?? "",
-      pattern:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      patternMessage: "Invalid email format",
-    },
-
-    {
-      id: 4,
-      name: "department",
-      type: "select",
-      label: "Department",
-      // options: [
-      //   { value: 1, label: userData?.[0].departmentName ?? "" },
-      //   { value: 2, label: "Driver" },
-      // ],
-      defaultSelectValue: {
-        value: userData?.[0].departmentId ?? "",
-        label: userData?.[0].departmentName ?? "",
-      },
-      options:
-        allUserData1?.map((arr) => ({
-          value: arr?.statusId,
-          label: arr?.statusName ?? "hoho",
-        })) || [],
-    },
-  ];
+      if (confirmUpdateMessage.isConfirmed) {
+        await updateUser(id, token ?? "", query);
+        mutate(["allUserData", token]);
+        updateActionPrompt("Great!", "Your Updates has been saved.");
+      }
+    } catch (err: unknown) {
+      apiGeneralErrorHandle(err as Error);
+    }
+  };
 
   return (
     <div className="editEmployer">
       <EditInput
         defaultInputValues={defaultInputValues}
         title="Employer Edit"
+        sendRequestFn={sendUpdatedUser}
       />
     </div>
   );

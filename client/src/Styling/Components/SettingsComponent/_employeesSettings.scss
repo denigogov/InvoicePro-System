@@ -11,8 +11,6 @@
   @include mixin.overflowScroll();
   width: 100%;
   height: 100%;
-  // using flex in the main container just to make the form correct in the middle if I was using width and hight inside of the component then I will have problem with the view the top fileds won't show because of the heigh of the container !
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  // using display grid to center  the form in center// only with grid work
+  display: grid;
 }

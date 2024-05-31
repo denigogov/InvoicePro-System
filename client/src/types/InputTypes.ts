@@ -2,6 +2,7 @@ export interface DefaultInputValuesTypes {
   id?: number;
   name: string;
   type: string;
+  placeholder?: string;
   required?: boolean | string;
   requiredMessage?: string;
   defaultValue?: string;
@@ -12,6 +13,7 @@ export interface DefaultInputValuesTypes {
   pattern?: RegExp | null;
   label?: string;
   step?: number;
+
   patternMessage?: string;
   defaultSelectValue?: { value: number | string; label: string };
   options?: { value: number | string; label: string }[]; // New property for select options

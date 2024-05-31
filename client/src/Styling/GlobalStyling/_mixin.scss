@@ -186,7 +186,8 @@
         padding: 10px;
         display: grid;
         grid-template-columns: 1fr auto;
-        color: colors.$font-Secound;
+        color: colors.$font-Title;
+        font-weight: 300;
 
         //In case something went wrong this will work !
         // grid-template-columns: 10ch auto;

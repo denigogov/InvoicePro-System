@@ -6,3 +6,11 @@ export interface FetchAllUsersTypes {
   departmentId: number;
   departmentName: string;
 }
+
+export interface UpdateUserTypes {
+  firstName: string;
+  lastName: string;
+  email: string;
+  departmentId: number;
+  password: string;
+}
