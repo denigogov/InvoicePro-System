@@ -20,7 +20,7 @@ export const fetchCompanyInfo = async (token?: string) => {
  */
 
 export const updateCompanyInfo = async (
-  id: number,
+  id: number | null,
   token: string,
   queryData: Partial<CompanyInfoTypes>
 ) => {

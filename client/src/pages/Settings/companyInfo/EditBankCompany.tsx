@@ -2,7 +2,6 @@ import "../../../Styling/Pages/_editInfoCompany.scss";
 import useSWR, { mutate } from "swr";
 import { useAuth } from "../../../helpers/useAuth";
 import { CompanyInfoTypes } from "../../../types/companyInfoTypes";
-import EditBankAccount from "../../../components/Settings/CompanyProfile/EditBankAccount";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
 import {
@@ -10,6 +9,10 @@ import {
   updateActionPrompt,
 } from "../../../components/GlobalComponents/updatePrompt";
 import { updateCompanyInfo } from "../../../api/companyInfoAPI";
+import EditInput from "../../../components/GlobalComponents/EditInput";
+import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
+import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinimalDisplay";
+import { companyBankInput } from "./editCompanyInput";
 
 const EditBankCompany: React.FC = () => {
   const { token } = useAuth();
@@ -24,9 +27,8 @@ const EditBankCompany: React.FC = () => {
     isLoading: companyDataLoading,
   } = useSWR<CompanyInfoTypes[]>(["companyData", token]);
 
-  const handleUpdate = async (id: number, query: Partial<CompanyInfoTypes>) => {
+  const handleUpdate = async (query: Partial<CompanyInfoTypes>) => {
     try {
-      console.log("query", query);
       const confirmUpdateMessage = await confirmUpdatePrompt(
         "Update Company Details",
         "Are you sure you want to save the changes you made? This action will update your Comapny Details.",
@@ -34,7 +36,11 @@ const EditBankCompany: React.FC = () => {
       );
 
       if (confirmUpdateMessage.isConfirmed) {
-        await updateCompanyInfo(id, token ?? "", query);
+        await updateCompanyInfo(
+          companyData?.[0].id ?? null,
+          token ?? "",
+          query
+        );
         mutate(["companyData", token]);
         updateActionPrompt("Great!", "Your Updates has been saved.");
         setPopupOpen((e) => !e);
@@ -45,13 +51,19 @@ const EditBankCompany: React.FC = () => {
     }
   };
 
+  const formInputs = companyBankInput(companyData ?? []);
+
+  if (companyDataError)
+    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
+  if (companyDataLoading) return <LoadingRing />;
+
   return (
     <div className="editBankCompany">
-      <EditBankAccount
-        companyData={companyData}
-        companyDataError={companyDataError}
-        companyDataLoading={companyDataLoading}
-        handleUpdate={handleUpdate}
+      <EditInput
+        title="Company Details Update"
+        buttonName="Update"
+        defaultInputValues={formInputs}
+        sendRequestFn={handleUpdate}
       />
     </div>
   );

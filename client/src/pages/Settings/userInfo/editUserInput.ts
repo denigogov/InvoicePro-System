@@ -1,12 +1,8 @@
 import { DefaultInputValuesTypes } from "../../../types/InputTypes";
-import { AllDepartmentsTypes } from "../../../types/departmentTypes";
 import { FetchAllUsersTypes } from "../../../types/userDataTypes";
 
-export function generateDefaultInputValues(
-  userData: FetchAllUsersTypes[],
-  allDepartmentsData: AllDepartmentsTypes[]
-): DefaultInputValuesTypes[] {
-  const defaultInputValues: DefaultInputValuesTypes[] = [
+export const editUserInput = (userData: FetchAllUsersTypes[]) => {
+  const inputForm: DefaultInputValuesTypes[] = [
     {
       id: 1,
       label: "First Name",
@@ -59,25 +55,7 @@ export function generateDefaultInputValues(
       label: "Confirm Password",
       placeholder: "Confirm your password",
     },
-
-    {
-      id: 6,
-      name: "departmentId",
-      type: "select",
-      label: "Department",
-      defaultSelectValue: {
-        value: userData?.[0].departmentId ?? "",
-        label: userData?.[0].departmentName ?? "",
-      },
-      options:
-        allDepartmentsData
-          ?.filter((depart) => depart?.id !== userData?.[0].departmentId)
-          .map((arr) => ({
-            value: arr?.id,
-            label: arr?.name ?? "",
-          })) || [],
-    },
   ];
 
-  return defaultInputValues;
-}
+  return inputForm;
+};

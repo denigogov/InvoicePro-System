@@ -75,3 +75,26 @@
     max-width: none;
   }
 }
+
+.width500 {
+  max-width: 40vw;
+  margin: 0 auto;
+
+  @media (max-width: general.$lg) {
+    max-width: 55vw;
+  }
+
+  @media (max-width: general.$md) {
+    max-width: none;
+  }
+}
+
+.NoteMessage {
+  // color: colors.$font-Title;
+  font-size: 0.7rem;
+  text-align: center;
+  color: #856404;
+  padding: 10px;
+  border-top: 1px solid #ffeeba;
+  font-family: Arial, sans-serif;
+}

@@ -7,10 +7,11 @@ import { DefaultInputValuesTypes } from "../../types/InputTypes";
 interface EditInputProps {
   defaultInputValues?: DefaultInputValuesTypes[];
   title?: string;
+  buttonName?: string;
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  sendRequestFn: (queryData) => void;
+  sendRequestFn?: (queryData) => void;
 }
 
 type FormData = {
@@ -20,6 +21,7 @@ type FormData = {
 const EditInput: React.FC<EditInputProps> = ({
   defaultInputValues,
   title,
+  buttonName,
   sendRequestFn,
 }) => {
   const {
@@ -49,7 +51,9 @@ const EditInput: React.FC<EditInputProps> = ({
     if (Object.keys(changedValues).length === 0) return;
 
     // function for sending the request to server
-    sendRequestFn(changedValues);
+    if (sendRequestFn) {
+      sendRequestFn(changedValues);
+    }
   };
 
   return (
@@ -117,7 +121,7 @@ const EditInput: React.FC<EditInputProps> = ({
           </React.Fragment>
         ))}
         <button className="action__button-global" type="submit">
-          Update
+          {buttonName}
         </button>
       </form>
     </div>

@@ -29,17 +29,34 @@
   transition: all 0.5s;
 }
 
+.xsPopup {
+  width: 20%;
+  height: 30%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .smPopup {
-  width: 30%;
-  height: 50%;
+  width: 30vw;
+  height: 50vh;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  @media (max-width: general.$lg) {
+    width: 40vw;
+  }
+
   @media (max-width: general.$md) {
-    width: 70%;
-    height: 50%;
+    width: 50vw;
+  }
+
+  @media (max-width: general.$sm) {
+    width: 80vw;
+    height: 55vh;
   }
 }
 
@@ -55,12 +72,4 @@
     width: 90%;
     height: 70%;
   }
-}
-.xsPopup {
-  width: 20%;
-  height: 30%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }

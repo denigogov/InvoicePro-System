@@ -1,5 +1,4 @@
 import useSWR, { mutate } from "swr";
-import EditCompanyDetails from "../../../components/Settings/CompanyProfile/EditCompanyDetails";
 import { useAuth } from "../../../helpers/useAuth";
 import { CompanyInfoTypes } from "../../../types/companyInfoTypes";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -9,6 +8,10 @@ import {
   updateActionPrompt,
 } from "../../../components/GlobalComponents/updatePrompt";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
+import EditInput from "../../../components/GlobalComponents/EditInput";
+import { companyInfoInputForm } from "./editCompanyInput";
+import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
+import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinimalDisplay";
 
 const EditInfoCompany: React.FC = () => {
   const { token } = useAuth();
@@ -24,7 +27,7 @@ const EditInfoCompany: React.FC = () => {
     isLoading: companyDataLoading,
   } = useSWR<CompanyInfoTypes[]>(["companyData", token]);
 
-  const handleUpdate = async (id: number, query: Partial<CompanyInfoTypes>) => {
+  const handleUpdate = async (query: Partial<CompanyInfoTypes>) => {
     try {
       const confirmUpdateMessage = await confirmUpdatePrompt(
         "Update Company Details",
@@ -33,7 +36,11 @@ const EditInfoCompany: React.FC = () => {
       );
 
       if (confirmUpdateMessage.isConfirmed) {
-        await updateCompanyInfo(id, token ?? "", query);
+        await updateCompanyInfo(
+          companyData?.[0].id ?? null,
+          token ?? "",
+          query
+        );
         mutate(["companyData", token]);
         updateActionPrompt("Great!", "Your Updates has been saved.");
         setPopupOpen((e) => !e);
@@ -44,13 +51,19 @@ const EditInfoCompany: React.FC = () => {
     }
   };
 
+  const formInput = companyInfoInputForm(companyData ?? []);
+
+  if (companyDataError)
+    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
+  if (companyDataLoading) return <LoadingRing />;
+
   return (
     <div className="editInfoCompany">
-      <EditCompanyDetails
-        companyDataError={companyDataError}
-        companyDataLoading={companyDataLoading}
-        companyData={companyData}
-        handleUpdate={handleUpdate}
+      <EditInput
+        title="Company Details Update"
+        buttonName="Update"
+        defaultInputValues={formInput}
+        sendRequestFn={handleUpdate}
       />
     </div>
   );

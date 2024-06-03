@@ -85,6 +85,7 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
       <EditInput
         defaultInputValues={defaultInputValues}
         title="Employer Edit"
+        buttonName="Update"
         sendRequestFn={sendUpdatedUser}
       />
     </div>

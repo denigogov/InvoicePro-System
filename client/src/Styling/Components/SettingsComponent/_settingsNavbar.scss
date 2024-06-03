@@ -27,17 +27,30 @@
     }
   }
 
+  &__toggle {
+    display: none;
+    background-color: colors.$font-sectionTitle;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+    border: none;
+    outline: none;
+    transition: general.$transition;
+    cursor: pointer;
+  }
+
   ul {
     margin-top: 2rem;
     display: flex;
     justify-content: start;
     gap: 2rem;
     border-bottom: 1px solid colors.$border-Primary;
+
     li {
       padding: 1rem 0;
       font-size: 1rem;
       font-weight: 500;
-      // color: colors.$font-Primary;
     }
 
     &:hover {
@@ -46,10 +59,90 @@
   }
 
   @media (max-width: general.$sm) {
+    &__toggle {
+      display: block;
+    }
+
     ul {
       flex-direction: column;
+      gap: 1rem;
+      border: none;
+      padding: 0;
+      display: none;
+
+      &.visible {
+        display: flex;
+      }
+
+      li {
+        padding: 0.5rem;
+        border: 1px solid colors.$border-Primary;
+        border-radius: 0.25rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      .settingsActiveLink {
+        border: none;
+        background-color: colors.$font-sectionTitle;
+        color: #fff;
+        border-radius: 0.25rem;
+        li {
+          font-weight: 300;
+        }
+      }
     }
   }
+}
+
+.settingsRoot {
+  height: 100%;
+  background-image: linear-gradient(
+      90deg,
+      rgba(165, 165, 165, 0.03) 0%,
+      rgba(165, 165, 165, 0.03) 8%,
+      rgba(235, 235, 235, 0.03) 8%,
+      rgba(235, 235, 235, 0.03) 9%,
+      rgba(7, 7, 7, 0.03) 9%,
+      rgba(7, 7, 7, 0.03) 14%,
+      rgba(212, 212, 212, 0.03) 14%,
+      rgba(212, 212, 212, 0.03) 17%,
+      rgba(219, 219, 219, 0.03) 17%,
+      rgba(219, 219, 219, 0.03) 95%,
+      rgba(86, 86, 86, 0.03) 95%,
+      rgba(86, 86, 86, 0.03) 100%
+    ),
+    linear-gradient(
+      67.5deg,
+      rgba(80, 80, 80, 0.03) 0%,
+      rgba(80, 80, 80, 0.03) 11%,
+      rgba(138, 138, 138, 0.03) 11%,
+      rgba(138, 138, 138, 0.03) 17%,
+      rgba(122, 122, 122, 0.03) 17%,
+      rgba(122, 122, 122, 0.03) 24%,
+      rgba(166, 166, 166, 0.03) 24%,
+      rgba(166, 166, 166, 0.03) 27%,
+      rgba(245, 245, 245, 0.03) 27%,
+      rgba(245, 245, 245, 0.03) 89%,
+      rgba(88, 88, 88, 0.03) 89%,
+      rgba(88, 88, 88, 0.03) 100%
+    ),
+    linear-gradient(
+      67.5deg,
+      rgba(244, 244, 244, 0.03) 0%,
+      rgba(244, 244, 244, 0.03) 4%,
+      rgba(16, 16, 16, 0.03) 4%,
+      rgba(16, 16, 16, 0.03) 10%,
+      rgba(157, 157, 157, 0.03) 10%,
+      rgba(157, 157, 157, 0.03) 20%,
+      rgba(212, 212, 212, 0.03) 20%,
+      rgba(212, 212, 212, 0.03) 83%,
+      rgba(5, 5, 5, 0.03) 83%,
+      rgba(5, 5, 5, 0.03) 84%,
+      rgba(237, 237, 237, 0.03) 84%,
+      rgba(237, 237, 237, 0.03) 100%
+    ),
+    linear-gradient(90deg, #ffffff, #ffffff);
 }
 
 .settingsRoot {

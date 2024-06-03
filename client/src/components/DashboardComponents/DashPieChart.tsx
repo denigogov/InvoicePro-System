@@ -33,16 +33,16 @@ const DashPieChart: React.FC = () => {
       <div className="analytics-card">
         <FaCartPlus size={30} />
         <div>
-          <h4>Total Products</h4>
+          <h4>Total Revenue</h4>
           <p>
-            8,420 <span className="positive">↑ 15%</span>
+            8,420 <span className="positive">↑ 35%</span>
           </p>
         </div>
       </div>
       <div className="analytics-card">
         <FaCartPlus size={30} />
         <div>
-          <h4>Total Orders</h4>
+          <h4>Total Invoices</h4>
           <p>
             4,420 <span className="positive">↑ 15%</span>
           </p>

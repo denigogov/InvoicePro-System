@@ -1,44 +1,48 @@
-interface InvoiceSettingsProps {}
+import { useState } from "react";
+import CompanyDetails from "../../../components/Settings/CompanyProfile/CompanyDetails";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-const InvoiceSettings: React.FC<InvoiceSettingsProps> = () => {
+const InvoiceSettings: React.FC = () => {
+  const [popUpOpen, setPopupOpen] = useState<boolean>(false);
+
+  const navigator = useNavigate();
+  const location = useLocation();
+
+  const popupWindow = () => {
+    setPopupOpen((x) => !x);
+    navigator("/settings/invoices");
+  };
+
+  const userDetails = [
+    { label: "Tax Default Rate", value: "20 %" },
+    { label: "Discount Default Rate", value: "10 %" },
+  ];
+
   return (
-    <div className="table">
-      <table>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Modify</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-cell="Last Name">blablalba</td>
-            <td data-cell="Email">denigogov@hotmail.com </td>
-            <td data-cell="Department">deni@gmai.com</td>
-            <td data-cell="Department">deni@gmai.com</td>
-            <td data-cell="Department">de2ni@gmai.com</td>
-          </tr>
+    <div className="width500">
+      <CompanyDetails
+        // companyDataError={allUserDataError}
+        // companyDataLoading={allUserDataLoading}
+        companyDetails={userDetails}
+        title="Invoice Settings"
+        navigateTo={`${
+          location.pathname === "/settings" ? "invoices" : `edit/`
+        }`}
+        setPopupOpen={setPopupOpen}
+      />
 
-          <tr>
-            <td data-cell="Last Name">blablalba</td>
-            <td data-cell="Email">denigogov@hotmail.com </td>
-            <td data-cell="Department">deni@gmai.com</td>
-            <td data-cell="Department">deni@gmai.com</td>
-            <td data-cell="Department">de2ni@gmai.com</td>
-          </tr>
+      <p className="NoteMessage">
+        Note: The data for this component is currently hardcoded. Live data
+        integration is in progress
+      </p>
 
-          <tr>
-            <td data-cell="Last Name">blablalba</td>
-            <td data-cell="Email">denigogov@ </td>
-            <td data-cell="Department">deni@gcom</td>
-            <td data-cell="Department">deni@gmai.com</td>
-            <td data-cell="Department">de2ni@gmai.com</td>
-          </tr>
-        </tbody>
-      </table>
+      {popUpOpen && (
+        <div className="overlay" onClick={popupWindow}>
+          <main className="popUp smPopup" onClick={(e) => e.stopPropagation()}>
+            <Outlet />
+          </main>
+        </div>
+      )}
     </div>
   );
 };

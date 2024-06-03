@@ -6,8 +6,8 @@ import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import SettingsInfoSkeletonLoading from "../../GlobalComponents/SkeletonLoading/SettingsInfoSkeletonLoading";
 
 interface CompanyDetailsProps {
-  companyDataError: Error;
-  companyDataLoading: boolean;
+  companyDataError?: Error;
+  companyDataLoading?: boolean;
   companyDetails?: DetailItem[];
   setPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title?: string;
