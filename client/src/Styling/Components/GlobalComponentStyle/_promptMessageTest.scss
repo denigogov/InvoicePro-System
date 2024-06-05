@@ -1,0 +1,72 @@
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/colors";
+
+.promptMessageTest {
+  width: 40vw;
+  height: 30vh;
+  display: flex;
+  justify-content: space-around;
+
+  gap: 20px;
+
+  &__textImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    gap: 30px;
+    margin-top: 1rem;
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      h5 {
+        font-size: 20px;
+        font-weight: 600;
+        color: rgb(8, 0, 60);
+      }
+
+      p {
+        color: gray;
+        text-wrap: balance;
+      }
+    }
+
+    &-image {
+      border: 1px solid rgb(123, 123, 123);
+      padding: 15px;
+      border-radius: 50%;
+      img {
+        width: 40px;
+      }
+    }
+  }
+
+  &__buttons {
+    width: 100%;
+
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    padding-right: 15px;
+
+    &-cancelBtn {
+      padding: 0.6rem 1.6rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    &-actionBtn {
+      cursor: pointer;
+      padding: 1rem 3rem;
+      border: none;
+      border-radius: 10px;
+      color: colors.$error;
+      background-color: rgba(255, 0, 0, 0.123);
+      font-weight: 600;
+    }
+  }
+}

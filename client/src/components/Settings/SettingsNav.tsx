@@ -34,7 +34,7 @@ const SettingsNav: React.FC = () => {
           className={({ isActive }) => (isActive ? "settingsActiveLink" : "")}
           onClick={toggleNavVisibility}
         >
-          <li>User Profile</li>
+          <li>Account Settings</li>
         </NavLink>
 
         <NavLink

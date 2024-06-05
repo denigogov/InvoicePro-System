@@ -20,6 +20,7 @@ import { fetchtStatusCountChart } from "../../api/invoiceStatusAPI";
 import CardSkeletonLoading from "../../components/GlobalComponents/CardSkeletonLoading";
 import { fetchInvoiceTotalMonthly } from "../../api/chartAPI";
 import { InvoiceTotalMonthly } from "../../types/chartDataTypes";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -33,6 +34,7 @@ ChartJS.register(
 
 const Dashboard: React.FC = () => {
   const { token } = useAuth();
+  const navigator = useNavigate();
 
   const {
     data: invoiceStatusCount,
@@ -56,7 +58,12 @@ const Dashboard: React.FC = () => {
         <p>Manage and track your invoices efficiently</p>
         <div className="header-buttons">
           <button className="btn">Download Report</button>
-          <button className="btn primary">Add Invoice</button>
+          <button
+            onClick={() => navigator("/invoices/create")}
+            className="btn primary"
+          >
+            Add Invoice
+          </button>
         </div>
       </header>
 

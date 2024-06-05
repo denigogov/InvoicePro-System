@@ -91,6 +91,10 @@ const EditInput: React.FC<EditInputProps> = ({
                     value: field?.maxLength || Infinity,
                     message: field?.maxLengthMessage ?? "",
                   },
+                  max: {
+                    value: field?.maxNumber ?? Infinity,
+                    message: field?.maxNumberMessage ?? "",
+                  },
                   pattern: {
                     value: (field?.pattern ?? null) as RegExp,
                     message: field?.patternMessage ?? "",

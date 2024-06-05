@@ -2,8 +2,18 @@ const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../auth/auth");
 
-const { allInvoiceSettings } = require("../database/InvoiceSettings");
+const {
+  validateUpdateInvoiceSettings,
+} = require("../validation/invoiceSettingsValidation");
 
-router.get("/", allInvoiceSettings);
+const {
+  allInvoiceSettings,
+  updateInvoiceSettings,
+} = require("../database/InvoiceSettings");
+
+// Route name "settings"
+router
+  .get("/", allInvoiceSettings)
+  .put("/:id", validateUpdateInvoiceSettings, updateInvoiceSettings);
 
 module.exports = router;

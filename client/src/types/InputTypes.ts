@@ -10,6 +10,10 @@ export interface DefaultInputValuesTypes {
   minLengthMessage?: string;
   maxLengthMessage?: string;
   maxLength?: number | null;
+  minNumber?: number | null;
+  maxNumber?: number | null;
+  minNumberMessage?: string;
+  maxNumberMessage?: string;
   pattern?: RegExp | null;
   label?: string;
   step?: number;
