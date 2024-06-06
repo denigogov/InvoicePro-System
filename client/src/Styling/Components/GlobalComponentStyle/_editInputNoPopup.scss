@@ -1,0 +1,122 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
+
+.editInputNoPopup {
+  padding: 1rem;
+  gap: 1rem;
+
+  &__card {
+    background-color: rgba(255, 255, 255, 0.523);
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem hsl(0 0% 0% / 20%);
+    border: 1px solid colors.$border-Primary;
+    margin: 1.3rem;
+    padding: 1.3rem;
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    transition: general.$transition;
+
+    h2 {
+      font-size: 1.1rem;
+      color: colors.$font-Primary;
+      padding: 0.4rem;
+      display: flex;
+      align-items: center;
+    }
+
+    p {
+      color: colors.$font-tertiary;
+      cursor: pointer;
+      padding: 6px 15px;
+      border: 1px solid colors.$border-Primary;
+
+      &:hover {
+        background: colors.$background;
+        color: colors.$font-tertiary;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__card-body {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: inline-flex;
+
+    dt {
+      color: colors.$font-Secound;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    dd {
+      color: colors.$font-tertiary;
+      margin-bottom: 15px;
+      font-weight: 500;
+      display: grid;
+      grid-template-columns: 0.2fr auto;
+      align-items: center;
+      gap: 10px;
+      column-gap: 1.9rem;
+    }
+
+    img {
+      width: 1.25rem;
+      cursor: pointer;
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: pointer;
+
+      &:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        top: -0.3rem;
+        left: 120%;
+        font-size: 12px;
+        background-color: colors.$background-secondary;
+        padding: 5px 5px;
+        width: auto;
+        white-space: nowrap;
+        border-radius: 5px;
+        animation: slowlyHoverToolTip 0.7s 1 ease forwards;
+
+        @media (max-width: general.$sm) {
+          display: none;
+        }
+      }
+    }
+
+    input {
+      padding: 10px 0;
+      border: 1px solid colors.$border-Primary;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: colors.$font-Secound;
+
+      &::placeholder {
+        color: colors.$border-Primary-Dark;
+      }
+
+      &:focus {
+        outline: 1px solid colors.$border-Primary-Dark;
+      }
+    }
+
+    .saveInputBtn {
+      color: colors.$font-sectionTitle;
+      cursor: pointer;
+
+      &:hover {
+        color: colors.$font-Title;
+      }
+    }
+  }
+}

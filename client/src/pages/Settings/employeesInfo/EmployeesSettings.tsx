@@ -30,6 +30,7 @@ const EmployeesSettings: React.FC<EmployeesSettingsProps> = () => {
 
   return (
     <div className="employeesSettings">
+      <h3 className="employeesSettings-title">Employees Profile</h3>
       <EmployesTable
         allUserData={allUserData}
         allUserDataLoading={allUserDataLoading}

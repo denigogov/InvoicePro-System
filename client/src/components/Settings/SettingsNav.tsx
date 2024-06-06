@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import "../../Styling/Components/SettingsComponent/_settingsNavbar.scss";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const SettingsNav: React.FC = () => {

@@ -14,3 +14,12 @@
   // using display grid to center  the form in center// only with grid work
   display: grid;
 }
+
+.employeesSettings {
+  &-title {
+    margin: 1.3rem;
+    padding: 0 1.3rem;
+    color: colors.$font-Title;
+    font-size: 1.3rem;
+  }
+}

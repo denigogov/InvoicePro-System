@@ -5,6 +5,11 @@ import { fetchInvoiceSettings } from "../../../api/invoiceSettings";
 import { useAuth } from "../../../helpers/useAuth";
 import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
 import useSWR from "swr";
+import { fetchAllInvoiceStatus } from "../../../api/invoiceStatusAPI";
+import { FetchAllInvoiceStatusTypes } from "../../../types/invoiceStatusTypes";
+import EditInputNoPopup, {
+  userDataValuesType,
+} from "../../../components/GlobalComponents/EditInputNoPopup";
 // import PromptMessageTest from "../../../components/GlobalComponents/PromptMessageTest";
 
 const InvoiceSettings: React.FC = () => {
@@ -20,6 +25,14 @@ const InvoiceSettings: React.FC = () => {
   };
 
   const {
+    data: allInvoiceStatus,
+    error: allInvoiceStatusError,
+    isLoading: allInvoiceStatusLoading,
+  } = useSWR<FetchAllInvoiceStatusTypes[]>(["allInvoiceStatus", token], () =>
+    fetchAllInvoiceStatus(token ?? "")
+  );
+
+  const {
     data: allInvoiceSettings,
     error: allInvoiceSettingsError,
     isLoading: allInvoiceSettingsLoading,
@@ -27,7 +40,7 @@ const InvoiceSettings: React.FC = () => {
     fetchInvoiceSettings(token ?? "")
   );
 
-  const userDetails = [
+  const invoiceSettings = [
     {
       label: "Tax Default Rate",
       value: `${allInvoiceSettings?.[0].tax ?? "Data Not Found"} %`,
@@ -38,12 +51,36 @@ const InvoiceSettings: React.FC = () => {
     },
   ];
 
+  const statusValues = allInvoiceStatus?.map((arr) => {
+    const values = {
+      id: arr?.id ?? null,
+      value: arr?.statusName,
+      placeholder: "Status Name",
+    };
+
+    return values;
+  });
+
+  const sendRequest = (query: Partial<userDataValuesType>) => {
+    const value = query?.value;
+    const id = query?.id;
+
+    console.log(value, id);
+  };
+
   return (
     <div className="width500">
+      <EditInputNoPopup
+        userData={statusValues}
+        dataLoading={allInvoiceStatusLoading}
+        dataError={allInvoiceStatusError}
+        handleUpdateFn={sendRequest}
+      />
+
       <CompanyDetails
         companyDataError={allInvoiceSettingsError}
         companyDataLoading={allInvoiceSettingsLoading}
-        companyDetails={userDetails}
+        companyDetails={invoiceSettings}
         title="Invoice Settings"
         navigateTo={`${
           location.pathname === "/settings" ? "invoices" : `edit/`
