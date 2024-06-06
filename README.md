@@ -8,6 +8,15 @@
 
 InvoicePro System serves not only as a tool for invoice management but also as a platform where I explore cutting-edge techniques while continuously refining my coding practices. Through iterative development, I've noticed a significant improvement in my code quality and structure compared to previous projects. **From refining my coding style to enhancing folder organization, each iteration of this project marks a step forward in my journey as a developer. Your input and contributions are invaluable as I strive for continuous improvement in both functionality and code architecture**
 
+### Live Demo
+- [Invoice System Pro Demo](https://invoicesystempro.onrender.com/)
+
+### Instructions
+- This version is currently open for viewing. You do not need to provide any credentials
+- In production mode, you will need to add your email, password, and a confirmation code
+- After entering your email and password, the confirmation code will arrive in your email as encrypted
+- ***Note that this is a public version for view purposes only, commonly referred to as a demo or preview version****
+
 ## Features
 
 - Two Factor Authentication
@@ -38,30 +47,6 @@ To run the InvoicePro System locally, follow these steps:
 pnpm run dev
 ```
 
-## Technologies Used
-
-### Frontend
-
-- React
-- TypeScript
-- React Router
-- SWR
-- react-pdf
-- Sass
-- SweetAlert
-- ESLint
-
-### Backend
-
-- Express
-- MySQL2
-- JWT
-- Argon2
-- SendGrid
-- Joi
-- Supertest
-- Vite
-- Compression
 
 ## Usage
 
