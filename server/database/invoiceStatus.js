@@ -34,4 +34,20 @@ const allInvoiceStatus = async (_, res) => {
   }
 };
 
-module.exports = { invoiceStatus, allInvoiceStatus };
+const updateInvoiceStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { statusName } = req.body;
+
+    const [updateQuery] = await database.query(
+      `UPDATE invoicestatus set statusName =? where id = ?`,
+      [statusName, id]
+    );
+
+    updateQuery.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
+
+module.exports = { invoiceStatus, allInvoiceStatus, updateInvoiceStatus };

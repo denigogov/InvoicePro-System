@@ -5,11 +5,15 @@ import { fetchInvoiceSettings } from "../../../api/invoiceSettings";
 import { useAuth } from "../../../helpers/useAuth";
 import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
 import useSWR from "swr";
-import { fetchAllInvoiceStatus } from "../../../api/invoiceStatusAPI";
+import {
+  fetchAllInvoiceStatus,
+  updateInvoiceStatus,
+} from "../../../api/invoiceStatusAPI";
 import { FetchAllInvoiceStatusTypes } from "../../../types/invoiceStatusTypes";
 import EditInputNoPopup, {
   userDataValuesType,
 } from "../../../components/GlobalComponents/EditInputNoPopup";
+import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
 // import PromptMessageTest from "../../../components/GlobalComponents/PromptMessageTest";
 
 const InvoiceSettings: React.FC = () => {
@@ -53,19 +57,25 @@ const InvoiceSettings: React.FC = () => {
 
   const statusValues = allInvoiceStatus?.map((arr) => {
     const values = {
+      type: "text",
       id: arr?.id ?? null,
       value: arr?.statusName,
       placeholder: "Status Name",
+      defaultData: arr?.statusName,
     };
 
     return values;
   });
 
-  const sendRequest = (query: Partial<userDataValuesType>) => {
-    const value = query?.value;
-    const id = query?.id;
+  const sendRequest = async (query: Partial<userDataValuesType>) => {
+    try {
+      const value = query?.value as Partial<FetchAllInvoiceStatusTypes>;
+      const id = query?.id;
 
-    console.log(value, id);
+      await updateInvoiceStatus(id ?? null, token ?? "", value);
+    } catch (err: unknown) {
+      apiGeneralErrorHandle(err);
+    }
   };
 
   return (

@@ -3,12 +3,14 @@ import React, { useRef, useState } from "react";
 import ErrorMinimalDisplay from "./ErrorMinimalDisplay";
 import LoadingRing from "./LoadingRing";
 import editIcon from "../../assets/editInvoiceDetailsIcon.svg";
-import errorIcon from "../../assets/errorIcon.svg";
+// import errorIcon from "../../assets/errorIcon.svg";
 
 export type userDataValuesType = {
+  type: string;
   id?: number;
   value?: string;
   placeholder?: string;
+  defaultData?: string;
 };
 
 interface EditInputNoPopupProps {
@@ -83,11 +85,11 @@ const EditInputNoPopup: React.FC<EditInputNoPopupProps> = ({
                   ) : (
                     <React.Fragment key={data?.id}>
                       <input
-                        type="text"
+                        type={data?.type}
                         ref={valueRef}
-                        defaultValue={inputValue?.value}
+                        defaultValue={data?.defaultData}
                         autoFocus
-                        placeholder={inputValue?.placeholder}
+                        placeholder={data?.placeholder}
                       />
                       <span className="saveInputBtn" onClick={handleSave}>
                         Save
@@ -96,10 +98,10 @@ const EditInputNoPopup: React.FC<EditInputNoPopupProps> = ({
                   )}
                 </React.Fragment>
               ))}{" "}
-              <p className="editInput__error">
+              {/* <p className="editInput__error">
                 <img src={errorIcon} alt="errorIcon" />
                 herhehe
-              </p>
+              </p> */}
             </dd>
           </dl>
         </div>

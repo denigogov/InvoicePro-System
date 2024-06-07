@@ -56,14 +56,14 @@
     }
 
     dd {
-      color: colors.$font-tertiary;
+      color: colors.$font-Secound;
       margin-bottom: 15px;
       font-weight: 500;
       display: grid;
       grid-template-columns: 0.2fr auto;
       align-items: center;
       gap: 10px;
-      column-gap: 1.9rem;
+      row-gap: 1.6rem;
     }
 
     img {
@@ -79,7 +79,7 @@
         content: attr(data-tooltip);
         position: absolute;
         top: -0.3rem;
-        left: 120%;
+        left: 130%;
         font-size: 12px;
         background-color: colors.$background-secondary;
         padding: 5px 5px;
