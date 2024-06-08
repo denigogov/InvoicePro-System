@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { fetchInvoiceSettings } from "../../../api/invoiceSettings";
 import { useAuth } from "../../../helpers/useAuth";
 import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import {
   fetchAllInvoiceStatus,
   updateInvoiceStatus,
@@ -14,6 +14,10 @@ import EditInputNoPopup, {
   userDataValuesType,
 } from "../../../components/GlobalComponents/EditInputNoPopup";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
+import {
+  confirmUpdatePrompt,
+  updateActionPrompt,
+} from "../../../components/GlobalComponents/updatePrompt";
 // import PromptMessageTest from "../../../components/GlobalComponents/PromptMessageTest";
 
 const InvoiceSettings: React.FC = () => {
@@ -22,6 +26,7 @@ const InvoiceSettings: React.FC = () => {
   const navigator = useNavigate();
   const location = useLocation();
   const { token } = useAuth();
+  const { mutate } = useSWRConfig();
 
   const popupWindow = () => {
     setPopupOpen((x) => !x);
@@ -68,13 +73,24 @@ const InvoiceSettings: React.FC = () => {
   });
 
   const sendRequest = async (query: Partial<userDataValuesType>) => {
+    const value = {
+      statusName: query?.value,
+    };
+    const id = query?.id;
     try {
-      const value = query?.value as Partial<FetchAllInvoiceStatusTypes>;
-      const id = query?.id;
+      const confirmUpdateMessage = await confirmUpdatePrompt(
+        "Update Invoice Status",
+        "Confirm change: Update invoice status?",
+        "Yes, update it!"
+      );
 
-      await updateInvoiceStatus(id ?? null, token ?? "", value);
+      if (confirmUpdateMessage.isConfirmed) {
+        await updateInvoiceStatus(id ?? null, token ?? "", value);
+        mutate(["allInvoiceStatus", token]);
+        updateActionPrompt("Great!", "Your Updates has been saved");
+      }
     } catch (err: unknown) {
-      apiGeneralErrorHandle(err);
+      apiGeneralErrorHandle(err as Error);
     }
   };
 

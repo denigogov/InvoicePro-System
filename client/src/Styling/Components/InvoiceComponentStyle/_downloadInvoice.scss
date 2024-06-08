@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
 
-  gap: 10px;
+  gap: 1rem;
 
   p {
     text-align: center;
@@ -16,5 +16,33 @@
 
   img {
     width: 5rem;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #e2e6ea;
+  color: #333;
+  flex: 1;
+  transition: all 0.5s ease;
+  font-size: 13px;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &.primary {
+    background-color: colors.$font-Title;
+
+    color: #fff;
+
+    &:hover {
+      // background-color: colors.$font-Title;
+      background-color: #e2e6ea;
+      color: #333;
+    }
   }
 }

@@ -9,6 +9,7 @@ import {
   Step4initialDateTypes,
 } from "./createInvoiceSteps/StepsInitialData";
 import { TaxDiscountValuesProps } from "../../pages/Invoices/createInvoice/CreateInvoice";
+import { Link } from "react-router-dom";
 
 interface DownloadInvoiceProps {
   filteredCompanyData?: CompanyInfoTypes[];
@@ -36,7 +37,7 @@ const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
   return (
     <div className="downloadInvoice">
       <p>
-        Thank you for submitting the form. Your invoice is ready for download.
+        Thank you for submitting the form. Your invoice is ready for download
       </p>
 
       {/* <PDFViewer style={{ width: "100%", height: "100vh" }}> */}
@@ -52,6 +53,10 @@ const DownloadInvoice: React.FC<DownloadInvoiceProps> = ({
         {...taxDiscountValues}
       />
       {/* </PDFViewer> */}
+
+      <Link to="/dashboard" className="btn primary">
+        Return to dashboard
+      </Link>
     </div>
   );
 };
