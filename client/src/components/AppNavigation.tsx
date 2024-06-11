@@ -4,6 +4,7 @@ import logoIcon from "../assets/truck-long-svgrepo-com.svg";
 import logoutIcon from "../assets/logoutBtnIcon.svg";
 import dashboardIcon from "../assets/dashboardIcon.svg";
 import settingsIcon from "../assets/settingsIcon.svg";
+import administrationIcon from "../assets/administrationIcon.svg";
 import invoiceIcon from "../assets/invoiceIcon.svg";
 import { useState } from "react";
 import { useAuth } from "../helpers/useAuth";
@@ -60,7 +61,12 @@ const AppNavigation = () => {
               <span>Invoices</span>
             </li>
           </NavLink>
-
+          <NavLink to="/administration">
+            <li>
+              <img src={administrationIcon} alt="administrationIcon" />
+              <span>Administration</span>
+            </li>
+          </NavLink>{" "}
           <NavLink to="/settings">
             <li>
               <img src={settingsIcon} alt="settingsIcon" />

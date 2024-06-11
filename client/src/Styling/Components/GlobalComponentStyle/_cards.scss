@@ -48,31 +48,37 @@
     font-weight: 300;
   }
 }
+//   status colors:
+$dashboardCardsColors: (
+  "0": (
+    color: #ce0015,
+    background: #f7f4f4,
+  ),
+  "1": (
+    color: #494848,
+    background: #fafbfb,
+  ),
+  "2": (
+    color: #204c21,
+    background: #edfaf1,
+  ),
+  "3": (
+    color: #006caf,
+    background: #f5fbff,
+  ),
+  "4": (
+    color: #ce0015,
+    background: #f7f4f4,
+  ),
+  "5": (
+    color: #4f00c5,
+    background: #f9f4ff9c,
+  ),
+);
 
-.card1 {
-  color: #494848;
-  background-color: #fafbfb; /* slightly lighter than #f8f9f9 */
-}
-
-.card3 {
-  color: #006caf;
-  background-color: #f5fbff; /* slightly lighter than #f1f9ff */
-}
-.card5 {
-  color: #4f00c5;
-  background-color: #f9f4ff9c; /* slightly lighter than #f6f0ff */
-}
-.card2 {
-  color: #204c21;
-  background-color: #edfaf1; /* slightly lighter than #e9fff0 */
-}
-
-.card4 {
-  color: #ce0015;
-  background-color: #f7f4f4; /* slightly lighter than #ffd6d9 */
-}
-
-.card0 {
-  color: #ce0015;
-  background-color: #f7f4f4; /* slightly lighter than #ffd6d9 */
+@each $key, $val in $dashboardCardsColors {
+  .card-#{$key} {
+    color: map-get($val, color);
+    background: map-get($val, background);
+  }
 }

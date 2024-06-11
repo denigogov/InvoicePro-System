@@ -41,7 +41,7 @@ const Cards: React.FC<CardsProps> = ({
       />
     );
   return (
-    <div className={`card${statusId} cards `}>
+    <div className={`card-${statusId} cards `}>
       <p className="cards__title">{statusName ?? ""}</p>
       <p className="cards__totalInovices">{totalInvoices ?? 0}</p>
       <p className="cards__value">€ {statusPrice ?? ""}</p>

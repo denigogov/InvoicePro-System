@@ -14,6 +14,7 @@ export type userDataValuesType = {
 };
 
 interface EditInputNoPopupProps {
+  title: string;
   userData?: userDataValuesType[];
   dataError: Error;
   dataLoading: boolean;
@@ -21,6 +22,7 @@ interface EditInputNoPopupProps {
 }
 
 const EditInputNoPopup: React.FC<EditInputNoPopupProps> = ({
+  title,
   userData,
   dataError,
   dataLoading,
@@ -61,7 +63,7 @@ const EditInputNoPopup: React.FC<EditInputNoPopupProps> = ({
     <div className="editInputNoPopup">
       <div className="editInputNoPopup__card">
         <div className="editInputNoPopup__card-header">
-          <h2>Invoice Status</h2>
+          <h2>{title}</h2>
         </div>
         <div className="editInputNoPopup__card-body">
           <dl>

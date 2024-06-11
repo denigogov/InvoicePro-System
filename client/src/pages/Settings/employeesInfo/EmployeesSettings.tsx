@@ -5,7 +5,7 @@ import { FetchAllUsersTypes } from "../../../types/userDataTypes";
 import { fetchAllUsers } from "../../../api/userAPI";
 import EmployesTable from "../../../components/Settings/EmployeesComponents/EmployesTable";
 import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 interface EmployeesSettingsProps {}
 
@@ -17,7 +17,7 @@ const EmployeesSettings: React.FC<EmployeesSettingsProps> = () => {
 
   const popupWindow = () => {
     setPopupOpen((x) => !x);
-    navigator(`/settings/employees`);
+    navigator(`/administration/employees`);
   };
 
   const {
@@ -31,6 +31,9 @@ const EmployeesSettings: React.FC<EmployeesSettingsProps> = () => {
   return (
     <div className="employeesSettings">
       <h3 className="employeesSettings-title">Employees Profile</h3>
+      <Link onClick={popupWindow} to="create">
+        Create Emplyeer
+      </Link>
       <EmployesTable
         allUserData={allUserData}
         allUserDataLoading={allUserDataLoading}

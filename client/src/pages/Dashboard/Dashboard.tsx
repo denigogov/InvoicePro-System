@@ -3,16 +3,6 @@ import Cards from "../../components/GlobalComponents/Cards";
 import DashTable from "../../components/DashboardComponents/DashTable";
 import DashPieChart from "../../components/DashboardComponents/DashPieChart";
 import DashLineChart from "../../components/DashboardComponents/DashLineChart";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-} from "chart.js";
 import { useAuth } from "../../helpers/useAuth";
 import { FetchtStatusCountChartTypes } from "../../types/invoiceStatusTypes";
 import useSWR from "swr";
@@ -21,16 +11,6 @@ import CardSkeletonLoading from "../../components/GlobalComponents/CardSkeletonL
 import { fetchInvoiceTotalMonthly } from "../../api/chartAPI";
 import { InvoiceTotalMonthly } from "../../types/chartDataTypes";
 import { useNavigate } from "react-router-dom";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const Dashboard: React.FC = () => {
   const { token } = useAuth();

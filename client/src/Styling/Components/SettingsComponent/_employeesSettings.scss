@@ -23,3 +23,55 @@
     font-size: 1.3rem;
   }
 }
+
+// Create Employer Components Styling
+.createEmployer__container {
+  @include mixin.overflowScroll;
+  height: 100%;
+  width: 100%;
+  padding: 2rem 0;
+  background-image: colors.$bakcgroundGradient-primary;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: general.$lg) {
+    align-items: none;
+  }
+  @media (max-width: general.$sm) {
+    width: 100%;
+  }
+
+  &__form {
+    border: 1px solid colors.$border-Primary;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    padding: 2rem 1rem;
+    gap: 2rem;
+
+    @media (max-width: general.$sm) {
+      border: none;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      @include mixin.inputUpdateValue;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #c00000;
+    }
+
+    label {
+      color: colors.$font-Primary;
+    }
+  }
+}

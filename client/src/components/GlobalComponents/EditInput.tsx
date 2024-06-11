@@ -29,6 +29,7 @@ const EditInput: React.FC<EditInputProps> = ({
     register,
     getValues,
     handleSubmit,
+    watch,
   } = useForm<FormData>({
     mode: "all",
   });
@@ -124,9 +125,11 @@ const EditInput: React.FC<EditInputProps> = ({
             )}
           </React.Fragment>
         ))}
-        <button className="action__button-global" type="submit">
-          {buttonName}
-        </button>
+        {buttonName && (
+          <button className="action__button-global" type="submit">
+            {buttonName}
+          </button>
+        )}
       </form>
     </div>
   );

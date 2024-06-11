@@ -97,6 +97,7 @@ const InvoiceSettings: React.FC = () => {
   return (
     <div className="width500">
       <EditInputNoPopup
+        title="Invoice Status"
         userData={statusValues}
         dataLoading={allInvoiceStatusLoading}
         dataError={allInvoiceStatusError}

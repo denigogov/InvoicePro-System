@@ -92,30 +92,29 @@
           display: none;
         }
       }
+    }
+    input {
+      padding: 10px 0;
+      border: 1px solid colors.$border-Primary;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: colors.$font-Secound;
 
-      input {
-        padding: 10px 0;
-        border: 1px solid colors.$border-Primary;
-        border-radius: 4px;
-        font-size: 0.9rem;
-        color: colors.$font-Secound;
-
-        &::placeholder {
-          color: colors.$border-Primary-Dark;
-        }
-
-        &:focus {
-          outline: 1px solid colors.$border-Primary-Dark;
-        }
+      &::placeholder {
+        color: colors.$border-Primary-Dark;
       }
 
-      .saveInputBtn {
-        color: colors.$font-sectionTitle;
-        cursor: pointer;
+      &:focus {
+        outline: 1px solid colors.$border-Primary-Dark;
+      }
+    }
 
-        &:hover {
-          color: colors.$font-Title;
-        }
+    .saveInputBtn {
+      color: colors.$font-sectionTitle;
+      cursor: pointer;
+
+      &:hover {
+        color: colors.$font-Title;
       }
     }
   }

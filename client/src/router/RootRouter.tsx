@@ -31,6 +31,9 @@ import EmployeesSettings from "../pages/Settings/employeesInfo/EmployeesSettings
 import EditEmployer from "../pages/Settings/employeesInfo/EditEmployer";
 import EditUserProfile from "../pages/Settings/userInfo/EditUserProfile";
 import EditInvoiceSettings from "../pages/Settings/invoiceInfo/EditInvoiceSettings";
+import Administration from "../pages/Administration/Administration";
+import Customers from "../pages/Administration/customer/Customers";
+import CreateEmployer from "../pages/Settings/employeesInfo/CreateEmployer";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -86,6 +89,18 @@ const RootRouter = () => {
             </Route>
             <Route path="create" element={<CreateInvoice />} />
           </Route>
+
+          {/* Administration Route */}
+          <Route path="/administration" element={<Administration />}>
+            <Route path="employees" element={<EmployeesSettings />}>
+              <Route path="edit/:id" element={<EditEmployer />} />
+              <Route path="create" element={<CreateEmployer />} />
+            </Route>
+
+            <Route path="customers" element={<Customers />} />
+          </Route>
+
+          {/* settings Route */}
           <Route path="/settings" element={<Settings />}>
             <Route index element={<CompanyProfile />} />
             <Route path="company-profile" element={<CompanyProfile />}>
@@ -94,9 +109,6 @@ const RootRouter = () => {
             </Route>
             <Route path="user-profile" element={<UserProfile />}>
               <Route path="edit/:id" element={<EditUserProfile />} />
-            </Route>
-            <Route path="employees" element={<EmployeesSettings />}>
-              <Route path="edit/:id" element={<EditEmployer />} />
             </Route>
             <Route path="invoices" element={<InvoiceSettings />}>
               <Route path="edit/" element={<EditInvoiceSettings />} />
