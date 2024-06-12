@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-interface AdministrationNavProps {}
-
-const AdministrationNav: React.FC<AdministrationNavProps> = ({}) => {
+const AdministrationNav: React.FC = () => {
   const [isNavVisible, setIsNavVisible] = useState<boolean>(false);
 
   const toggleNavVisibility = () => {

@@ -5,6 +5,7 @@ import CreateEmplStep3 from "../../../components/AdministrationComponents/create
 import ProgressBar from "../../../components/GlobalComponents/ProgressBar";
 import { useMultiStepForm } from "../../../helpers/useMultiStepForm";
 import {
+  FormInputs,
   INITIAL_DATA_STEP1,
   INITIAL_DATA_STEP1_Types,
   INITIAL_DATA_STEP2,
@@ -14,10 +15,14 @@ import {
   formStepName,
 } from "./createEmployerInputs";
 import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/ErrorShow";
+import { AllDepartmentsTypes } from "../../../types/departmentTypes";
+import { fetchAllDepartments } from "../../../api/departmentAPI";
+import { useAuth } from "../../../helpers/useAuth";
+import useSWR from "swr";
 
 interface CreateEmployerProps {}
 
-const CreateEmployer: React.FC<CreateEmployerProps> = ({}) => {
+const CreateEmployer: React.FC<CreateEmployerProps> = () => {
   const [step1Data, setStep1Data] =
     useState<INITIAL_DATA_STEP1_Types>(INITIAL_DATA_STEP1);
 
@@ -26,6 +31,8 @@ const CreateEmployer: React.FC<CreateEmployerProps> = ({}) => {
 
   const [step3Data, setStep3Data] =
     useState<INITIAL_DATA_STEP3_Types>(INITIAL_DATA_STEP3);
+
+  const { token } = useAuth();
 
   const updateFileds = (
     fileds: Partial<
@@ -37,7 +44,6 @@ const CreateEmployer: React.FC<CreateEmployerProps> = ({}) => {
     setStep1Data((prev) => {
       return { ...prev, ...fileds };
     });
-
     setStep2Data((prev) => {
       return { ...prev, ...fileds };
     });
@@ -46,20 +52,58 @@ const CreateEmployer: React.FC<CreateEmployerProps> = ({}) => {
     });
   };
 
+  const showInputErrors = (inputs: FormInputs[]): Record<string, string> => {
+    const errors: Record<string, string> = {};
+
+    inputs.forEach((arr) => {
+      if (arr.name) {
+        switch (true) {
+          case arr.required && arr.value.length < 1:
+            errors[arr.name] = arr.errorMessage;
+            break;
+          case arr.minLength !== undefined && arr.value.length < arr.minLength:
+            errors[arr.name] = arr.minLenghtMessage || "";
+            break;
+          case arr.maxLength !== undefined && arr.value.length > arr.maxLength:
+            errors[arr.name] = arr.maxLengthMessage || "";
+            break;
+          default:
+            break;
+        }
+      }
+    });
+
+    return errors;
+  };
+
   const {
-    steps,
-    currentStepIndex,
-    next,
-    previuse,
-    isFirstStep,
-    isLastStep,
-    isSecoundStep,
-    isThirdStep,
-  } = useMultiStepForm([
-    <CreateEmplStep1 {...step1Data} updateFileds={updateFileds} />,
-    <CreateEmplStep2 {...step2Data} updateFileds={updateFileds} />,
-    <CreateEmplStep3 {...step3Data} updateFileds={updateFileds} />,
-  ]);
+    data: allDepartmentsData,
+    error: allDepartmentsDataError,
+    isLoading: allDepartmentsDataLoading,
+  } = useSWR<AllDepartmentsTypes[]>(["allDepartmentsData", token], () =>
+    fetchAllDepartments(token ?? "")
+  );
+
+  const { steps, currentStepIndex, next, previuse, isFirstStep, isLastStep } =
+    useMultiStepForm([
+      <CreateEmplStep1
+        {...step1Data}
+        allDepartmentsData={allDepartmentsData}
+        updateFileds={updateFileds}
+        allDepartmentsDataError={allDepartmentsDataError}
+        allDepartmentsDataLoading={allDepartmentsDataLoading}
+      />,
+      <CreateEmplStep2
+        {...step2Data}
+        updateFileds={updateFileds}
+        showInputErrors={showInputErrors}
+      />,
+      <CreateEmplStep3
+        {...step3Data}
+        updateFileds={updateFileds}
+        showInputErrors={showInputErrors}
+      />,
+    ]);
 
   const stepNames = formStepName(currentStepIndex);
 
@@ -67,9 +111,10 @@ const CreateEmployer: React.FC<CreateEmployerProps> = ({}) => {
     e.preventDefault();
 
     try {
-      if (step1Data?.departmentId) {
+      if (step1Data?.departmentId !== "") {
         next();
       }
+      console.log("submit");
     } catch (err) {
       apiGeneralErrorHandle(
         err,
@@ -77,6 +122,7 @@ const CreateEmployer: React.FC<CreateEmployerProps> = ({}) => {
       );
     }
   };
+
   // Styling in _employeesStettings.scss
   return (
     <div className="createEmployer__container">

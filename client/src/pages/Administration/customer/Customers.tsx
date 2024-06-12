@@ -5,7 +5,7 @@ import { AllCustomerTypes } from "../../../types/customerAPITypes";
 
 interface CustomersProps {}
 
-const Customers: React.FC<CustomersProps> = ({}) => {
+const Customers: React.FC<CustomersProps> = () => {
   const { token } = useAuth();
 
   const {

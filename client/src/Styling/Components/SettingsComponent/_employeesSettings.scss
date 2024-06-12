@@ -24,6 +24,12 @@
   }
 }
 
+//
+
+//
+
+//
+
 // Create Employer Components Styling
 .createEmployer__container {
   @include mixin.overflowScroll;
@@ -38,9 +44,6 @@
 
   @media (max-width: general.$lg) {
     align-items: none;
-  }
-  @media (max-width: general.$sm) {
-    width: 100%;
   }
 
   &__form {
@@ -73,5 +76,11 @@
     label {
       color: colors.$font-Primary;
     }
+  }
+  .formErrors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 1rem;
   }
 }

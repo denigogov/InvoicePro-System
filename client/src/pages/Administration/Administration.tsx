@@ -3,7 +3,7 @@ import AdministrationNav from "../../components/AdministrationComponents/Adminis
 
 interface AdministrationProps {}
 
-const Administration: React.FC<AdministrationProps> = ({}) => {
+const Administration: React.FC<AdministrationProps> = () => {
   return (
     <div>
       <AdministrationNav />

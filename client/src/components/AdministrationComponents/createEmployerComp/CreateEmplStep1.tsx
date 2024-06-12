@@ -1,50 +1,46 @@
-import React, { useState } from "react";
-import EditInput from "../../GlobalComponents/EditInput";
 import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
 import { INITIAL_DATA_STEP1_Types } from "../../../pages/Settings/employeesInfo/createEmployerInputs";
 
+import { AllDepartmentsTypes } from "../../../types/departmentTypes";
+import LoadingRing from "../../GlobalComponents/LoadingRing";
+import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
+
 type CreateEmplStep1Props = INITIAL_DATA_STEP1_Types & {
   updateFileds: (fileds: Partial<INITIAL_DATA_STEP1_Types>) => void;
+  allDepartmentsData?: AllDepartmentsTypes[];
+  allDepartmentsDataLoading: boolean;
+  allDepartmentsDataError: Error;
 };
 
 const CreateEmplStep1: React.FC<CreateEmplStep1Props> = ({
   updateFileds,
   departmentId,
+  allDepartmentsData,
+  allDepartmentsDataLoading,
+  allDepartmentsDataError,
 }) => {
-  // const inputs = [
-  //   {
-  //     id: 1,
-  //     name: "departmentId",
-  //     type: "select",
-  //     label: "Department",
-  //     defaultSelectValue: {
-  //       value: "defaultDeptId",
-  //       label: "Default Department",
-  //     },
-  //     options: [
-  //       { value: "deptId1", label: "Department 1" },
-  //       { value: "deptId2", label: "Department 2" },
-  //       { value: "deptId3", label: "Department 3" },
-  //     ],
-  //   },
-  // ];
-
+  if (allDepartmentsDataLoading) return <LoadingRing />;
+  if (allDepartmentsDataError)
+    return (
+      <ErrorMinimalDisplay errorMessage={allDepartmentsDataError?.message} />
+    );
   return (
     <div>
       <MultiFormWraper
         title="Department Selection"
         subTitle="Choose the department from the list provided"
       >
-        <label>Customer Name</label>
-        <input
-          autoFocus
-          type="number"
-          value={departmentId}
+        <label>Department</label>
+        <select
           onChange={(e) => updateFileds({ departmentId: e.target.value })}
-          minLength={3}
-          maxLength={50}
-          required
-        />
+        >
+          <option value="">Choose Department</option>
+          {allDepartmentsData?.map((arr) => (
+            <option key={arr?.id} value={arr?.id} defaultValue={departmentId}>
+              {arr?.name}
+            </option>
+          ))}
+        </select>
       </MultiFormWraper>
     </div>
   );

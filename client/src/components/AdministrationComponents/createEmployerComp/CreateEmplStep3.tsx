@@ -1,83 +1,67 @@
-import React from "react";
-import { INITIAL_DATA_STEP3_Types } from "../../../pages/Settings/employeesInfo/createEmployerInputs";
-import EditInput from "../../GlobalComponents/EditInput";
+import React, { useState } from "react";
+import {
+  FormInputs,
+  INITIAL_DATA_STEP3_Types,
+  inputStep3,
+} from "../../../pages/Settings/employeesInfo/createEmployerInputs";
 import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
 
 type CreateEmplStep3Props = INITIAL_DATA_STEP3_Types & {
   updateFileds: (fileds: Partial<INITIAL_DATA_STEP3_Types>) => void;
+  showInputErrors: (fields: FormInputs[]) => Record<string, string>;
 };
 
 const CreateEmplStep3: React.FC<CreateEmplStep3Props> = ({
   updateFileds,
+  showInputErrors,
   email,
   password,
 }) => {
-  const inputs = [
-    {
-      id: 1,
-      name: "email",
-      type: "email",
-      label: "Email",
-      pattern:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      patternMessage: "Invalid email format",
-    },
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const inputs = inputStep3(email, password);
+  const errorMessages: Record<string, string> = showInputErrors(
+    inputs as FormInputs[]
+  );
 
-    {
-      id: 4,
-      name: "password",
-      type: "password",
-      label: "Password",
-      placeholder: "Add your password",
-      pattern:
-        /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/,
-      patternMessage: `Password should be at least 6 characters and should include at least 1 letter, 1 number, and 1 special character`,
-    },
-    {
-      id: 5,
-      name: "confirm",
-      type: "password",
-      label: "Confirm Password",
-      placeholder: "Confirm your password",
-    },
-  ];
+  const handleBlur = (name: string) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
+
+  const handleChange = (name: string, value: string) => {
+    updateFileds({ [name]: value });
+  };
 
   return (
     <div>
       <MultiFormWraper
-        title="Account Setup"
-        subTitle="Provide an email address and set a password for the employer"
+        title="Personal Information"
+        subTitle="Fill in the personal details of the employer"
       >
         {inputs.map((arr) => (
-          <React.Fragment key={arr.id}></React.Fragment>
+          <React.Fragment key={arr.id}>
+            <label>{arr.label}</label>
+            <input
+              type={arr.type}
+              value={arr.value}
+              name={arr.name}
+              onChange={(e) => handleChange(arr?.name ?? "", e.target.value)}
+              minLength={arr.minLength}
+              maxLength={arr.maxLength}
+              required={arr.required}
+              onBlur={() => handleBlur(arr?.name ?? "")}
+            />
+          </React.Fragment>
         ))}
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => updateFileds({ email: e.target.value })}
-          minLength={3}
-          maxLength={50}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="text"
-          value={password}
-          onChange={(e) => updateFileds({ password: e.target.value })}
-          minLength={3}
-          maxLength={50}
-          required
-        />
-        <label>Confirm Password</label>
-        <input
-          type="text"
-          value={password}
-          onChange={(e) => updateFileds({ password: e.target.value })}
-          minLength={3}
-          maxLength={50}
-          required
-        />
+
+        <div className="formErrors">
+          {Object.keys(touched).map((field) =>
+            touched[field] && errorMessages[field] ? (
+              <div key={field} className="formError editInput__error">
+                {errorMessages[field]}
+              </div>
+            ) : null
+          )}
+        </div>
       </MultiFormWraper>
     </div>
   );

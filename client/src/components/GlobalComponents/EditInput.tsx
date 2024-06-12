@@ -29,7 +29,6 @@ const EditInput: React.FC<EditInputProps> = ({
     register,
     getValues,
     handleSubmit,
-    watch,
   } = useForm<FormData>({
     mode: "all",
   });

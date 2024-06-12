@@ -1,39 +1,33 @@
-import { INITIAL_DATA_STEP2_Types } from "../../../pages/Settings/employeesInfo/createEmployerInputs";
-import EditInput from "../../GlobalComponents/EditInput";
+import React, { useState } from "react";
+import {
+  FormInputs,
+  INITIAL_DATA_STEP2_Types,
+  inputStep2,
+} from "../../../pages/Settings/employeesInfo/createEmployerInputs";
 import MultiFormWraper from "../../GlobalComponents/MultiFormWraper";
 
 type CreateEmplStep2Props = INITIAL_DATA_STEP2_Types & {
-  updateFileds: (fileds: Partial<INITIAL_DATA_STEP2_Types>) => void;
+  updateFileds: (fields: Partial<INITIAL_DATA_STEP2_Types>) => void;
+  showInputErrors: (fields: FormInputs[]) => Record<string, string>;
 };
 
 const CreateEmplStep2: React.FC<CreateEmplStep2Props> = ({
   updateFileds,
+  showInputErrors,
   firstName,
   lastName,
 }) => {
-  const inputs = [
-    {
-      id: 1,
-      label: "First Name",
-      name: "firstName",
-      type: "text",
-      minLength: 3,
-      maxLength: 30,
-      minLengthMessage: "First Name should be min 3 letters",
-      maxLengthMessage: "First Name should be max 30 letters",
-    },
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const inputs = inputStep2(firstName, lastName);
+  const errorMessages: Record<string, string> = showInputErrors(inputs);
 
-    {
-      id: 2,
-      name: "lastName",
-      type: "text",
-      label: "Last Name",
-      minLength: 3,
-      maxLength: 30,
-      minLengthMessage: "Last Name should be min 3 letters",
-      maxLengthMessage: "Last Name5 should be max 30 letters",
-    },
-  ];
+  const handleBlur = (name: string) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
+
+  const handleChange = (name: string, value: string) => {
+    updateFileds({ [name]: value });
+  };
 
   return (
     <div>
@@ -41,25 +35,31 @@ const CreateEmplStep2: React.FC<CreateEmplStep2Props> = ({
         title="Personal Information"
         subTitle="Fill in the personal details of the employer"
       >
-        {" "}
-        <label>First Name</label>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => updateFileds({ firstName: e.target.value })}
-          minLength={3}
-          maxLength={50}
-          required
-        />
-        <label>Last Name</label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => updateFileds({ lastName: e.target.value })}
-          minLength={3}
-          maxLength={50}
-          required
-        />
+        {inputs.map((arr) => (
+          <React.Fragment key={arr.id}>
+            <label>{arr.label}</label>
+            <input
+              type={arr.type}
+              value={arr.value}
+              name={arr.name}
+              onChange={(e) => handleChange(arr.name, e.target.value)}
+              minLength={arr.minLength}
+              maxLength={arr.maxLength}
+              required={arr.required}
+              onBlur={() => handleBlur(arr.name)}
+            />
+          </React.Fragment>
+        ))}
+
+        <div className="formErrors">
+          {Object.keys(touched).map((field) =>
+            touched[field] && errorMessages[field] ? (
+              <div key={field} className="formError editInput__error">
+                {errorMessages[field]}
+              </div>
+            ) : null
+          )}
+        </div>
       </MultiFormWraper>
     </div>
   );
