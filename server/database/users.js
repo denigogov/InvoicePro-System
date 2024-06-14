@@ -61,7 +61,23 @@ const updateUser = async (req, res) => {
   }
 };
 
+const createUser = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password, departmentId } = req.body;
+
+    const [createEmployer] = await database.query(
+      "INSERT INTO users (firstName, lastName, email, password, departmentId ) VALUES (?,?,?,?,?)",
+      [firstName, lastName, email, password, departmentId]
+    );
+
+    createEmployer.affectedRows ? res.sendStatus(201) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
+
 module.exports = {
   selectAllUsers,
   updateUser,
+  createUser,
 };

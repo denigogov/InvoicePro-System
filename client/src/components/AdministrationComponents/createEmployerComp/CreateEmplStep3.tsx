@@ -16,9 +16,10 @@ const CreateEmplStep3: React.FC<CreateEmplStep3Props> = ({
   showInputErrors,
   email,
   password,
+  confirm,
 }) => {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const inputs = inputStep3(email, password);
+  const inputs = inputStep3(email, password, confirm);
   const errorMessages: Record<string, string> = showInputErrors(
     inputs as FormInputs[]
   );
@@ -48,6 +49,7 @@ const CreateEmplStep3: React.FC<CreateEmplStep3Props> = ({
               minLength={arr.minLength}
               maxLength={arr.maxLength}
               required={arr.required}
+              pattern={arr?.pattern?.source} // Converting RegExp to string
               onBlur={() => handleBlur(arr?.name ?? "")}
             />
           </React.Fragment>

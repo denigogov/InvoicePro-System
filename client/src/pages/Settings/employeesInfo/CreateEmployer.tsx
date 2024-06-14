@@ -19,6 +19,8 @@ import { AllDepartmentsTypes } from "../../../types/departmentTypes";
 import { fetchAllDepartments } from "../../../api/departmentAPI";
 import { useAuth } from "../../../helpers/useAuth";
 import useSWR from "swr";
+import { createUserAPI } from "../../../api/userAPI";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 interface CreateEmployerProps {}
 
@@ -33,6 +35,9 @@ const CreateEmployer: React.FC<CreateEmployerProps> = () => {
     useState<INITIAL_DATA_STEP3_Types>(INITIAL_DATA_STEP3);
 
   const { token } = useAuth();
+  const navigate = useNavigate();
+  const setPopupOpen =
+    useOutletContext<React.Dispatch<React.SetStateAction<boolean>>>();
 
   const updateFileds = (
     fileds: Partial<
@@ -55,6 +60,12 @@ const CreateEmployer: React.FC<CreateEmployerProps> = () => {
   const showInputErrors = (inputs: FormInputs[]): Record<string, string> => {
     const errors: Record<string, string> = {};
 
+    const passwordInput = inputs.find((input) => input.name === "password");
+
+    const confirmPasswordInput = inputs.find(
+      (input) => input.name === "confirm"
+    );
+
     inputs.forEach((arr) => {
       if (arr.name) {
         switch (true) {
@@ -67,11 +78,22 @@ const CreateEmployer: React.FC<CreateEmployerProps> = () => {
           case arr.maxLength !== undefined && arr.value.length > arr.maxLength:
             errors[arr.name] = arr.maxLengthMessage || "";
             break;
+          case arr.pattern !== undefined && !arr.pattern.test(arr.value):
+            errors[arr.name] = arr.errorMessage;
+            break;
           default:
             break;
         }
       }
     });
+
+    if (
+      passwordInput &&
+      confirmPasswordInput &&
+      passwordInput.value !== confirmPasswordInput.value
+    ) {
+      errors[confirmPasswordInput.name] = confirmPasswordInput.errorMessage;
+    }
 
     return errors;
   };
@@ -84,26 +106,34 @@ const CreateEmployer: React.FC<CreateEmployerProps> = () => {
     fetchAllDepartments(token ?? "")
   );
 
-  const { steps, currentStepIndex, next, previuse, isFirstStep, isLastStep } =
-    useMultiStepForm([
-      <CreateEmplStep1
-        {...step1Data}
-        allDepartmentsData={allDepartmentsData}
-        updateFileds={updateFileds}
-        allDepartmentsDataError={allDepartmentsDataError}
-        allDepartmentsDataLoading={allDepartmentsDataLoading}
-      />,
-      <CreateEmplStep2
-        {...step2Data}
-        updateFileds={updateFileds}
-        showInputErrors={showInputErrors}
-      />,
-      <CreateEmplStep3
-        {...step3Data}
-        updateFileds={updateFileds}
-        showInputErrors={showInputErrors}
-      />,
-    ]);
+  const {
+    steps,
+    currentStepIndex,
+    next,
+    previuse,
+    isFirstStep,
+    isSecoundStep,
+    isThirdStep,
+    isLastStep,
+  } = useMultiStepForm([
+    <CreateEmplStep1
+      {...step1Data}
+      allDepartmentsData={allDepartmentsData}
+      updateFileds={updateFileds}
+      allDepartmentsDataError={allDepartmentsDataError}
+      allDepartmentsDataLoading={allDepartmentsDataLoading}
+    />,
+    <CreateEmplStep2
+      {...step2Data}
+      updateFileds={updateFileds}
+      showInputErrors={showInputErrors}
+    />,
+    <CreateEmplStep3
+      {...step3Data}
+      updateFileds={updateFileds}
+      showInputErrors={showInputErrors}
+    />,
+  ]);
 
   const stepNames = formStepName(currentStepIndex);
 
@@ -114,12 +144,23 @@ const CreateEmployer: React.FC<CreateEmployerProps> = () => {
       if (step1Data?.departmentId !== "") {
         next();
       }
-      console.log("submit");
+
+      if (isSecoundStep && step2Data?.firstName && step2Data.lastName !== "") {
+        next();
+      }
+
+      // const { confirm, ...queryData } = step3Data;
+
+      if (isThirdStep) {
+        await createUserAPI(token ?? "", step3Data);
+        setStep1Data(INITIAL_DATA_STEP1);
+        setStep2Data(INITIAL_DATA_STEP2);
+        setStep3Data(INITIAL_DATA_STEP3);
+        navigate("/administration/employees");
+        setPopupOpen((e) => !e);
+      }
     } catch (err) {
-      apiGeneralErrorHandle(
-        err,
-        "Something went very wrong, please try one more time "
-      );
+      apiGeneralErrorHandle(err);
     }
   };
 

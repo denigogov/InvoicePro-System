@@ -16,11 +16,38 @@
 }
 
 .employeesSettings {
-  &-title {
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
     margin: 1.3rem;
     padding: 0 1.3rem;
-    color: colors.$font-Title;
-    font-size: 1.3rem;
+    &-title {
+      color: colors.$font-Title;
+      font-size: 1.3rem;
+    }
+
+    &-route {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      gap: 0.4rem;
+
+      color: colors.$font-Title;
+      font-weight: 500;
+      font-size: 0.8rem;
+
+      &:hover {
+        color: colors.$font-sectionTitle;
+      }
+      img {
+        width: 35px;
+      }
+    }
+  }
+  table {
+    margin-bottom: 2rem;
   }
 }
 

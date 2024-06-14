@@ -9,6 +9,7 @@ export interface INITIAL_DATA_STEP2_Types {
 export interface INITIAL_DATA_STEP3_Types {
   email: string;
   password: string;
+  confirm: string;
 }
 
 export interface FormInputs {
@@ -23,6 +24,7 @@ export interface FormInputs {
   errorMessage: string;
   minLenghtMessage?: string;
   maxLengthMessage?: string;
+  pattern?: RegExp;
 }
 
 export const formStepName = (currentStepIndex: number) => {
@@ -59,6 +61,7 @@ export const INITIAL_DATA_STEP2: INITIAL_DATA_STEP2_Types = {
 export const INITIAL_DATA_STEP3: INITIAL_DATA_STEP3_Types = {
   email: "",
   password: "",
+  confirm: "",
 };
 
 export const inputStep2 = (
@@ -99,7 +102,8 @@ export const inputStep2 = (
 
 export const inputStep3 = (
   email: string,
-  password: string
+  password: string,
+  confirm: string
 ): Partial<FormInputs>[] => {
   const inputs = [
     {
@@ -107,10 +111,14 @@ export const inputStep3 = (
       name: "email",
       type: "email",
       label: "Email",
+      minLength: 3,
+      maxLength: 30,
       value: email || "",
       pattern:
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       errorMessage: "Invalid email format",
+      minLenghtMessage: "Email should be min 3 letters",
+      maxLengthMessage: "Email should be max 30 letters",
     },
 
     {
@@ -119,7 +127,6 @@ export const inputStep3 = (
       type: "password",
       label: "Password",
       value: password || "",
-      placeholder: "Add your password",
       pattern:
         /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/,
       errorMessage: `Password should be at least 6 characters and should include at least 1 letter, 1 number, and 1 special character`,
@@ -128,8 +135,9 @@ export const inputStep3 = (
       id: 3,
       name: "confirm",
       type: "password",
-      label: "Confirm Password",
-      placeholder: "Confirm your password",
+      value: confirm || "",
+      label: "confirm Password",
+      errorMessage: "Passwords don't match!",
     },
   ];
 

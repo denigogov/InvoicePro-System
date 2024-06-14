@@ -6,6 +6,7 @@ import { fetchAllUsers } from "../../../api/userAPI";
 import EmployesTable from "../../../components/Settings/EmployeesComponents/EmployesTable";
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import createUserIcon from "../../../assets/createUserIcon.svg";
 
 interface EmployeesSettingsProps {}
 
@@ -30,10 +31,18 @@ const EmployeesSettings: React.FC<EmployeesSettingsProps> = () => {
 
   return (
     <div className="employeesSettings">
-      <h3 className="employeesSettings-title">Employees Profile</h3>
-      <Link onClick={popupWindow} to="create">
-        Create Emplyeer
-      </Link>
+      <nav className="employeesSettings__title">
+        <h3 className="employeesSettings__title-title">Employees Profile</h3>
+
+        <Link
+          className="employeesSettings__title-route"
+          onClick={popupWindow}
+          to="create"
+        >
+          <img src={createUserIcon} alt="" /> Create Emplyeer{" "}
+        </Link>
+      </nav>
+
       <EmployesTable
         allUserData={allUserData}
         allUserDataLoading={allUserDataLoading}

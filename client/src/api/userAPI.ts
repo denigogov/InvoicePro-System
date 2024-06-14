@@ -1,3 +1,4 @@
+import { successRequest } from "../components/GlobalComponents/successPrompt";
 import { FetchAllUsersTypes } from "../types/userDataTypes";
 import { apiFetcher } from "./apiHelper";
 
@@ -45,5 +46,36 @@ export const updateUser = async <T>(
   } catch (error) {
     console.log(error);
     throw error;
+  }
+};
+
+export const createUserAPI = async (
+  token: string,
+  queryData: Partial<FetchAllUsersTypes>
+) => {
+  try {
+    const res = await fetch(`${API_URL}/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(queryData),
+    });
+
+    if (!res.ok) {
+      const errorResponse = await res.json();
+
+      console.log("erroprrrrr", errorResponse);
+
+      throw new Error(`${errorResponse.validationErrors[0].message}`);
+    } else {
+      return successRequest("Great", "Account Created Successfully!");
+    }
+  } catch (err: unknown) {
+    if ((err as Error).message.includes("Duplicate")) {
+      throw new Error(`User already exists`);
+    }
+    throw err;
   }
 };
