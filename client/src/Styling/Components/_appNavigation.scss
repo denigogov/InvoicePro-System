@@ -4,19 +4,29 @@
 @use "../GlobalStyling/general";
 
 .logo {
+  margin-top: 6px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
 
-  &::after {
-    content: "All Transport InvoicePro System";
-    font-size: 10px;
-    line-height: 1.2;
+  p {
+    font-size: 12px;
+    line-height: 1.4;
     color: colors.$font-Primary;
     display: block;
+    font-weight: 600;
+
+    span {
+      color: colors.$font-sectionTitle;
+    }
   }
 
   img {
-    width: 40px;
-    margin: 0 auto;
+    border: 1px solid colors.$font-sectionTitle;
+    border-radius: 50%;
+    width: 2.5rem;
   }
 }
 

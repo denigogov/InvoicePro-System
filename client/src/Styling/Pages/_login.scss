@@ -53,25 +53,66 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 3rem;
   text-align: center;
   // height: calc(100vh - 6rem);
   height: 100vh;
 
-  &__comapny {
-    font-size: 32px;
-    font-weight: 200;
+  &__company {
+    // border: 1px solid red;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 
-    &_name {
-      color: colors.$font-Title;
-      font-weight: 300;
+    &_logo {
+      border: 2px solid colors.$font-sectionTitle;
+      border-radius: 50%;
+      padding: 1rem;
+      img {
+        width: 8rem;
+      }
     }
-  }
 
-  &__logo {
-    padding: 10px;
-    img {
-      width: 4.3rem;
+    &_text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: justify;
+      color: colors.$font-Title;
+
+      &-title {
+        font-size: 5rem;
+        font-weight: 600;
+        letter-spacing: 8px;
+
+        span {
+          color: colors.$font-sectionTitle;
+        }
+      }
+
+      &-slogan {
+        font-size: 0.8rem;
+        text-transform: capitalize;
+        font-weight: 200;
+        letter-spacing: 4.5px;
+      }
+    }
+
+    @media (max-width: general.$sm) {
+      flex-direction: column;
+      gap: 0;
+
+      &_logo {
+        margin-top: 0rem;
+      }
+
+      &_text {
+        text-align: center;
+
+        &-title {
+          font-size: 4rem;
+        }
+      }
     }
   }
 

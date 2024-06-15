@@ -1,6 +1,6 @@
 import "../Styling/Components/_appNavigation.scss";
 import { NavLink, useNavigate } from "react-router-dom";
-import logoIcon from "../assets/truck-long-svgrepo-com.svg";
+import logoIcon from "../assets/logo1.svg";
 import logoutIcon from "../assets/logoutBtnIcon.svg";
 import dashboardIcon from "../assets/dashboardIcon.svg";
 import settingsIcon from "../assets/settingsIcon.svg";
@@ -37,9 +37,14 @@ const AppNavigation = () => {
         onClick={handleNavBar}
       ></div>
       <nav className={`navbar  ${openNav ? "openNav" : "closeNav"} `}>
-        <span className="logo">
-          <img src={logoIcon} alt="Logo" />
-        </span>
+        <NavLink to="/dashboard" onClick={handleNavBar}>
+          <span className="logo">
+            <img src={logoIcon} alt="Logo" />
+            <p>
+              nexi<span>go</span>
+            </p>
+          </span>
+        </NavLink>
         <span
           className={
             openNav

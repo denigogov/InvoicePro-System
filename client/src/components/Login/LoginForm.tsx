@@ -1,5 +1,7 @@
 import LoadingRing from "../GlobalComponents/LoadingRing";
-import companyLogo from "../../assets/truck-long-svgrepo-com.svg";
+// import companyLogo from "../../assets/truck-long-svgrepo-com.svg";
+// import companyLogo from "../../assets/logoWhite.svg";
+import companyLogo from "../../assets/logo1.svg";
 import { useRef, useState } from "react";
 import { CredentialsTypes } from "../../types/loginType";
 
@@ -31,14 +33,19 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   return (
     <div className="loginForm">
-      <div className="loginForm__comapny">
-        <span className="loginForm__comapny_name">All Transport</span>
-        <br />
-        InvoicePro System
-      </div>
+      <div className="loginForm__company">
+        <div className="loginForm__company_logo">
+          <img alt="login-logo" src={companyLogo} />
+        </div>
 
-      <div className="loginForm__logo">
-        <img alt="login-logo" src={companyLogo} />
+        <div className="loginForm__company_text">
+          <p className="loginForm__company_text-title">
+            nexi<span>go</span>
+          </p>
+          <p className="loginForm__company_text-slogan">
+            streamline, simplify, succeed
+          </p>
+        </div>
       </div>
 
       <form onSubmit={handleClickLogin}>

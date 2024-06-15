@@ -92,6 +92,7 @@ const RootRouter = () => {
 
           {/* Administration Route */}
           <Route path="/administration" element={<Administration />}>
+            <Route index element={<EmployeesSettings />} />
             <Route path="employees" element={<EmployeesSettings />}>
               <Route path="edit/:id" element={<EditEmployer />} />
               <Route path="create" element={<CreateEmployer />} />
