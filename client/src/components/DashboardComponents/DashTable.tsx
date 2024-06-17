@@ -1,41 +1,80 @@
-// interface DashTableProps {}
+import moment from "moment";
+import { RecentInvoicesType } from "../../types/invoiceTypes";
+import ErrorMinimalDisplay from "../GlobalComponents/ErrorMinimalDisplay";
+import TableSkeletonLoading from "../GlobalComponents/SkeletonLoading/TableSkeletonLoading";
 
-// const DashTable: React.FC<DashTableProps> = ({}) => {
-const DashTable: React.FC = () => {
+interface DashTableProps {
+  recentInvoicesDataError: Error;
+  recentInvoicesDataLoading: boolean;
+  recentInvoicesData?: RecentInvoicesType[];
+}
+
+const DashTable: React.FC<DashTableProps> = ({
+  recentInvoicesDataError,
+  recentInvoicesDataLoading,
+  recentInvoicesData,
+}) => {
+  const getStatusClass = (statusID: number | undefined) => {
+    switch (statusID) {
+      case 1:
+        return "status-draft";
+      case 2:
+        return "status-sent";
+      case 3:
+        return "status-paid";
+      case 4:
+        return "status-overdue";
+      case 5:
+        return "status-void";
+      default:
+        return "noStatus";
+    }
+  };
+
+  // card-${statusId} cards
+
+  if (recentInvoicesDataError)
+    return (
+      <ErrorMinimalDisplay errorMessage={recentInvoicesDataError?.message} />
+    );
+
+  if (recentInvoicesDataLoading) return <TableSkeletonLoading />;
   return (
-    <div>
+    <div className="table">
       <table>
         <thead>
           <tr>
-            <th>Tracking ID</th>
-            <th>Product Name</th>
+            <th>Invoice ID</th>
+            <th>Customer</th>
             <th>Date</th>
             <th>Price</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-cell="Invoice ID">12345</td>
-            <td data-cell="Comapny Name">Product 1</td>
-            <td data-cell="Date">2024-05-19</td>
-            <td data-cell="Price">$100</td>
-            <td data-cell="Status">Shipped</td>
-          </tr>
-          <tr>
-            <td data-cell="Invoice ID">12346</td>
-            <td data-cell="Comapny Name">Product 2</td>
-            <td data-cell="Date">2024-05-18</td>
-            <td data-cell="Price">$200</td>
-            <td data-cell="Status">Pending</td>
-          </tr>
-          <tr>
-            <td data-cell="Invoice ID">12347</td>
-            <td data-cell="Comapny Name">Product 3</td>
-            <td data-cell="Date">2024-05-17</td>
-            <td data-cell="Price">$150</td>
-            <td data-cell="Status">Delivered</td>
-          </tr>
+          {recentInvoicesData?.length ? (
+            recentInvoicesData?.map((d) => (
+              <tr key={d?.invoiceId}>
+                <td data-cell="Invoice ID">{d?.invoiceId ?? "Not Found"}</td>
+                <td data-cell="Customer">{d?.customerName ?? "Not Found"}</td>
+                <td data-cell="Date">
+                  {moment(d?.date).format("Do MMMM YYYY")}
+                </td>
+                <td data-cell="Price">€ {d?.totalPrice ?? "Not Found"}</td>
+                <td data-cell="Status" className="td-status">
+                  <span className={`span-td ${getStatusClass(d?.statusId)}`}>
+                    {d?.statusName ?? ""}
+                  </span>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td data-cell="status" colSpan={5}>
+                No Data Found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

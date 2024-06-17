@@ -19,17 +19,17 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
   openEditRoute,
   openDetailsRoute,
 }) => {
-  const getStatusClass = (statusName: string | undefined) => {
+  const getStatusClass = (statusName: number | null) => {
     switch (statusName) {
-      case "Draft":
+      case 1:
         return "status-draft";
-      case "Sent":
+      case 2:
         return "status-sent";
-      case "Paid":
+      case 3:
         return "status-paid";
-      case "Overdue":
+      case 4:
         return "status-overdue";
-      case "Void":
+      case 5:
         return "status-void";
       default:
         return "noStatus";
@@ -75,7 +75,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({
                 </td>
                 <td data-cell="Status" className="td-status">
                   <span
-                    className={`span-td ${getStatusClass(invoice?.statusName)}`}
+                    className={`span-td ${getStatusClass(invoice?.statusId)}`}
                   >
                     {invoice?.statusName ?? ""}
                   </span>

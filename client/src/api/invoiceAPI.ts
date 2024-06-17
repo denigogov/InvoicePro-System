@@ -5,6 +5,7 @@ import {
   InvoiceType,
   LastInvoiceIdType,
   PaginationRequestType,
+  RecentInvoicesType,
   SingleInvoiceByIdType,
 } from "../types/invoiceTypes";
 import { apiFetcher } from "./apiHelper";
@@ -226,4 +227,13 @@ export const updateInvoice = async <T>(
     console.log(error);
     throw error;
   }
+};
+
+/**
+ *
+ * @param token string
+ * @returns last 3 invoices selected by ID -- invoiceID, CustomerName, Date,TotalPrice and Status Name
+ */
+export const fetchRecentInvoices = async (token?: string) => {
+  return apiFetcher<RecentInvoicesType[]>("invoice/recent", token || "");
 };

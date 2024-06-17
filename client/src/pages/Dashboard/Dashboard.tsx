@@ -11,6 +11,8 @@ import CardSkeletonLoading from "../../components/GlobalComponents/CardSkeletonL
 import { fetchInvoiceTotalMonthly } from "../../api/chartAPI";
 import { InvoiceTotalMonthly } from "../../types/chartDataTypes";
 import { useNavigate } from "react-router-dom";
+import { fetchRecentInvoices } from "../../api/invoiceAPI";
+import { RecentInvoicesType } from "../../types/invoiceTypes";
 
 const Dashboard: React.FC = () => {
   const { token } = useAuth();
@@ -29,6 +31,13 @@ const Dashboard: React.FC = () => {
     isLoading: invoiceTotalMonthlyLoading,
   } = useSWR<InvoiceTotalMonthly[]>(["invoiceTotalMonthly", token], () =>
     fetchInvoiceTotalMonthly(token ?? "")
+  );
+  const {
+    data: recentInvoicesData,
+    error: recentInvoicesDataError,
+    isLoading: recentInvoicesDataLoading,
+  } = useSWR<RecentInvoicesType[]>(["recentInvoices", token], () =>
+    fetchRecentInvoices(token ?? "")
   );
 
   return (
@@ -91,7 +100,11 @@ const Dashboard: React.FC = () => {
       {/* Table */}
       <div className="recent-activity ">
         <h3>Recent Invoices</h3>
-        <DashTable />
+        <DashTable
+          recentInvoicesDataError={recentInvoicesDataError}
+          recentInvoicesData={recentInvoicesData}
+          recentInvoicesDataLoading={recentInvoicesDataLoading}
+        />
       </div>
     </div>
   );

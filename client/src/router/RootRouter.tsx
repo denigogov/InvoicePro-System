@@ -34,6 +34,7 @@ import EditInvoiceSettings from "../pages/Settings/invoiceInfo/EditInvoiceSettin
 import Administration from "../pages/Administration/Administration";
 import Customers from "../pages/Administration/customer/Customers";
 import CreateEmployer from "../pages/Settings/employeesInfo/CreateEmployer";
+import EditCustomer from "../pages/Administration/customer/EditCustomer";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -98,7 +99,9 @@ const RootRouter = () => {
               <Route path="create" element={<CreateEmployer />} />
             </Route>
 
-            <Route path="customers" element={<Customers />} />
+            <Route path="customers" element={<Customers />}>
+              <Route path="edit/:id" element={<EditCustomer />} />
+            </Route>
           </Route>
 
           {/* settings Route */}

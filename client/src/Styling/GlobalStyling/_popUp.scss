@@ -29,6 +29,11 @@
   transition: all 0.5s;
 }
 
+.popupScroll {
+  width: 100%;
+  @include mixin.overflowScroll;
+}
+
 .xsPopup {
   width: 20%;
   height: 30%;
@@ -71,5 +76,20 @@
   @media (max-width: general.$md) {
     width: 90%;
     height: 70%;
+  }
+}
+
+.msPopup {
+  width: 40%;
+  height: 70%;
+
+  @media (max-width: general.$md) {
+    width: 70%;
+    height: 70%;
+  }
+
+  @media (max-width: general.$sm) {
+    width: 90%;
+    height: 60%;
   }
 }

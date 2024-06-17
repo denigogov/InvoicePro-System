@@ -2,7 +2,7 @@ import { DefaultInputValuesTypes } from "../../../types/InputTypes";
 import { CompanyInfoTypes } from "../../../types/companyInfoTypes";
 
 export function companyBankInput(
-  companyData: CompanyInfoTypes[]
+  companyData?: CompanyInfoTypes[]
 ): DefaultInputValuesTypes[] {
   const formInputs: DefaultInputValuesTypes[] = [
     {

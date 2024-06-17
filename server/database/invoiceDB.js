@@ -225,7 +225,7 @@ const allInvoicesPagination = async (req, res) => {
     const whereClause = `${whereQuery.join(" AND ")}`;
     const orderClause = `ORDER BY ${orderByQuery.join(", ")} `;
 
-    const queryString = `SELECT invoice.id, invoiceId, customerName, totalPrice, invoice.date, statusName FROM ${
+    const queryString = `SELECT invoice.id, invoiceId, customerName, totalPrice, invoice.date, statusName, statusId FROM ${
       process.env.DB_NAME
     }.invoice
       left join invoicestatus on invoice.statusId = invoicestatus.id

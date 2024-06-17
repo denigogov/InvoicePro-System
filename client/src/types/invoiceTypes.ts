@@ -30,6 +30,7 @@ export interface InvoicePaginationDataType {
   date: Date | string;
   totalPrice: number;
   statusName: string;
+  statusId: number;
 }
 export interface AllInvoicesPaginationType {
   invoiceData: InvoicePaginationDataType[];
@@ -69,3 +70,14 @@ export interface SingleInvoiceByIdType {
   findInvoice?: Partial<invoiceJoinDataTypes[]>;
   findDetails?: Partial<invoiceDetails[]>;
 }
+
+// ID as invocieStatus ID
+export type RecentInvoicesType = Pick<
+  InvoicePaginationDataType,
+  | "invoiceId"
+  | "date"
+  | "customerName"
+  | "totalPrice"
+  | "statusName"
+  | "statusId"
+>;

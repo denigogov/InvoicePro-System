@@ -38,7 +38,23 @@ const invoiceTotalProMonth = async (_, res) => {
   }
 };
 
+// Details in Invoice Route - route  name invoice
+const recentInvoices = async (_, res) => {
+  try {
+    const [fetchData] = await database.query(`
+        select invoiceId, customerName, date, totalPrice, statusName,statusId from invoice 
+        left join invoicestatus on invoicestatus.id = invoice.statusId
+        left join customercompany on customercompany.id = invoice.customercompanyId
+        ORDER BY invoice.id desc limit 3`);
+
+    fetchData.length ? res.status(200).send(fetchData) : res.sendStatus(404);
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
+
 module.exports = {
   invoiceCountByStatus,
   invoiceTotalProMonth,
+  recentInvoices,
 };

@@ -19,11 +19,15 @@ const {
   validateUpdateInvoiceDetails,
 } = require("../validation/invoiceValidation");
 
-const { invoiceTotalProMonth } = require("../database/chartData");
+const {
+  invoiceTotalProMonth,
+  recentInvoices,
+} = require("../database/chartData");
 
 // Route name invoice
 router
   .get("/totalMonthly", invoiceTotalProMonth)
+  .get("/recent", recentInvoices)
   .post("/pagination", allInvoicesPagination)
   .get("/lastId", lastInvoiceId)
   .get("/:id", selectInvoiceById)
