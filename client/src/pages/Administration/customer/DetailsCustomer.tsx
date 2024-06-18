@@ -2,7 +2,7 @@ interface DetailsCustomerProps {}
 import { FaPaperclip } from "react-icons/fa";
 import "../../../Styling/Components/AdministrationComponentsStyle/_customerDetails.scss";
 
-const DetailsCustomer: React.FC<DetailsCustomerProps> = ({}) => {
+const DetailsCustomer: React.FC<DetailsCustomerProps> = () => {
   const customer = {
     name: "John Doe",
     email: "johndoe@example.com",

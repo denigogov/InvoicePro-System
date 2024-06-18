@@ -1,0 +1,82 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+
+.showEmployees {
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid colors.$border-Primary;
+      transition: general.$transition;
+
+      &:last-child {
+        border: none;
+      }
+
+      &:hover {
+        border-radius: 0.7rem;
+        box-shadow: colors.$box-shadow-secondary;
+      }
+
+      @media (max-width: general.$sm) {
+        img {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    &-icon {
+      img {
+        width: 4.5rem;
+        border: 1px solid colors.$border-Primary-Dark;
+        border-radius: 50%;
+        padding: 6px;
+      }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      font-size: 0.94rem;
+      color: colors.$font-Secound;
+
+      &-name {
+        font-weight: 600;
+        color: colors.$font-Title;
+      }
+
+      &-department {
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  &__button {
+    border: 1px solid colors.$border-Primary;
+    padding: 0.65rem 1.3rem;
+    transition: general.$transition;
+    cursor: pointer;
+
+    font-size: 0.9rem;
+    color: colors.$font-Primary;
+
+    &:hover {
+      background-color: #e0e0e069;
+      box-shadow: colors.$box-shadow-secondary;
+    }
+  }
+}

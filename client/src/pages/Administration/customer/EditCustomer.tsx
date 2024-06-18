@@ -18,7 +18,7 @@ import {
 
 interface EditCustomerProps {}
 
-const EditCustomer: React.FC<EditCustomerProps> = ({}) => {
+const EditCustomer: React.FC<EditCustomerProps> = () => {
   const { id } = useParams();
   const { token } = useAuth();
 
@@ -38,7 +38,7 @@ const EditCustomer: React.FC<EditCustomerProps> = ({}) => {
 
   const inputValues = customerInputs(singleCustomerData ?? []);
 
-  const submitUpdateCustomer = async (query: any) => {
+  const submitUpdateCustomer = async (query: Partial<AllCustomerTypes>) => {
     try {
       const confirmUpdateMessage = await confirmUpdatePrompt(
         "Confirm Update",

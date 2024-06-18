@@ -1,0 +1,107 @@
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
+
+.error404Container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 1rem 0;
+
+  &__logo {
+    img {
+      padding: 0.7rem;
+      border: 2px solid colors.$font-sectionTitle;
+      border-radius: 50%;
+      width: 7rem;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.7rem;
+
+    &-status {
+      color: colors.$font-sectionTitle;
+    }
+
+    &-title {
+      font-size: clamp(1.9rem, 2.5vw + 1rem, 3rem);
+      font-weight: 600;
+      color: colors.$font-Title;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    &-footer {
+      color: colors.$font-Secound;
+      font-weight: 300;
+    }
+  }
+
+  &__links {
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      li {
+        padding: 1rem;
+        display: flex;
+        gap: 3rem;
+        border-bottom: 1px solid colors.$border-Primary;
+        transition: general.$transition;
+        img {
+          box-shadow: colors.$box-shadow-secondary;
+          border-radius: 0.6rem;
+          padding: 0.7rem;
+          width: 3rem;
+        }
+
+        &:hover {
+          border-radius: 6px;
+          box-shadow: colors.$box-shadow-secondary;
+        }
+      }
+    }
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    &-title {
+      font-size: 0.86rem;
+      font-weight: 500;
+    }
+
+    &-subTitle {
+      font-size: 0.8rem;
+      color: colors.$font-Secound;
+    }
+
+    &-arrow {
+      font-size: 1.3rem;
+      color: colors.$font-tertiary;
+    }
+  }
+
+  &__linkHome {
+    // margin-top: 1.5rem;
+    padding: 1rem 0;
+    &-link {
+      color: colors.$font-sectionTitle;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: general.$transition;
+
+      &:hover {
+        color: colors.$font-Title;
+      }
+    }
+  }
+}

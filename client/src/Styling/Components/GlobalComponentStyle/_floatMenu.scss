@@ -1,7 +1,9 @@
-$darkbg: #f01e1e;
-$btCinza: #e9d2d2;
-$icons: #ff9789;
-$branco: #e9e1e1;
+@use "../../GlobalStyling/colors";
+
+$hover: #f01e1e;
+$background: colors.$font-tertiary;
+$closeBtn: colors.$font-Title;
+$textColor: #e9e6e1;
 
 .toggleMenu {
   .container {
@@ -21,7 +23,7 @@ $branco: #e9e1e1;
     z-index: 999;
     width: 320px;
     height: 65px;
-    background: $btCinza;
+    background: $background;
     border-radius: 15px;
     cursor: pointer;
     display: flex;
@@ -36,7 +38,7 @@ $branco: #e9e1e1;
       content: "";
       width: 20px;
       height: 2px;
-      background: $icons;
+      background: $closeBtn;
       transform: rotate(225deg);
       transition: all 0.4s ease;
     }
@@ -45,7 +47,7 @@ $branco: #e9e1e1;
       content: "";
       width: 20px;
       height: 2px;
-      background: $icons;
+      background: $closeBtn;
       transform: rotate(135deg);
       transition: all 0.4s ease;
     }
@@ -54,7 +56,7 @@ $branco: #e9e1e1;
   .nav {
     opacity: 1;
     transition: all 0.5s ease-in-out;
-    background: $btCinza;
+    background: $background;
     width: 100%;
     border-radius: 5px;
     transform: translateX(10%);
@@ -100,8 +102,8 @@ $branco: #e9e1e1;
       border-radius: 15px;
 
       &:hover {
-        color: $branco;
-        background: $darkbg;
+        color: $textColor;
+        background: $hover;
         border-radius: 15px;
       }
     }

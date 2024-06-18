@@ -1,5 +1,5 @@
 import "../../Styling/Components/GlobalComponentStyle/_floatMenu.scss";
-import iconTest from "../assets/passwordIcon.svg";
+import iconTest from "../../assets/addIcon.svg";
 
 const FloatMenu: React.FC = () => {
   return (
@@ -28,7 +28,6 @@ const FloatMenu: React.FC = () => {
               <li>
                 <a href="#0">
                   <i className="ri-file-line">
-                    {" "}
                     <img src={iconTest} alt="iconTest" />
                   </i>
                 </a>

@@ -36,6 +36,7 @@ import Customers from "../pages/Administration/customer/Customers";
 import CreateEmployer from "../pages/Settings/employeesInfo/CreateEmployer";
 import EditCustomer from "../pages/Administration/customer/EditCustomer";
 import DetailsCustomer from "../pages/Administration/customer/DetailsCustomer";
+import Error404 from "../components/GlobalComponents/Error404";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -121,7 +122,7 @@ const RootRouter = () => {
             </Route>
           </Route>
         </Route>
-        <Route path="*" element={<h1>Pae Not Found</h1>} />
+        <Route path="*" element={<Error404 />} />
       </Route>
     )
   );

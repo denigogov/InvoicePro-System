@@ -19,7 +19,8 @@
   &__title {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 1.3rem;
 
     margin: 1.3rem;
     padding: 0 1.3rem;
@@ -29,25 +30,31 @@
     }
 
     &-route {
-      display: flex;
-      align-items: center;
+      color: #fff;
+      background-color: colors.$font-sectionTitle;
+      transition: general.$transition;
+      font-size: 0.87rem;
+      border-radius: 0.3rem;
+      padding: 0.5rem 1rem;
       text-align: center;
-      gap: 0.4rem;
 
-      color: colors.$font-Title;
-      font-weight: 500;
-      font-size: 0.8rem;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+
+        span {
+          font-size: 1.4rem;
+        }
+      }
 
       &:hover {
-        color: colors.$font-sectionTitle;
-      }
-      img {
-        width: 35px;
+        opacity: 0.8;
       }
     }
-  }
-  table {
-    margin-bottom: 2rem;
   }
 }
 
