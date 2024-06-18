@@ -2,7 +2,7 @@ import { FetchAllUsersTypes } from "../../../types/userDataTypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import TableSkeletonLoading from "../../GlobalComponents/SkeletonLoading/TableSkeletonLoading";
 import editIcon from "../../../assets/editIcon.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface EmployesTableProps {
   allUserData?: FetchAllUsersTypes[];
@@ -18,6 +18,8 @@ const EmployesTable: React.FC<EmployesTableProps> = ({
 
   setPopupOpen,
 }) => {
+  const { pathname } = useLocation();
+
   const handleEditUser = () => {
     setPopupOpen((e) => !e);
   };
@@ -49,7 +51,14 @@ const EmployesTable: React.FC<EmployesTableProps> = ({
                   <td data-cell="Email">{user?.email ?? ""}</td>
                   <td data-cell="Department">{user?.departmentName}</td>
                   <td data-cell="Modify">
-                    <Link to={`edit/${user?.userId}`} unstable_viewTransition>
+                    <Link
+                      to={
+                        pathname === "/administration"
+                          ? `employees/edit/${user?.userId}`
+                          : `edit/${user?.userId}`
+                      }
+                      unstable_viewTransition
+                    >
                       <img
                         src={editIcon}
                         alt="editIcon"

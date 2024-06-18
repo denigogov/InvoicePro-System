@@ -35,6 +35,7 @@ import Administration from "../pages/Administration/Administration";
 import Customers from "../pages/Administration/customer/Customers";
 import CreateEmployer from "../pages/Settings/employeesInfo/CreateEmployer";
 import EditCustomer from "../pages/Administration/customer/EditCustomer";
+import DetailsCustomer from "../pages/Administration/customer/DetailsCustomer";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -101,6 +102,7 @@ const RootRouter = () => {
 
             <Route path="customers" element={<Customers />}>
               <Route path="edit/:id" element={<EditCustomer />} />
+              <Route path="details/:id" element={<DetailsCustomer />} />
             </Route>
           </Route>
 

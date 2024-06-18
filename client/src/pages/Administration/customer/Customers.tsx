@@ -24,6 +24,11 @@ const Customers: React.FC<CustomersProps> = () => {
     navigator(`/administration/customers/edit/${invoiceId}`);
   };
 
+  const openDetailsRoute = (invoiceId: number) => {
+    setPopupOpen((x) => !x);
+    navigator(`/administration/customers/details/${invoiceId}`);
+  };
+
   const {
     data: allCustomersData,
     error: allCustomersDataError,
@@ -42,6 +47,7 @@ const Customers: React.FC<CustomersProps> = () => {
         allCustomersDataError={allCustomersDataError}
         allCustomersDataLoading={allCustomersDataLoading}
         openEditRoute={openEditRoute}
+        openDetailsRoute={openDetailsRoute}
       />
 
       {popUpOpen && (

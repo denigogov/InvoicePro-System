@@ -2,12 +2,14 @@ import { AllCustomerTypes } from "../../../types/customerAPITypes";
 import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import TableSkeletonLoading from "../../GlobalComponents/SkeletonLoading/TableSkeletonLoading";
 import editIcon from "../../../assets/editInvoiceDetailsIcon.svg";
+import detailsICon from "../../../assets/detailsIcon.svg";
 
 interface CustomerTableProps {
   allCustomersDataLoading: boolean;
   allCustomersDataError: Error;
   allCustomersData?: AllCustomerTypes[];
   openEditRoute: (id: number) => void;
+  openDetailsRoute: (id: number) => void;
 }
 
 const CustomerTable: React.FC<CustomerTableProps> = ({
@@ -15,6 +17,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
   allCustomersDataError,
   allCustomersData,
   openEditRoute,
+  openDetailsRoute,
 }) => {
   const handleEditCustomer = (id: number) => {
     openEditRoute(id);
@@ -36,6 +39,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
             <th>ZipCode</th>
             <th>City</th>
             <th>Country</th>
+            <th>Details</th>
             <th>Edit</th>
           </tr>
         </thead>
@@ -51,6 +55,13 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                 <td data-cell="ZipCode">{customer?.zipcode ?? "No Data"}</td>
                 <td data-cell="City">{customer?.city ?? "No Data"}</td>
                 <td data-cell="Country">{customer?.country ?? "No Data"}</td>
+                <td data-cell="Details">
+                  <img
+                    onClick={() => openDetailsRoute(customer?.id ?? 0)}
+                    src={detailsICon}
+                    alt="edit Icon"
+                  />
+                </td>
                 <td data-cell="Edit">
                   <img
                     onClick={() => handleEditCustomer(customer?.id ?? 0)}

@@ -1,9 +1,12 @@
 const database = require("./database");
 
-const allCustomers = async (_, res) => {
+const allCustomers = async (req, res) => {
   try {
+    const { id } = req.params;
+
     const [findcustomers] = await database.query(
-      "select * from customercompany"
+      `select * from customercompany ${id ? "Where id = ?" : ""}`,
+      [id]
     );
 
     findcustomers.length
@@ -31,7 +34,43 @@ const createCustomerCompany = async (req, res) => {
   }
 };
 
+const updateCustomerCompany = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fields = [
+      "customerName",
+      "country",
+      "city",
+      "street",
+      "zipcode",
+      "idNumber",
+    ];
+
+    const updates = [];
+    const updateValues = [];
+
+    fields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        updates.push(`${field} = ?`);
+        updateValues.push(req.body[field]);
+      }
+    });
+
+    if (!updates.length) return res.sendStatus(400);
+
+    const query = `UPDATE customercompany SET ${updates.join(
+      ", "
+    )} WHERE id = ?`;
+    const [updateTable] = await database.query(query, [...updateValues, id]);
+
+    updateTable.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
+
 module.exports = {
   allCustomers,
   createCustomerCompany,
+  updateCustomerCompany,
 };
