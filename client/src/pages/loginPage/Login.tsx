@@ -33,7 +33,6 @@ const Login: React.FC = () => {
       return data.token as string;
     } catch (err) {
       const requestError = (err as Error).stack;
-      console.log(requestError);
       setError(
         requestError?.includes("Too")
           ? "Too Many Request, Please Try later ! "

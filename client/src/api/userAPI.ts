@@ -1,3 +1,4 @@
+import { deleteActionPrompt } from "../components/GlobalComponents/deletePrompt";
 import { successRequest } from "../components/GlobalComponents/successPrompt";
 import { FetchAllUsersTypes } from "../types/userDataTypes";
 import { apiFetcher } from "./apiHelper";
@@ -71,6 +72,57 @@ export const createUserAPI = async (
       throw new Error(`${errorResponse.validationErrors[0].message}`);
     } else {
       return successRequest("Great", "Account Created Successfully!");
+    }
+  } catch (err: unknown) {
+    if ((err as Error).message.includes("Duplicate")) {
+      throw new Error(`User already exists`);
+    }
+    throw err;
+  }
+};
+
+/**
+ *
+ * @param token string
+ * @param id number - userID number
+ */
+export const deleteUser = async (token: string, id: number) => {
+  try {
+    const res = await fetch(`${API_URL}/user/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.ok) {
+      // prompt after user click delete
+      deleteActionPrompt();
+    } else throw new Error(`${res.statusText}`);
+  } catch (err: unknown) {
+    console.log(err);
+    throw err;
+  }
+};
+
+// REQUEST FOR RESET PASSWORD
+/**
+ *
+ * @param queryData email as string
+ */
+export const requestNewPassword = async (queryData: { email: string }) => {
+  try {
+    const res = await fetch(`${API_URL}/user/pass-reset`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(queryData),
+    });
+
+    if (!res.ok) {
+      const errorResponse = await res.json();
+      console.log("erroprrrrr", errorResponse);
+      throw new Error(`${errorResponse.validationErrors[0].message}`);
     }
   } catch (err: unknown) {
     if ((err as Error).message.includes("Duplicate")) {

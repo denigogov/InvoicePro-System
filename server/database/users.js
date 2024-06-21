@@ -1,4 +1,7 @@
 const database = require("./database");
+const jwt = require("jsonwebtoken");
+const { decrypt, encrypt } = require("../auth/encript");
+const sgMail = require("@sendgrid/mail");
 
 const selectAllUsers = async (req, res) => {
   try {
@@ -76,8 +79,74 @@ const createUser = async (req, res) => {
   }
 };
 
+const deleteEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [deleteUser] = await database.query(
+      "delete from users where id = ?",
+      [id]
+    );
+
+    deleteUser.affectedRows ? res.sendStatus(200) : res.sendStatus(404);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+const passwordReset = async (req, res) => {
+  try {
+    const source = req.headers["user-agent"];
+    console.log("aget", source);
+
+    const { email } = req.body;
+
+    const [findUser] = await database.query(
+      `select id,email, lastName from users where email = ?`,
+      [email]
+    );
+
+    if (email.length && findUser?.[0]?.email === email) {
+      const payload = {
+        type: encrypt(toString(findUser[0].id) + findUser[0].lastName),
+      };
+
+      const token = jwt.sign(payload, process.env.JWT_CODE, {
+        expiresIn: "30sec",
+      });
+
+      const message = {
+        from: {
+          email: process.env.EMAIL,
+        },
+
+        personalizations: [
+          {
+            to: [
+              {
+                email: findUser?.[0].email,
+              },
+            ],
+
+            dynamic_template_data: {
+              tokenLink: `${process.env.FRONTEND__URL}/login/password-reset/confirm/${token}`,
+            },
+          },
+        ],
+        template_id: `${process.env.TEMPLATE_RESETPASSWORD}`,
+      };
+
+      sgMail.send(message).then(() => res.sendStatus(200));
+    }
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
+
 module.exports = {
   selectAllUsers,
   updateUser,
   createUser,
+  deleteEmployee,
+  passwordReset,
 };

@@ -1,5 +1,14 @@
 const Joi = require("joi");
 
+const paramErrorMessage =
+  "We detected an unauthorized attempt to access or modify data. Your request could not be processed. If you believe this is an error or need assistance, please contact our support team";
+
+const paramSchema = Joi.object({
+  id: Joi.number().integer().positive().required().messages({
+    "number.required": paramErrorMessage,
+  }),
+});
+
 const updateUserSchema = Joi.object({
   firstName: Joi.string().min(3).max(30).messages({
     "string.min": "Must have at least 3 characters",
@@ -44,6 +53,10 @@ const createEmployerSchema = Joi.object({
     ),
 });
 
+const resetPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
 const validateUserUpdate = (req, res, next) => {
   const { firstName, lastName, email, password, departmentId } = req.body;
 
@@ -86,7 +99,41 @@ const validateUserCreate = (req, res, next) => {
   }
 };
 
+const validateParam = (req, res, next) => {
+  const { id } = req.params;
+
+  const { error } = paramSchema.validate(
+    {
+      id,
+    },
+    { abortEarly: false }
+  );
+
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    next();
+  }
+};
+
+const validatePassRequest = (req, res, next) => {
+  const { email } = req.body;
+
+  const { error } = resetPasswordSchema.validate(
+    { email },
+    { abortEarly: false }
+  );
+
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    next();
+  }
+};
+
 module.exports = {
   validateUserUpdate,
   validateUserCreate,
+  validateParam,
+  validatePassRequest,
 };

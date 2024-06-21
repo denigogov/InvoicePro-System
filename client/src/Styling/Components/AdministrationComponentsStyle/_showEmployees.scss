@@ -1,5 +1,6 @@
 @use "../../GlobalStyling/colors";
 @use "../../GlobalStyling/general";
+@use "../../GlobalStyling/mixin";
 
 .showEmployees {
   ul {
@@ -49,6 +50,7 @@
     &-info {
       display: flex;
       flex-direction: column;
+
       gap: 0.2rem;
       font-size: 0.94rem;
       color: colors.$font-Secound;
@@ -66,17 +68,36 @@
   }
 
   &__button {
-    border: 1px solid colors.$border-Primary;
-    padding: 0.65rem 1.3rem;
-    transition: general.$transition;
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-    font-size: 0.9rem;
-    color: colors.$font-Primary;
+    p {
+      border: 1px solid colors.$border-Primary;
+      padding: 0.65rem 1.3rem;
+      transition: general.$transition;
+      cursor: pointer;
 
-    &:hover {
-      background-color: #e0e0e069;
-      box-shadow: colors.$box-shadow-secondary;
+      font-size: 0.9rem;
+      color: colors.$font-Primary;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &:hover {
+        font-weight: 600;
+        background-color: #e0e0e069;
+        box-shadow: colors.$box-shadow-secondary;
+      }
+    }
+
+    .deleteBtn {
+      &:hover {
+        color: colors.$error;
+
+        background-color: rgba(255, 0, 0, 0.14);
+      }
     }
   }
 }

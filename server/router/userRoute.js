@@ -5,14 +5,24 @@ const { verifyToken, hashedPassword } = require("../auth/auth");
 const {
   validateUserUpdate,
   validateUserCreate,
+  validateParam,
+  validatePassRequest,
 } = require("../validation/userValidation");
-const { selectAllUsers, updateUser, createUser } = require("../database/users");
+const {
+  selectAllUsers,
+  updateUser,
+  createUser,
+  deleteEmployee,
+  passwordReset,
+} = require("../database/users");
 
 // Route name = User
 
 router
   .get("/", selectAllUsers)
+  .post("/", validateUserCreate, hashedPassword, createUser)
   .put("/:id", validateUserUpdate, hashedPassword, updateUser)
-  .post("/", validateUserCreate, hashedPassword, createUser);
+  .delete("/:id", validateParam, deleteEmployee)
+  .post("/pass-reset", validatePassRequest, passwordReset);
 
 module.exports = router;

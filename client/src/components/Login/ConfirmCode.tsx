@@ -29,6 +29,10 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
     setPopupOpen((x) => !x);
   };
 
+  const handleBackToLogin = () => {
+    console.log("need to make user to be able to return to login view");
+  };
+
   return (
     <div className="confirmCode">
       <div className="confirmCode__image">
@@ -53,6 +57,10 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
 
         <p className="resendCode" onClick={() => setPopupOpen((e) => !e)}>
           Didn't Receive Code?
+        </p>
+        <br />
+        <p className="resendCode" onClick={handleBackToLogin}>
+          back to login
         </p>
       </div>
 

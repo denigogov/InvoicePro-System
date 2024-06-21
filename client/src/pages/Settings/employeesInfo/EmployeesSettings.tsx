@@ -1,11 +1,12 @@
 import "../../../Styling/Components/SettingsComponent/_employeesSettings.scss";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useAuth } from "../../../helpers/useAuth";
 import { FetchAllUsersTypes } from "../../../types/userDataTypes";
-import { fetchAllUsers } from "../../../api/userAPI";
+import { deleteUser, fetchAllUsers } from "../../../api/userAPI";
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import ShowEmployees from "../../../components/Settings/EmployeesComponents/ShowEmployees";
+import { confirmDeletePrompt } from "../../../components/GlobalComponents/deletePrompt";
 
 interface EmployeesSettingsProps {}
 
@@ -28,6 +29,19 @@ const EmployeesSettings: React.FC<EmployeesSettingsProps> = () => {
     fetchAllUsers(token ?? "")
   );
 
+  const handleDeleteUser = async (id: number) => {
+    console.log(id);
+    const confirmedDeleteMessage = await confirmDeletePrompt(
+      "Delete Employee Confirmation",
+      "Are you sure you want to permanently delete this employee? This action cannot be undone"
+    );
+
+    if (confirmedDeleteMessage.isConfirmed) {
+      await deleteUser(token ?? "", id ?? null);
+      mutate(["allUserData", token]);
+    }
+  };
+
   return (
     <div className="employeesSettings">
       <nav className="employeesSettings__title">
@@ -49,6 +63,7 @@ const EmployeesSettings: React.FC<EmployeesSettingsProps> = () => {
         allUserDataLoading={allUserDataLoading}
         allUserDataError={allUserDataError}
         setPopupOpen={setPopupOpen}
+        handleDeleteUser={handleDeleteUser}
       />
 
       {popUpOpen && (

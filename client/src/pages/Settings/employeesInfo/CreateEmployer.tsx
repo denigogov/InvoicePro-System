@@ -18,7 +18,7 @@ import { apiGeneralErrorHandle } from "../../../components/GlobalComponents/Erro
 import { AllDepartmentsTypes } from "../../../types/departmentTypes";
 import { fetchAllDepartments } from "../../../api/departmentAPI";
 import { useAuth } from "../../../helpers/useAuth";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { createUserAPI } from "../../../api/userAPI";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
@@ -153,6 +153,7 @@ const CreateEmployer: React.FC<CreateEmployerProps> = () => {
 
       if (isThirdStep) {
         await createUserAPI(token ?? "", step3Data);
+        mutate(["allUserData", token]);
         setStep1Data(INITIAL_DATA_STEP1);
         setStep2Data(INITIAL_DATA_STEP2);
         setStep3Data(INITIAL_DATA_STEP3);

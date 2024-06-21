@@ -37,6 +37,8 @@ import CreateEmployer from "../pages/Settings/employeesInfo/CreateEmployer";
 import EditCustomer from "../pages/Administration/customer/EditCustomer";
 import DetailsCustomer from "../pages/Administration/customer/DetailsCustomer";
 import Error404 from "../components/GlobalComponents/Error404";
+import PasswordReset from "../pages/loginPage/PasswordReset";
+import PasswordChange from "../pages/loginPage/PasswordChange";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -64,6 +66,12 @@ const RootRouter = () => {
                 </RequireValidation>
               </UserLoggedin>
             }
+          />
+
+          <Route path="password-reset" element={<PasswordReset />} />
+          <Route
+            path="password-reset/confirm/:token"
+            element={<PasswordChange />}
           />
         </Route>
         <Route

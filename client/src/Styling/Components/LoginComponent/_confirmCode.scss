@@ -59,6 +59,11 @@
   color: colors.$font-Secound;
   cursor: pointer;
   display: inline;
+  transition: general.$transition;
+
+  &:hover {
+    color: colors.$font-sectionTitle;
+  }
 
   &:active {
     transform: scale(0.99);

@@ -165,3 +165,17 @@
     }
   }
 }
+
+.passwordlink {
+  color: colors.$font-Secound;
+  font-size: 0.8em;
+
+  .linkPassword {
+    color: colors.$font-sectionTitle;
+    transition: general.$transition;
+
+    &:hover {
+      background-color: lighten(colors.$font-Secound, 40%);
+    }
+  }
+}

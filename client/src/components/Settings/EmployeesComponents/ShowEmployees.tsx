@@ -9,6 +9,7 @@ interface ShowEmployeesProps {
   allUserDataError: Error;
   allUserDataLoading: boolean;
   setPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDeleteUser: (id: number) => void;
 }
 
 const ShowEmployees: React.FC<ShowEmployeesProps> = ({
@@ -16,6 +17,7 @@ const ShowEmployees: React.FC<ShowEmployeesProps> = ({
   allUserDataError,
   allUserDataLoading,
   setPopupOpen,
+  handleDeleteUser,
 }) => {
   const { pathname } = useLocation();
 
@@ -30,7 +32,7 @@ const ShowEmployees: React.FC<ShowEmployeesProps> = ({
     <div className="showEmployees width500">
       <ul>
         {allUserData?.map((user) => (
-          <li>
+          <li key={user?.userId}>
             <div className="showEmployees__text">
               <div className="showEmployees__text-icon">
                 <img src={testIcon} alt="userICon" />
@@ -48,17 +50,25 @@ const ShowEmployees: React.FC<ShowEmployeesProps> = ({
               </div>
             </div>
 
-            <Link
-              className="showEmployees__button"
-              to={
-                pathname === "/administration"
-                  ? `employees/edit/${user?.userId}`
-                  : `edit/${user?.userId}`
-              }
-              unstable_viewTransition
-            >
-              <p onClick={handleEditUser}>Manage</p>
-            </Link>
+            <div className="showEmployees__button">
+              <Link
+                className=""
+                to={
+                  pathname === "/administration"
+                    ? `employees/edit/${user?.userId}`
+                    : `edit/${user?.userId}`
+                }
+                unstable_viewTransition
+              >
+                <p onClick={handleEditUser}>Manage</p>
+              </Link>
+              <p
+                className="deleteBtn"
+                onClick={() => handleDeleteUser(user?.userId)}
+              >
+                Delete
+              </p>
+            </div>
           </li>
         ))}
       </ul>

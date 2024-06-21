@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 require("dotenv").config();
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEYS; // Use a strong encryption key
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEYS;
 
 const encrypt = (text) => {
   const iv = crypto.randomBytes(16);
@@ -21,7 +21,7 @@ const decrypt = (text) => {
   const encryptedText = Buffer.from(textParts.join(":"), "hex");
   const decipher = crypto.createDecipheriv(
     "aes-256-cbc",
-    Buffer.from(ENCRYPTION_KEY, "utf-8"), // Specify encoding for Buffer
+    Buffer.from(ENCRYPTION_KEY, "utf-8"),
     iv
   );
   let decrypted = decipher.update(encryptedText);

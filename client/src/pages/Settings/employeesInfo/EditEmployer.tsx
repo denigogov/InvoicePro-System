@@ -80,6 +80,7 @@ const EditEmployer: React.FC<EditEmployerProps> = () => {
     }
   };
 
+  // styling in _employeesSettings.scss
   return (
     <div className="editEmployer">
       <EditInput

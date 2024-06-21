@@ -7,7 +7,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   background-image: linear-gradient(
       112.5deg,
       rgb(214, 214, 214) 0%,
@@ -92,6 +91,10 @@
 }
 
 @media (max-width: general.$sm) {
+  .codeResend {
+    @include mixin.overflowScroll();
+    height: 100%;
+  }
   .codeResend__input {
     font-size: 12px;
   }

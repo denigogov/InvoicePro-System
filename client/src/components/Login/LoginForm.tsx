@@ -1,9 +1,8 @@
 import LoadingRing from "../GlobalComponents/LoadingRing";
-// import companyLogo from "../../assets/truck-long-svgrepo-com.svg";
-// import companyLogo from "../../assets/logoWhite.svg";
-import companyLogo from "../../assets/logo1.svg";
 import { useRef, useState } from "react";
 import { CredentialsTypes } from "../../types/loginType";
+import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 interface LoginFormProps {
   error: string;
@@ -33,20 +32,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   return (
     <div className="loginForm">
-      <div className="loginForm__company">
-        <div className="loginForm__company_logo">
-          <img alt="login-logo" src={companyLogo} />
-        </div>
-
-        <div className="loginForm__company_text">
-          <p className="loginForm__company_text-title">
-            nexi<span>go</span>
-          </p>
-          <p className="loginForm__company_text-slogan">
-            streamline, simplify, succeed
-          </p>
-        </div>
-      </div>
+      <Logo />
 
       <form onSubmit={handleClickLogin}>
         <input
@@ -75,6 +61,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <button>Sign in</button> <p className="errorMessage">{error}</p>
       </form>
       {loading && <LoadingRing />}
+
+      <p className="passwordlink">
+        Forgot your password?{" "}
+        <Link className="linkPassword" to="password-reset">
+          Reset it
+        </Link>
+      </p>
     </div>
   );
 };
