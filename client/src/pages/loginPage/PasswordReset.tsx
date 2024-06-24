@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 
 const PasswordReset: React.FC = () => {
   const [formSubmited, setFormSubmited] = useState<boolean>(false);
+
   const submitRequestPassword = async (query: string) => {
     try {
-      await requestNewPassword({ email: query });
+      const test = await requestNewPassword({ email: query });
+      console.log(test);
     } catch (err) {
       apiGeneralErrorHandle(err);
     }

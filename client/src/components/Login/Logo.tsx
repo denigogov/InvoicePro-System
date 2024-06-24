@@ -1,8 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import companyLogo from "../../assets/logo1.svg";
 
 const Logo: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <div className="loginForm__company">
+    <div
+      className="loginForm__company"
+      style={{ cursor: "pointer" }}
+      onClick={() => navigate("/login")}
+    >
       <div className="loginForm__company_logo">
         <img alt="login-logo" src={companyLogo} />
       </div>

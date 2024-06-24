@@ -57,6 +57,19 @@ const resetPasswordSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
+const passwordChangeSchema = Joi.object({
+  password: Joi.string()
+    .required()
+    .pattern(
+      new RegExp(
+        "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$"
+      )
+    )
+    .message(
+      "Password should be at least 6 characters and should include at least 1 letter, 1 number, and 1 special character"
+    ),
+});
+
 const validateUserUpdate = (req, res, next) => {
   const { firstName, lastName, email, password, departmentId } = req.body;
 
@@ -131,9 +144,25 @@ const validatePassRequest = (req, res, next) => {
   }
 };
 
+const validatePasswordChange = (req, res, next) => {
+  const { password } = req.body;
+
+  const { error } = passwordChangeSchema.validate(
+    { password },
+    { abortEarly: false }
+  );
+
+  if (error) {
+    res.status(422).json({ validationErrors: error.details });
+  } else {
+    next();
+  }
+};
+
 module.exports = {
   validateUserUpdate,
   validateUserCreate,
   validateParam,
   validatePassRequest,
+  validatePasswordChange,
 };

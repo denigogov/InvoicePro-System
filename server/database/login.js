@@ -1,6 +1,6 @@
 const database = require("./database");
 const jwt = require("jsonwebtoken");
-const { decrypt, encrypt } = require("../auth/encript");
+const { decrypt } = require("../auth/encript");
 const sgMail = require("@sendgrid/mail");
 
 const findUserData = async (req, res, next) => {

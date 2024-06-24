@@ -11,6 +11,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<TokenType>(
     localStorage.getItem("accessKey") ?? null
   );
+
   const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
 
   const [validateToken, setValidateToken] = useState<TokenType>(

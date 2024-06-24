@@ -1,6 +1,7 @@
 const database = require("./database");
 const jwt = require("jsonwebtoken");
 const { decrypt, encrypt } = require("../auth/encript");
+const crypto = require("crypto");
 const sgMail = require("@sendgrid/mail");
 
 const selectAllUsers = async (req, res) => {
@@ -96,8 +97,8 @@ const deleteEmployee = async (req, res) => {
 
 const passwordReset = async (req, res) => {
   try {
-    const source = req.headers["user-agent"];
-    console.log("aget", source);
+    // const source = req.headers["user-agent"];
+    // console.log("aget", source);
 
     const { email } = req.body;
 
@@ -108,11 +109,13 @@ const passwordReset = async (req, res) => {
 
     if (email.length && findUser?.[0]?.email === email) {
       const payload = {
-        type: encrypt(toString(findUser[0].id) + findUser[0].lastName),
+        data1: encrypt(findUser?.[0].email),
+        data2: encrypt(findUser?.[0].id.toString()),
+        data3: encrypt(findUser?.[0].lastName),
       };
 
       const token = jwt.sign(payload, process.env.JWT_CODE, {
-        expiresIn: "30sec",
+        expiresIn: "10min",
       });
 
       const message = {
@@ -137,16 +140,57 @@ const passwordReset = async (req, res) => {
       };
 
       sgMail.send(message).then(() => res.sendStatus(200));
+
+      // email.length ? res.status(200).send(token) : res.sendStatus(400);
     }
   } catch (err) {
     res.status(500).send(err?.message);
   }
 };
 
+const allowUserResetEmail = async (req, res) => {
+  try {
+    const { data1, data2, data3 } = req.decodedToken;
+
+    const email = decrypt(data1);
+    const id = decrypt(data2);
+    const lastName = decrypt(data3);
+
+    const [confirmUser] = await database.query(
+      "select lastName FROM users where email=? AND id=? AND lastName =?  ",
+      [email, id, lastName]
+    );
+
+    confirmUser.length ? res.sendStatus(200) : res.sendStatus(404);
+  } catch (err) {
+    res.status(500).send("token error", res?.status);
+  }
+};
+
+const changePassword = async (req, res) => {
+  try {
+    const { data1, data2 } = req.decodedToken;
+    const { password } = req.body;
+
+    const email = decrypt(data1);
+    const id = decrypt(data2);
+
+    const [findUser] = await database.query(
+      "UPDATE users set password = ?  where id = ? AND email = ?",
+      [password, id, email]
+    );
+
+    findUser.affectedRows ? res.sendStatus(200) : res.sendStatus(204);
+  } catch (err) {
+    res.status(500).send(err?.message);
+  }
+};
 module.exports = {
   selectAllUsers,
   updateUser,
   createUser,
   deleteEmployee,
   passwordReset,
+  allowUserResetEmail,
+  changePassword,
 };

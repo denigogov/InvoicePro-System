@@ -7,6 +7,7 @@ const {
   validateUserCreate,
   validateParam,
   validatePassRequest,
+  validatePasswordChange,
 } = require("../validation/userValidation");
 const {
   selectAllUsers,
@@ -14,7 +15,11 @@ const {
   createUser,
   deleteEmployee,
   passwordReset,
+  allowUserResetEmail,
+  changePassword,
 } = require("../database/users");
+
+const { resendCodeLimit } = require("../auth/rateLimit");
 
 // Route name = User
 
@@ -23,6 +28,15 @@ router
   .post("/", validateUserCreate, hashedPassword, createUser)
   .put("/:id", validateUserUpdate, hashedPassword, updateUser)
   .delete("/:id", validateParam, deleteEmployee)
-  .post("/pass-reset", validatePassRequest, passwordReset);
+  .post("/pass-reset", validatePassRequest, passwordReset)
+  .post("/confirmRestToken", verifyToken, allowUserResetEmail)
+  .post(
+    "/password",
+    resendCodeLimit,
+    validatePasswordChange,
+    verifyToken,
+    hashedPassword,
+    changePassword
+  );
 
 module.exports = router;

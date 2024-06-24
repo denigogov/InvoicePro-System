@@ -36,6 +36,7 @@ const verifyPassword = async (req, res) => {
       req.body.password
     );
 
+    // creating the confirm code
     let randomBytes = crypto.randomBytes(4).toString("hex");
     let encryptedCode = encrypt(randomBytes);
 

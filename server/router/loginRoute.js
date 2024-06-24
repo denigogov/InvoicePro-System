@@ -18,8 +18,8 @@ const {
 const { resendCodeLimit } = require("../auth/rateLimit");
 
 router
-  .post("/", findUserData, validateUserLogin, verifyPassword)
-  .post("/confirm", verifyToken, validateConfirmCode, confirmCode)
+  .post("/", validateUserLogin, findUserData, verifyPassword)
+  .post("/confirm", validateConfirmCode, verifyToken, confirmCode)
   .get("/", verifyToken, validateUser, sendUserInfo)
   .post("/resendcode", resendCodeLimit, verifyToken, resendCode);
 
