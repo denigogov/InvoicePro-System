@@ -10,6 +10,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
   setFormSubmited,
 }) => {
   const emailREF = useRef<HTMLInputElement>(null);
+
   const handleResetPassword = (e: React.FormEvent) => {
     e.preventDefault();
 
