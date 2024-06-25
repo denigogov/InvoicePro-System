@@ -16,9 +16,9 @@ const { invoiceCountByStatus } = require("../database/chartData");
 
 // Route Name invoiceStatus
 router
-  .get("/chart", invoiceCountByStatus)
-  .get("/", allInvoiceStatus)
-  .get("/:id", invoiceStatus)
-  .put("/:id", validateUpdateInvoiceStatus, updateInvoiceStatus);
+  .get("/chart", verifyToken, invoiceCountByStatus)
+  .get("/", verifyToken, allInvoiceStatus)
+  .get("/:id", verifyToken, invoiceStatus)
+  .put("/:id", verifyToken, validateUpdateInvoiceStatus, updateInvoiceStatus);
 
 module.exports = router;

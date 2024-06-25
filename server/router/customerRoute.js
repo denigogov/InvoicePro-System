@@ -15,8 +15,13 @@ const {
 
 // Route name customer
 router
-  .get("/:id?", allCustomers)
-  .post("/", validateCustomerCompany, createCustomerCompany)
-  .put("/:id", validateUpdateCustomerCompany, updateCustomerCompany);
+  .get("/:id?", verifyToken, allCustomers)
+  .post("/", verifyToken, validateCustomerCompany, createCustomerCompany)
+  .put(
+    "/:id",
+    verifyToken,
+    validateUpdateCustomerCompany,
+    updateCustomerCompany
+  );
 
 module.exports = router;

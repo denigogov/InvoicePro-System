@@ -31,6 +31,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     setToken(null);
+    setValidateToken(null);
+    localStorage.removeItem("userAccess");
     localStorage.removeItem("accessKey");
   };
 

@@ -39,6 +39,7 @@ import DetailsCustomer from "../pages/Administration/customer/DetailsCustomer";
 import Error404 from "../components/GlobalComponents/Error404";
 import PasswordReset from "../pages/loginPage/PasswordReset";
 import PasswordChange from "../pages/loginPage/PasswordChange";
+import { RequireAuth } from "../helpers/RequireAuth";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -78,9 +79,9 @@ const RootRouter = () => {
           path="/"
           element={
             // need to uncoment --> comment  for styling purpose
-            // <RequireAuth>
-            <AppRoute />
-            // </RequireAuth>
+            <RequireAuth>
+              <AppRoute />
+            </RequireAuth>
           }
         >
           <Route index element={<Dashboard />} />

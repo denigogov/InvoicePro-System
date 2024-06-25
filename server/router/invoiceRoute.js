@@ -26,15 +26,25 @@ const {
 
 // Route name invoice
 router
-  .get("/totalMonthly", invoiceTotalProMonth)
-  .get("/recent", recentInvoices)
-  .post("/pagination", allInvoicesPagination)
-  .get("/lastId", lastInvoiceId)
-  .get("/:id", selectInvoiceById)
-  .post("/", validateInvoiceCreate, createInvoice)
-  .post("/details", validateCreateInvoiceDetails, createInvoiceDetails)
-  .put("/:id", validateUpdateInvoice, updateInvoice)
-  .put("/details/:id", validateUpdateInvoiceDetails, updateInvoiceDetails)
-  .delete("/:id", deleteInvoice);
+  .get("/totalMonthly", verifyToken, invoiceTotalProMonth)
+  .get("/recent", verifyToken, recentInvoices)
+  .post("/pagination", verifyToken, allInvoicesPagination)
+  .get("/lastId", verifyToken, lastInvoiceId)
+  .get("/:id", verifyToken, selectInvoiceById)
+  .post("/", verifyToken, validateInvoiceCreate, createInvoice)
+  .post(
+    "/details",
+    verifyToken,
+    validateCreateInvoiceDetails,
+    createInvoiceDetails
+  )
+  .put("/:id", verifyToken, validateUpdateInvoice, updateInvoice)
+  .put(
+    "/details/:id",
+    verifyToken,
+    validateUpdateInvoiceDetails,
+    updateInvoiceDetails
+  )
+  .delete("/:id", verifyToken, deleteInvoice);
 
 module.exports = router;

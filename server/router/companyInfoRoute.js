@@ -12,7 +12,7 @@ const {
 
 // need to add verifyToken - I remove to be able to work without token inside of the app
 router
-  .get("/", companyData)
-  .put("/:id", validateUpdateCompanyInfo, companyDetailsUpdate);
+  .get("/", verifyToken, companyData)
+  .put("/:id", verifyToken, validateUpdateCompanyInfo, companyDetailsUpdate);
 
 module.exports = router;

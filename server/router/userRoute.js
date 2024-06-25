@@ -24,10 +24,10 @@ const { resendCodeLimit } = require("../auth/rateLimit");
 // Route name = User
 
 router
-  .get("/", selectAllUsers)
-  .post("/", validateUserCreate, hashedPassword, createUser)
-  .put("/:id", validateUserUpdate, hashedPassword, updateUser)
-  .delete("/:id", validateParam, deleteEmployee)
+  .get("/", verifyToken, selectAllUsers)
+  .post("/", verifyToken, validateUserCreate, hashedPassword, createUser)
+  .put("/:id", verifyToken, validateUserUpdate, hashedPassword, updateUser)
+  .delete("/:id", verifyToken, validateParam, deleteEmployee)
   .post("/pass-reset", validatePassRequest, passwordReset)
   .post("/confirmRestToken", verifyToken, allowUserResetEmail)
   .post(

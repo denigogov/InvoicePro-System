@@ -13,7 +13,12 @@ const {
 
 // Route name "settings"
 router
-  .get("/", allInvoiceSettings)
-  .put("/:id", validateUpdateInvoiceSettings, updateInvoiceSettings);
+  .get("/", verifyToken, allInvoiceSettings)
+  .put(
+    "/:id",
+    verifyToken,
+    validateUpdateInvoiceSettings,
+    updateInvoiceSettings
+  );
 
 module.exports = router;

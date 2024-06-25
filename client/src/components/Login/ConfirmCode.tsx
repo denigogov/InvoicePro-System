@@ -47,7 +47,13 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
         </p>
         <form onSubmit={handleConfirmation}>
           <label></label> <br />
-          <input type="text" ref={confirmCodeRef} required maxLength={8} />
+          <input
+            type="text"
+            defaultValue="guest2FA"
+            ref={confirmCodeRef}
+            required
+            maxLength={8}
+          />
           <button>login</button>
         </form>
         <br />

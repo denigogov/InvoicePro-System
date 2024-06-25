@@ -40,7 +40,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           type="email"
           name="email"
           ref={emailRef}
-          // defaultValue="owner@gmail.com"
+          defaultValue="guest@nexigo.com"
           placeholder="email"
         />
         <div className="passwordShow">
@@ -50,6 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             name="password"
             ref={passwordRef}
             placeholder="password"
+            defaultValue="guest123!"
           />
           <p
             onClick={() => setShowPassword(!showPassword)}
