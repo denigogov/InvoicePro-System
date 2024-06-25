@@ -19,6 +19,6 @@ export interface SelectStatusAndPrice {
 export interface FetchtStatusCountChartTypes {
   statusId: number;
   statusName: string;
-  totalPrice: string;
+  totalPrice: number;
   totalInvoices: number;
 }

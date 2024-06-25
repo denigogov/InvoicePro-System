@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
                 errorMessage={invoiceStatusCountError}
                 loading={invoiceStatusCountLoading}
                 statusName={status?.statusName ?? ""}
-                statusPrice={status.totalPrice}
+                statusPrice={status?.totalPrice}
                 statusId={status?.statusId ?? 0}
                 totalInvoices={status?.totalInvoices}
               />

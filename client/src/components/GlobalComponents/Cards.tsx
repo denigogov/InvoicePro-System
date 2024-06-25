@@ -6,7 +6,7 @@ interface CardsProps {
   errorMessage?: Error;
   loading?: boolean;
   statusName?: string;
-  statusPrice?: string;
+  statusPrice?: number;
   statusId?: number;
   totalInvoices?: number;
 }
@@ -27,6 +27,12 @@ const Cards: React.FC<CardsProps> = ({
     5: "Invoices canceled.",
   };
 
+  const numberFormat = (number: number) => {
+    return new Intl.NumberFormat("de-DE").format(number);
+
+    // return 14.000,33 or 1.223.323,55
+  };
+
   const description =
     statusId !== undefined
       ? statusDescriptions[statusId]
@@ -40,11 +46,12 @@ const Cards: React.FC<CardsProps> = ({
         errorMessage={errorMessage?.message ?? "Error Reading Data"}
       />
     );
+
   return (
     <div className={`card-${statusId} cards `}>
       <p className="cards__title">{statusName ?? ""}</p>
       <p className="cards__totalInovices">{totalInvoices ?? 0}</p>
-      <p className="cards__value">€ {statusPrice ?? ""}</p>
+      <p className="cards__value">€ {numberFormat(statusPrice ?? 0)}</p>
       <p className="cards__subTitle">{description}</p>
     </div>
   );
