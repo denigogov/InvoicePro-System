@@ -47,6 +47,8 @@ const verifyPassword = async (req, res) => {
         code: encryptedCode,
       };
 
+      console.log("user", req.user.email);
+
       const token = jwt.sign(payload, process.env.JWT_CODE, {
         expiresIn: "5m",
       });
@@ -71,8 +73,11 @@ const verifyPassword = async (req, res) => {
         ],
         template_id: process.env.TEMPLATE_ID,
       };
-
-      sgMail.send(message).then(() => res.status(200).send({ token }));
+      if (req.user.email !== "guest@nexigo.com") {
+        sgMail.send(message).then(() => res.status(200).send({ token }));
+      } else {
+        res.status(200).send({ token });
+      }
     } else {
       res.status(401).send("wrong password");
     }

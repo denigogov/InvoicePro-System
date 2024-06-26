@@ -1,52 +1,49 @@
-const request = require("supertest");
-const { describe, it, beforeAll, afterAll } = require("vitest");
-const { app } = require("../server");
-const database = require("../database/database");
+import { app } from "server";
 
-describe("Login Route", () => {
-  beforeAll(async () => {
-    await database.query("SELECT 1");
-  });
+export const serverTest = supertest(app);
+import {
+  test,
+  beforeAll,
+  describe,
+  expect,
+  afterAll,
+  it,
+  vi,
+  toBe,
+} from "vitest";
+import supertest from "supertest";
+
+export let loginToken = "";
+export let accessToken = "";
+
+beforeAll(async () => {
+  await serverTest
+    .post("/login")
+    .send({
+      email: "guest@nexigo.com",
+      password: "guest123!",
+    })
+    .expect(200)
+    .expect(async function (res) {
+      if (!res.body.token) throw new Error("validation faild, token missing");
+      accessToken = res.body.token;
+    });
 
   afterAll(async () => {
-    await database.end();
+    accessToken = "";
   });
+});
 
-  it("should login a user with valid credentials", async () => {
-    const res = await request(app).post("/login").send({
-      email: "testuser@example.com",
-      password: "password123",
-    });
+describe("test the employees path", (bka) => {
+  //
+  console.log(bka);
 
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("token");
-  });
+  //
 
-  it("should not login a user with invalid credentials", async () => {
-    const res = await request(app).post("/login").send({
-      email: "invaliduser@example.com",
-      password: "invalidpassword",
-    });
-
-    expect(res.status).toBe(401);
-  });
-
-  it("should validate user and send user info", async () => {
-    const loginRes = await request(app).post("/login").send({
-      email: "testuser@example.com",
-      password: "password123",
-    });
-
-    const token = loginRes.body.token;
-
-    const res = await request(app)
-      .get("/login")
-      .set("Authorization", `Bearer ${token}`);
-
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("payload");
-    expect(res.body.payload).toHaveProperty("id");
-    expect(res.body.payload).toHaveProperty("username");
-    expect(res.body.payload).toHaveProperty("type");
+  test("/user", async () => {
+    const response = await serverTest
+      .get("/user")
+      .auth(accessToken, { type: "bearer" });
+    expect(response.statusCode).toBe(200);
   });
 });
