@@ -1,0 +1,102 @@
+@use "../../GlobalStyling/mixin";
+@use "../../GlobalStyling/colors";
+@use "../../GlobalStyling/general";
+
+.reportFilter {
+  @include mixin.overflowScroll;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+
+  // TITLE
+  header {
+    color: colors.$font-sectionTitle;
+    h5 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 14px;
+      color: colors.$font-Secound;
+    }
+  }
+
+  //   Date
+  &__date {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    flex-wrap: wrap;
+    @include mixin.inputUpdateValue;
+    padding: 2rem;
+
+    input {
+      @include mixin.inputUpdateValue;
+    }
+    label {
+      font-size: 0.87rem;
+      font-weight: 500;
+    }
+
+    &-start,
+    &-end {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+
+  //   chekbox
+
+  &__checkbox {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+
+    label {
+      margin-left: 10px;
+      font-size: 0.87rem;
+      font-weight: 500;
+      color: colors.$font-Secound;
+    }
+    input {
+      cursor: pointer;
+    }
+  }
+
+  //   buttons
+  &__buttons {
+    text-align: end;
+
+    button {
+      padding: 0.8rem 2.5rem;
+      font-weight: bold;
+      margin: 1rem;
+      box-sizing: colors.$box-shadow-secondary;
+
+      &:hover {
+        filter: brightness(0.95);
+      }
+
+      &:first-child {
+        background-color: colors.$font-sectionTitle;
+        color: #fff;
+        &:hover {
+          opacity: 0.85;
+        }
+      }
+    }
+
+    @media (max-width: general.$md) {
+      text-align: center;
+
+      button {
+        margin: 0.5rem;
+      }
+    }
+  }
+}

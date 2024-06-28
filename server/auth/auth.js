@@ -47,8 +47,6 @@ const verifyPassword = async (req, res) => {
         code: encryptedCode,
       };
 
-      console.log("user", req.user.email);
-
       const token = jwt.sign(payload, process.env.JWT_CODE, {
         expiresIn: "5m",
       });

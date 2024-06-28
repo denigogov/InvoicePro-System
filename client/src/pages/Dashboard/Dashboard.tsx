@@ -13,8 +13,11 @@ import { InvoiceTotalMonthly } from "../../types/chartDataTypes";
 import { useNavigate } from "react-router-dom";
 import { fetchRecentInvoices } from "../../api/invoiceAPI";
 import { RecentInvoicesType } from "../../types/invoiceTypes";
+import { useState } from "react";
+import ReportFilter from "../../components/DashboardComponents/ReportFilter";
 
 const Dashboard: React.FC = () => {
+  const [openReport, setOpenReport] = useState<boolean>(false);
   const { token } = useAuth();
   const navigator = useNavigate();
 
@@ -40,13 +43,23 @@ const Dashboard: React.FC = () => {
     fetchRecentInvoices(token ?? "")
   );
 
+  const openPopUp = () => {
+    setOpenReport((e) => !e);
+  };
+
+  const handleDownloadReport = () => {
+    setOpenReport((e) => !e);
+  };
+
   return (
     <div className="dashboard">
       <header className="dashboard-header">
         <h1>Welcome Back, Dejan</h1>
         <p>Manage and track your invoices efficiently</p>
         <div className="header-buttons">
-          <button className="btn">Download Report</button>
+          <button onClick={handleDownloadReport} className="btn">
+            Download Report
+          </button>
           <button
             onClick={() => navigator("/invoices/create")}
             className="btn primary"
@@ -106,6 +119,14 @@ const Dashboard: React.FC = () => {
           recentInvoicesDataLoading={recentInvoicesDataLoading}
         />
       </div>
+
+      {openReport && (
+        <div className="overlay" onClick={openPopUp}>
+          <main className="popUp msPopup" onClick={(e) => e.stopPropagation()}>
+            <ReportFilter />
+          </main>
+        </div>
+      )}
     </div>
   );
 };
