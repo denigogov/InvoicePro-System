@@ -53,9 +53,33 @@
   //   chekbox
 
   &__checkbox {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
+    &-title {
+      display: flex;
+      align-items: center;
+      padding: 1.1rem 0;
+      abbr {
+        text-decoration: none;
+        cursor: help;
+        font-weight: 500;
+        color: colors.$font-Primary;
+      }
+
+      input {
+        margin-left: 0.5rem;
+        accent-color: rgb(253, 255, 227);
+      }
+    }
+
+    &-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    &-inputs div {
+      display: flex;
+      align-items: center;
+    }
 
     label {
       margin-left: 10px;
