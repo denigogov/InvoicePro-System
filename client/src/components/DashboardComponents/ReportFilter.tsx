@@ -3,11 +3,20 @@ import "../../Styling/Pages/Dashboard/_reportFilter.scss";
 import { useState } from "react";
 interface ReportFilterProps {}
 
+interface CheckboxState {
+  totalInvoices: boolean;
+  averageInvoice: boolean;
+  totalDiscount: boolean;
+  totalTax: boolean;
+  totalCustomers: boolean;
+  invoicesByStatus: boolean;
+}
+
 const ReportFilter: React.FC<ReportFilterProps> = () => {
   const today = moment().format("YYYY-MM-DD");
 
   const [allChecked, setAllChecked] = useState(true);
-  const [checkboxes, setCheckboxes] = useState({
+  const [checkboxes, setCheckboxes] = useState<CheckboxState>({
     totalInvoices: true,
     averageInvoice: true,
     totalDiscount: true,
@@ -29,7 +38,7 @@ const ReportFilter: React.FC<ReportFilterProps> = () => {
     });
   };
 
-  const handleCheckboxChange = (name) => {
+  const handleCheckboxChange = (name: keyof CheckboxState) => {
     setCheckboxes((prevState) => {
       const newState = { ...prevState, [name]: !prevState[name] };
       const allSelected = Object.values(newState).every(Boolean);
