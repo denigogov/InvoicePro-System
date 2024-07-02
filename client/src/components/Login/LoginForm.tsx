@@ -1,4 +1,3 @@
-import LoadingRing from "../GlobalComponents/LoadingRing";
 import { useRef, useState } from "react";
 import { CredentialsTypes } from "../../types/loginType";
 import { Link } from "react-router-dom";
@@ -32,43 +31,46 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   return (
     <div className="loginForm">
-      <Logo />
+      <Logo loadingLogo={loading && true} />
 
-      <form onSubmit={handleClickLogin}>
-        <input
-          required
-          type="email"
-          name="email"
-          ref={emailRef}
-          defaultValue="guest@nexigo.com"
-          placeholder="email"
-        />
-        <div className="passwordShow">
-          <input
-            required
-            type={showPassword ? "text" : "password"}
-            name="password"
-            ref={passwordRef}
-            placeholder="password"
-            defaultValue="guest123!"
-          />
-          <p
-            onClick={() => setShowPassword(!showPassword)}
-            className="passwordShow-toggle"
-          >
-            show
+      {loading || (
+        <>
+          <form onSubmit={handleClickLogin}>
+            <input
+              required
+              type="email"
+              name="email"
+              ref={emailRef}
+              defaultValue="guest@nexigo.com"
+              placeholder="email"
+            />
+            <div className="passwordShow">
+              <input
+                required
+                type={showPassword ? "text" : "password"}
+                name="password"
+                ref={passwordRef}
+                placeholder="password"
+                defaultValue="guest123!"
+              />
+              <p
+                onClick={() => setShowPassword(!showPassword)}
+                className="passwordShow-toggle"
+              >
+                show
+              </p>
+            </div>
+            <button>Sign in</button> <p className="errorMessage">{error}</p>
+          </form>
+
+          <p className="passwordlink">
+            Forgot your password?{" "}
+            <Link className="linkPassword" to="password-reset">
+              Reset it
+            </Link>
           </p>
-        </div>
-        <button>Sign in</button> <p className="errorMessage">{error}</p>
-      </form>
-      {loading && <LoadingRing />}
-
-      <p className="passwordlink">
-        Forgot your password?{" "}
-        <Link className="linkPassword" to="password-reset">
-          Reset it
-        </Link>
-      </p>
+        </>
+      )}
     </div>
   );
 };

@@ -3,7 +3,6 @@
 @use "../GlobalStyling/mixin";
 
 .loginForm {
-  // background: colors.$background;
   background-image: linear-gradient(
       44deg,
       rgba(114, 114, 114, 0.02) 0%,
@@ -58,64 +57,6 @@
   // height: calc(100vh - 6rem);
   height: 100vh;
 
-  &__company {
-    // border: 1px solid red;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-
-    &_logo {
-      border: 2px solid colors.$font-sectionTitle;
-      border-radius: 50%;
-      padding: 1rem;
-      img {
-        width: 8rem;
-      }
-    }
-
-    &_text {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      text-align: justify;
-      color: colors.$font-Title;
-
-      &-title {
-        font-size: 5rem;
-        font-weight: 600;
-        letter-spacing: 8px;
-
-        span {
-          color: colors.$font-sectionTitle;
-        }
-      }
-
-      &-slogan {
-        font-size: 0.8rem;
-        text-transform: capitalize;
-        font-weight: 200;
-        letter-spacing: 4.5px;
-      }
-    }
-
-    @media (max-width: general.$sm) {
-      flex-direction: column;
-      gap: 0;
-
-      &_logo {
-        margin-top: 0rem;
-      }
-
-      &_text {
-        text-align: center;
-
-        &-title {
-          font-size: 4rem;
-        }
-      }
-    }
-  }
-
   form {
     display: flex;
     flex-direction: column;
@@ -145,10 +86,10 @@
       p {
         background: none;
         border: none;
-        position: absolute; // Adjust positioning as needed
+        position: absolute;
         top: 0.6rem;
         right: 5px;
-        transform: translate(50% -50%); // Adjust positioning as needed
+        transform: translate(50% -50%);
         opacity: 0;
         cursor: pointer;
       }

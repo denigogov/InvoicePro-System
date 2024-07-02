@@ -37,7 +37,7 @@ import DownloadInvoice from "../../../components/InvoicesComponents/DownloadInvo
 import ReactSignatureCanvas from "react-signature-canvas";
 import { fetchInvoiceSettings } from "../../../api/invoiceSettings";
 import { InvoiceSettingsTypes } from "../../../types/invoiceSettingsTypes";
-import { taxDiscountCalculate } from "../../../helpers/taxCalc";
+import { calcTotalPrice } from "../../../helpers/taxCalc";
 
 export interface StepsType {
   stepName: string;
@@ -47,9 +47,9 @@ export interface StepsType {
 
 export interface TaxDiscountValuesProps {
   taxValue: number;
-  totalTax: string;
+  totalTax: number;
   discountValue: number;
-  totalDiscount: string;
+  totalDiscount: number;
   totalPrice?: number;
 }
 
@@ -281,9 +281,12 @@ const CreateInvoice: React.FC = () => {
     .reduce((acc, mov) => acc + mov, 0);
 
   // function for calculating the tax
-  const calcTax = taxDiscountCalculate(calcPrice, taxValue);
-  const calcDiscount = taxDiscountCalculate(calcPrice, discountValue);
-  const totalPrice = +calcPrice - +calcTax + +calcDiscount;
+
+  const calcPriceLogic = calcTotalPrice(calcPrice, discountValue, taxValue);
+
+  const calcDiscount = calcPriceLogic?.totalDiscount;
+  const calcTax = calcPriceLogic?.totalTax;
+  const totalPrice = calcPriceLogic?.totalPrice;
 
   const taxDiscountValues: TaxDiscountValuesProps = {
     taxValue: taxValue,

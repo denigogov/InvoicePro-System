@@ -3,6 +3,7 @@ import mailTruck from "../../assets/mailTruck.svg";
 import { useRef, useState } from "react";
 import LoadingRing from "../GlobalComponents/LoadingRing";
 import CodeResend from "./CodeResend";
+import { useNavigate } from "react-router-dom";
 
 interface ConfirmCodeProps {
   handleConfirmBtn: (code: string) => Promise<void>;
@@ -18,6 +19,8 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
   const confirmCodeRef = useRef<HTMLInputElement>(null);
   const [popUpOpen, setPopupOpen] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   const handleConfirmation = (e: React.FormEvent) => {
     e.preventDefault();
     const authCode = confirmCodeRef.current?.value ?? "";
@@ -31,6 +34,10 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = ({
 
   const handleBackToLogin = () => {
     console.log("need to make user to be able to return to login view");
+    localStorage.removeItem("userAccess");
+
+    // refreshing the route to be able to go in login route !
+    navigate(0);
   };
 
   return (

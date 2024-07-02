@@ -22,6 +22,7 @@ const {
 const {
   invoiceTotalProMonth,
   recentInvoices,
+  reportData,
 } = require("../database/chartData");
 
 // Route name invoice
@@ -45,6 +46,7 @@ router
     validateUpdateInvoiceDetails,
     updateInvoiceDetails
   )
-  .delete("/:id", verifyToken, deleteInvoice);
+  .delete("/:id", verifyToken, deleteInvoice)
+  .post("/report", reportData);
 
 module.exports = router;

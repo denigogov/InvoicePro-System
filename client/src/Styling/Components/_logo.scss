@@ -1,0 +1,78 @@
+@use "../GlobalStyling/colors";
+@use "../GlobalStyling/general";
+
+// LOGO Design
+.loginForm__company {
+  // border: 1px solid red;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  &_logo {
+    border: 2px solid colors.$font-sectionTitle;
+    border-radius: 50%;
+    padding: 1rem;
+    img {
+      width: 8rem;
+    }
+  }
+
+  .loadingLogo {
+    border: 0.3em solid transparent;
+    animation: glow 1s ease infinite;
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 0 0.1em #00336650, 0 0 0 0.1em #007bff29;
+      }
+
+      to {
+        box-shadow: 0 0 0 0.1em #00336650, 0 0 0 3.6em transparent;
+      }
+    }
+  }
+
+  &_text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: justify;
+    color: colors.$font-Title;
+
+    &-title {
+      font-size: 5rem;
+      font-weight: 600;
+      letter-spacing: 8px;
+
+      span {
+        color: colors.$font-sectionTitle;
+      }
+    }
+
+    &-slogan {
+      font-size: 0.8rem;
+      text-transform: capitalize;
+      font-weight: 200;
+      letter-spacing: 4.5px;
+    }
+  }
+
+  @media (max-width: general.$sm) {
+    flex-direction: column;
+    gap: 0;
+
+    &_logo {
+      margin-top: 0rem;
+    }
+
+    &_text {
+      text-align: center;
+
+      &-title {
+        font-size: 4rem;
+      }
+    }
+  }
+}
+
+// Logo END

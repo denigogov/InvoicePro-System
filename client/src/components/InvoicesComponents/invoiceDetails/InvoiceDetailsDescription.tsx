@@ -113,17 +113,17 @@ const InvoiceDetailsDescription: React.FC<InvoiceDetailsDescriptionProps> = ({
           </ul>
         ))}
         <div className="invoiceDetails__description-wrap-price">
-          {taxDiscountValues?.totalTax === "0.00" || (
-            <h5>
-              Tax: {taxDiscountValues?.taxValue} % - €{" "}
-              {taxDiscountValues?.totalTax}
-            </h5>
-          )}
-
-          {taxDiscountValues?.totalDiscount === "0.00" || (
+          {" "}
+          {taxDiscountValues?.totalDiscount === 0.0 || (
             <h5>
               Discount: {taxDiscountValues.discountValue} % - €{" "}
               {taxDiscountValues?.totalDiscount}
+            </h5>
+          )}
+          {taxDiscountValues?.totalTax === 0.0 || (
+            <h5>
+              Tax: {taxDiscountValues?.taxValue} % + €{" "}
+              {taxDiscountValues?.totalTax}
             </h5>
           )}
           <h3>

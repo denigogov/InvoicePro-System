@@ -53,9 +53,9 @@ interface InvoiceGeneratorTypes {
   signatureImg?: string;
   checkboxSignature?: boolean;
   taxValue: number;
-  totalTax: string;
+  totalTax: number;
   discountValue: number;
-  totalDiscount: string;
+  totalDiscount: number;
   totalPrice?: number;
 }
 
@@ -162,14 +162,14 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                 ))}
               </View>
 
-              {totalDiscount === "0.00" || (
+              {totalDiscount === 0.0 || (
                 <View style={styles.footerTableDiscount}>
                   <Text>Discount {discountValue}%</Text>
-                  <Text>€ {totalDiscount}</Text>
+                  <Text>€ - {totalDiscount}</Text>
                 </View>
               )}
 
-              {totalTax === "0.00" || (
+              {totalTax === 0.0 || (
                 <View style={styles.footerTableTax}>
                   <Text>Tax {taxValue}%</Text>
                   <Text>€ {totalTax}</Text>

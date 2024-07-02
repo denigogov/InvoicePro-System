@@ -96,15 +96,19 @@ const validateUpdateInvoice = (req, res, next) => {
 const updateInvoiceDetailsSchema = Joi.object({
   description: Joi.string().min(2).max(200),
   price: Joi.number().positive().allow(0),
+  totalPrice: Joi.number().positive().allow(0),
+  invoiceId: Joi.string().min(3).max(10),
 });
 
 const validateUpdateInvoiceDetails = (req, res, next) => {
-  const { description, price } = req.body;
+  const { description, price, totalPrice, invoiceId } = req.body;
 
   const { error } = updateInvoiceDetailsSchema.validate(
     {
       description,
       price,
+      totalPrice,
+      invoiceId,
     },
     { abortEarly: false }
   );

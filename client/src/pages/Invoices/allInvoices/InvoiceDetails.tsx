@@ -21,7 +21,7 @@ import LoadingRing from "../../../components/GlobalComponents/LoadingRing";
 import ErrorMinimalDisplay from "../../../components/GlobalComponents/ErrorMinimalDisplay";
 import { ContextTypeRouter } from "./AllInvoices";
 import InvoicePDFGenerator from "../../../components/GlobalComponents/InvoicePDFGenerator";
-import { taxDiscountCalculate } from "../../../helpers/taxCalc";
+import { calcTotalPrice } from "../../../helpers/taxCalc";
 import { TaxDiscountValuesProps } from "../createInvoice/CreateInvoice";
 import { useState } from "react";
 import { successMessage } from "../../../components/GlobalComponents/successPrompt";
@@ -54,9 +54,13 @@ const InvoiceDetails: React.FC = () => {
 
   // const totalPrice = invoiceData?.[0]?.totalPrice ?? 0;
   const taxValue = invoiceData?.[0]?.tax ?? 0;
-  const totalTax = taxDiscountCalculate(totalPrice ?? 0, +taxValue);
   const discountValue = invoiceData?.[0]?.discount ?? 0;
-  const totalDiscount = taxDiscountCalculate(totalPrice ?? 0, +discountValue);
+  // const totalTax = taxDiscountCalculate(totalPrice ?? 0, +taxValue);
+
+  const calcLogic = calcTotalPrice(totalPrice ?? 0, +discountValue, +taxValue);
+
+  const totalDiscount = calcLogic?.totalDiscount;
+  const totalTax = calcLogic.totalTax;
 
   const taxDiscountValues: TaxDiscountValuesProps = {
     taxValue: +taxValue,
@@ -105,6 +109,17 @@ const InvoiceDetails: React.FC = () => {
         "confirm"
       );
 
+      if (query?.price) {
+        const newPrice = Number(query?.price);
+        const { totalPrice } = calcTotalPrice(
+          newPrice,
+          +discountValue,
+          +taxValue
+        );
+        query.invoiceId = invoiceData?.[0]?.invoiceId;
+        query.totalPrice = totalPrice;
+      }
+
       try {
         if (confirmUpdateMessage.isConfirmed) {
           await updateInvoice<invoiceDetails>(
@@ -113,6 +128,7 @@ const InvoiceDetails: React.FC = () => {
             "invoice/details",
             query
           );
+
           mutate(["singleInvoiceById", token, invoiceId]);
           successMessage("Invoice details success updated");
         }

@@ -1,15 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import companyLogo from "../../assets/logo1.svg";
+import "../../Styling/Components/_logo.scss";
 
-const Logo: React.FC = () => {
+interface LogoTypes {
+  loadingLogo?: boolean;
+}
+
+const Logo: React.FC<LogoTypes> = ({ loadingLogo }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="loginForm__company"
+      className="loginForm__company "
       style={{ cursor: "pointer" }}
       onClick={() => navigate("/login")}
     >
-      <div className="loginForm__company_logo">
+      <div
+        className={`loginForm__company_logo ${
+          loadingLogo ? "loadingLogo" : ""
+        }`}
+      >
         <img alt="login-logo" src={companyLogo} />
       </div>
 

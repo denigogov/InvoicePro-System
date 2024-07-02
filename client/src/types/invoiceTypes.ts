@@ -50,6 +50,8 @@ export type invoiceDetails = {
   id?: number;
   description?: string;
   price?: string;
+  totalPrice?: number;
+  invoiceId?: string;
 };
 
 export type invoiceJoinDataTypes = {

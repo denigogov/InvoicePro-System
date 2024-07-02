@@ -122,14 +122,14 @@ const InvoicePDFGenerator: React.FC<Partial<InvoicePDFGeneratorProps>> = ({
                 </View>
               )}
 
-              {taxDiscountValues?.totalDiscount === "0.00" || (
+              {taxDiscountValues?.totalDiscount === 0.0 || (
                 <View style={styles.footerTableDiscount}>
                   <Text>Discount {taxDiscountValues?.discountValue}%</Text>
                   <Text>€ {taxDiscountValues?.totalDiscount}</Text>
                 </View>
               )}
 
-              {taxDiscountValues?.totalTax === "0.00" || (
+              {taxDiscountValues?.totalTax === 0.0 || (
                 <View style={styles.footerTableTax}>
                   <Text>Tax {taxDiscountValues?.taxValue}%</Text>
                   <Text>€ {taxDiscountValues?.totalTax}</Text>

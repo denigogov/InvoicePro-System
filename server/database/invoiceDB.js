@@ -306,7 +306,7 @@ const selectInvoiceById = async (req, res) => {
 const updateInvoiceDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    const { description, price } = req.body;
+    const { description, price, totalPrice, invoiceId } = req.body;
 
     const updateFields = [];
     const updateValues = [];
@@ -325,6 +325,12 @@ const updateInvoiceDetails = async (req, res) => {
       ", "
     )} WHERE id = ?`;
 
+    if (price !== undefined) {
+      const data = await database.query(
+        "UPDATE invoice SET totalPrice = ? WHERE invoiceId = ?",
+        [totalPrice, invoiceId]
+      );
+    }
     const [updateTable] = await database.query(invoiceDetails, [
       ...updateValues,
       id,
