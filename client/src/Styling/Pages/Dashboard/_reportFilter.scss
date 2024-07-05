@@ -34,7 +34,8 @@
     @include mixin.inputUpdateValue;
     padding: 2rem;
 
-    input {
+    input,
+    select {
       @include mixin.inputUpdateValue;
     }
     label {
@@ -96,7 +97,8 @@
   &__buttons {
     text-align: end;
 
-    button {
+    button,
+    .loading-btn {
       padding: 0.8rem 2.5rem;
       font-weight: bold;
       margin: 1rem;
@@ -106,9 +108,12 @@
         filter: brightness(0.95);
       }
 
-      &:first-child {
+      &:first-child,
+      .loading-btn {
         background-color: colors.$font-sectionTitle;
         color: #fff;
+        display: inline-flex;
+
         &:hover {
           opacity: 0.85;
         }
@@ -122,5 +127,22 @@
         margin: 0.5rem;
       }
     }
+  }
+}
+
+.loadingBtn {
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 50%;
+  padding: 4px 14px;
+  animation: btnAnimation 1s linear infinite;
+}
+@keyframes btnAnimation {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(359deg);
   }
 }

@@ -22,8 +22,8 @@ const {
 const {
   invoiceTotalProMonth,
   recentInvoices,
-  reportData,
 } = require("../database/chartData");
+const { reportData } = require("../database/reportQuery");
 
 // Route name invoice
 router
@@ -47,6 +47,6 @@ router
     updateInvoiceDetails
   )
   .delete("/:id", verifyToken, deleteInvoice)
-  .post("/report", reportData);
+  .post("/report", verifyToken, reportData);
 
 module.exports = router;

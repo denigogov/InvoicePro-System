@@ -36,6 +36,10 @@ const welcomeMessage = (_, res) => {
   res.send("Backend App Server v0.0.1");
 };
 
+app.use("*", (_, res) => {
+  res.status(500).send({ status: 500, message: "Route Not Found" });
+});
+
 app.use("/", welcomeMessage);
 
 app.listen(port, (err) => {

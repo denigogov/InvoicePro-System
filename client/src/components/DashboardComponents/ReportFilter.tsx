@@ -1,19 +1,20 @@
 import moment from "moment";
-import "../../Styling/Pages/Dashboard/_reportFilter.scss";
 import { useState } from "react";
-interface ReportFilterProps {}
+import { CheckboxState, QueryTypes } from "../../types/reportTypes";
+import { sendReportFilters } from "../../api/reportAPI";
+import { apiGeneralErrorHandle } from "../GlobalComponents/ErrorShow";
+import ReportForm from "./ReportForm";
+import { useAuth } from "../../helpers/useAuth";
 
-interface CheckboxState {
-  totalInvoices: boolean;
-  averageInvoice: boolean;
-  totalDiscount: boolean;
-  totalTax: boolean;
-  totalCustomers: boolean;
-  invoicesByStatus: boolean;
-}
-
-const ReportFilter: React.FC<ReportFilterProps> = () => {
+const ReportFilter: React.FC = () => {
   const today = moment().format("YYYY-MM-DD");
+  const startOfMonth = moment().startOf("month").format("YYYY-MM-DD");
+
+  const [startDate, setStartDate] = useState<string>(startOfMonth);
+  const [endDate, setEndDate] = useState<string>(today);
+  const [selectQuarter, setSelectQuarter] = useState<string>("");
+  const [submit, setSubmit] = useState<boolean>(false);
+  const [downloadReady, setDownloadReady] = useState<boolean>(false);
 
   const [allChecked, setAllChecked] = useState(true);
   const [checkboxes, setCheckboxes] = useState<CheckboxState>({
@@ -24,6 +25,8 @@ const ReportFilter: React.FC<ReportFilterProps> = () => {
     totalCustomers: true,
     invoicesByStatus: true,
   });
+
+  const { token } = useAuth();
 
   const handleToggleAll = () => {
     const newCheckedState = !allChecked;
@@ -47,95 +50,52 @@ const ReportFilter: React.FC<ReportFilterProps> = () => {
     });
   };
 
+  const submitFilterForm = async (query: Partial<QueryTypes>) => {
+    try {
+      const reportData = await sendReportFilters(token ?? "", query);
+
+      if (reportData) {
+        setSubmit(true);
+        setDownloadReady(true);
+      } else {
+        setSubmit(false);
+        setDownloadReady(false);
+      }
+    } catch (err) {
+      apiGeneralErrorHandle(err);
+    } finally {
+      setSubmit(false);
+    }
+  };
+
+  const submitDownloadReport = () => {
+    console.log("you click on download");
+  };
+
+  const dateProps = { today, startDate, endDate, setStartDate, setEndDate };
+  const quarterProps = { selectQuarter, setSelectQuarter };
+  const checkProps = {
+    checkboxes,
+    allChecked,
+    handleToggleAll,
+    handleCheckboxChange,
+  };
+  const submitProps = {
+    submit,
+    submitFilterForm,
+    downloadReady,
+    submitDownloadReport,
+  };
+
   return (
-    <article className="reportFilter">
-      <header>
-        <h5>Apply Filters</h5>
-        <p>Adjust the filters to customize your report view</p>
-      </header>
-
-      <section className="reportFilter__date">
-        <div className="reportFilter__date-start">
-          <label>Start Date</label>
-          <input type="date" required />
-        </div>
-        <div className="reportFilter__date-end">
-          <label>End Date</label>
-          <input type="date" max={today} required />
-        </div>
-      </section>
-
-      {/* Checkbox filters */}
-      <div className="reportFilter__checkbox">
-        <div className="reportFilter__checkbox-title">
-          <abbr title="Select the filters you want to apply to the report">
-            Report Filters
-          </abbr>
-          <label>{allChecked ? "Deselect All" : "Select All"}</label>
-          <input
-            type="checkbox"
-            checked={allChecked}
-            onChange={handleToggleAll}
-          />
-        </div>
-        <div className="reportFilter__checkbox-inputs">
-          <div>
-            <input
-              type="checkbox"
-              checked={checkboxes.totalInvoices}
-              onChange={() => handleCheckboxChange("totalInvoices")}
-            />
-            <label>Total invoices</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkboxes.averageInvoice}
-              onChange={() => handleCheckboxChange("averageInvoice")}
-            />
-            <label>Average invoice</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkboxes.totalDiscount}
-              onChange={() => handleCheckboxChange("totalDiscount")}
-            />
-            <label>Total Discount</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkboxes.totalTax}
-              onChange={() => handleCheckboxChange("totalTax")}
-            />
-            <label>Total Tax</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkboxes.totalCustomers}
-              onChange={() => handleCheckboxChange("totalCustomers")}
-            />
-            <label>Total Customers</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={checkboxes.invoicesByStatus}
-              onChange={() => handleCheckboxChange("invoicesByStatus")}
-            />
-            <label>Invoices by status</label>
-          </div>
-        </div>
-      </div>
-
-      {/* Buttons */}
-      <div className="reportFilter__buttons">
-        <button className="btn">Apply</button>
-        <button className="btn">Reset</button>
-      </div>
-    </article>
+    <>
+      <ReportForm
+        dateProps={dateProps}
+        quarterProps={quarterProps}
+        checkProps={checkProps}
+        submitProps={submitProps}
+      />
+    </>
   );
 };
 

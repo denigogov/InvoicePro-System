@@ -24,7 +24,7 @@ const TableSort: React.FC<TableSortProps> = ({ handleSort }) => {
 
     document.cookie = `sortData=${encodeURIComponent(
       JSON.stringify(activeSort.field === "" ? { field, direction } : "")
-    )}; max-age=${2 * 60 * 60}`;
+    )}; max-age=${7 * 24 * 60 * 60}`;
   };
 
   const sortCookies = JSON.parse(
