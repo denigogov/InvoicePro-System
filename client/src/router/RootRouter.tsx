@@ -40,6 +40,7 @@ import Error404 from "../components/GlobalComponents/Error404";
 import PasswordReset from "../pages/loginPage/PasswordReset";
 import PasswordChange from "../pages/loginPage/PasswordChange";
 import { RequireAuth } from "../helpers/RequireAuth";
+import TestPDF from "./TestPDF";
 
 const RootRouter = () => {
   // const auth = useAuth;
@@ -130,6 +131,7 @@ const RootRouter = () => {
               <Route path="edit/" element={<EditInvoiceSettings />} />
             </Route>
           </Route>
+          <Route path="/pdf" element={<TestPDF />}></Route>
         </Route>
         <Route path="*" element={<Error404 />} />
       </Route>

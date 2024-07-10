@@ -1,5 +1,6 @@
 import "../../Styling/Pages/Dashboard/_reportFilter.scss";
 import { CheckboxState, QueryTypes } from "../../types/reportTypes";
+import ReportPDF from "../GlobalComponents/ReportPDF";
 
 type DatePropsType = {
   startDate: string;
@@ -55,6 +56,8 @@ const ReportForm: React.FC<ReportFormProps> = ({
     const query: Partial<QueryTypes> = {
       checkedBox: checkboxes,
     };
+
+    console.log(submitDownloadReport);
 
     if (!selectQuarter) {
       query.startDate = startDate;
@@ -195,20 +198,20 @@ const ReportForm: React.FC<ReportFormProps> = ({
             Apply
           </button>
         ) : downloadReady ? (
-          <button className="btn" onClick={submitDownloadReport}>
-            Download
-          </button>
+          // <button className="btn" onClick={submitDownloadReport}>
+          //   Download
+          // </button>
+          <ReportPDF />
         ) : (
           <span className="btn loading-btn">
             <span className="loadingBtn"></span>
           </span>
         )}
-
         {downloadReady || (
           <button disabled={submit} className="btn">
             Reset
           </button>
-        )}
+        )}{" "}
       </div>
     </article>
   );

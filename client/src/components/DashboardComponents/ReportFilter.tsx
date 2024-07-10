@@ -1,6 +1,10 @@
 import moment from "moment";
 import { useState } from "react";
-import { CheckboxState, QueryTypes } from "../../types/reportTypes";
+import {
+  CheckboxState,
+  QueryTypes,
+  ReportDataTypes,
+} from "../../types/reportTypes";
 import { sendReportFilters } from "../../api/reportAPI";
 import { apiGeneralErrorHandle } from "../GlobalComponents/ErrorShow";
 import ReportForm from "./ReportForm";
@@ -25,6 +29,10 @@ const ReportFilter: React.FC = () => {
     totalCustomers: true,
     invoicesByStatus: true,
   });
+
+  const [reportData, setReportData] = useState<Partial<ReportDataTypes>>({});
+
+  console.log("I need to create PDF ", reportData);
 
   const { token } = useAuth();
 
@@ -55,6 +63,7 @@ const ReportFilter: React.FC = () => {
       const reportData = await sendReportFilters(token ?? "", query);
 
       if (reportData) {
+        setReportData(reportData);
         setSubmit(true);
         setDownloadReady(true);
       } else {
@@ -64,14 +73,17 @@ const ReportFilter: React.FC = () => {
     } catch (err) {
       apiGeneralErrorHandle(err);
     } finally {
-      setSubmit(false);
+      // setSubmit(false);
     }
   };
 
   const submitDownloadReport = () => {
-    console.log("you click on download");
+    console.log(
+      "Hey I'm still working on the PDF Design, but good news my backend is ready! "
+    );
   };
 
+  // Sorting the props in Category for more clean code practice!
   const dateProps = { today, startDate, endDate, setStartDate, setEndDate };
   const quarterProps = { selectQuarter, setSelectQuarter };
   const checkProps = {

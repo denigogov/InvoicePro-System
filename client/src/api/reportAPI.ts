@@ -1,4 +1,4 @@
-import { QueryTypes } from "../types/reportTypes";
+import { QueryTypes, ReportDataTypes } from "../types/reportTypes";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
 
@@ -21,7 +21,7 @@ export const sendReportFilters = async (
       console.log("erroprrrrr", errorResponse);
       throw new Error(`${errorResponse.validationErrors[0].message}`);
     } else {
-      return await res.json();
+      return (await res.json()) as Partial<ReportDataTypes>;
     }
   } catch (err: unknown) {
     console.error("An error occurred while sending report filters:", err);

@@ -19,6 +19,6 @@ router
   .get("/chart", verifyToken, invoiceCountByStatus)
   .get("/", verifyToken, allInvoiceStatus)
   .get("/:id", verifyToken, invoiceStatus)
-  .put("/:id", verifyToken, validateUpdateInvoiceStatus, updateInvoiceStatus);
+  .put("/:id", validateUpdateInvoiceStatus, updateInvoiceStatus);
 
 module.exports = router;

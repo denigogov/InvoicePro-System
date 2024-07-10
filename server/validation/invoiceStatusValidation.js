@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const errorHandle = require("../router/errorHandle");
 
 const paramErrorMessage =
   "We detected an unauthorized attempt to access or modify data. Your request could not be processed. If you believe this is an error or need assistance, please contact our support team";
@@ -28,7 +29,11 @@ const validateUpdateInvoiceStatus = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    const err = new errorHandle(
+      422,
+      `${error.details?.[0].context.label} ${error.message}`
+    );
+    next(err);
   } else {
     next();
   }
