@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const { decrypt, encrypt } = require("../auth/encript");
 const crypto = require("crypto");
 const sgMail = require("@sendgrid/mail");
+const { handleTryCatch } = require("../utility/tryCatch");
+const { error } = require("console");
+const { CustomError } = require("../utility/customError");
 
 const selectAllUsers = async (req, res) => {
   try {
@@ -185,6 +188,57 @@ const changePassword = async (req, res) => {
     res.status(500).send(err?.message);
   }
 };
+
+// GET TEST
+const testUser = handleTryCatch(async (req, res) => {
+  const test = false;
+
+  if (!test) {
+    throw CustomError.internalServerError("User Is False", 400);
+  }
+  return res.status(200).json({ success: "yes" });
+});
+
+// PUT TEST !!!!!!!!
+const testUserID = handleTryCatch(async (req, res) => {
+  const { id } = req.params;
+  const test = false;
+
+  if (!test) {
+    // It must be throw new Error
+    throw CustomError.notFoundError();
+  }
+  return res.status(200).json({ success: "yes" });
+});
+
+// POST
+//TEST;
+const testUserPOST = handleTryCatch(async (req, res) => {
+  const { name } = req.body;
+  const query = [];
+
+  if (query.length) {
+    res.status(200).send({ data: "hoho" });
+  } else {
+    throw CustomError.badRequestError("no data recieved ! ");
+  }
+});
+
+const testPOSTASYNC = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const query = [];
+
+    if (query.length) {
+      res.status(200).send({ data: "hoho" });
+    } else {
+      res.status(404).send("worng");
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
 module.exports = {
   selectAllUsers,
   updateUser,
@@ -193,4 +247,8 @@ module.exports = {
   passwordReset,
   allowUserResetEmail,
   changePassword,
+  testUser,
+  testUserPOST,
+  testUserID,
+  testPOSTASYNC,
 };

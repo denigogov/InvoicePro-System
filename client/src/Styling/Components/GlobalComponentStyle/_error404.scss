@@ -55,6 +55,7 @@
         gap: 3rem;
         border-bottom: 1px solid colors.$border-Primary;
         transition: general.$transition;
+        cursor: pointer;
         img {
           box-shadow: colors.$box-shadow-secondary;
           border-radius: 0.6rem;

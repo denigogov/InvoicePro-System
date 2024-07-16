@@ -8,6 +8,8 @@ const {
   validateParam,
   validatePassRequest,
   validatePasswordChange,
+  validateTestSchema,
+  validateTestSchemaPOST,
 } = require("../validation/userValidation");
 const {
   selectAllUsers,
@@ -17,13 +19,26 @@ const {
   passwordReset,
   allowUserResetEmail,
   changePassword,
+  testUser,
+  testUserPOST,
+  testUserID,
+  testPOSTASYNC,
 } = require("../database/users");
 
 const { resendCodeLimit } = require("../auth/rateLimit");
+const { errorMiddelware } = require("../utility/customError");
 
 // Route name = User
 
 router
+  .get("/test", testUser)
+  .put("/test/:id", testUserID)
+  .post("/test", validateTestSchemaPOST, testUserPOST)
+
+  //
+
+  //
+  .post("/test1", testPOSTASYNC)
   .get("/", verifyToken, selectAllUsers)
   .post("/", verifyToken, validateUserCreate, hashedPassword, createUser)
   .put("/:id", verifyToken, validateUserUpdate, hashedPassword, updateUser)

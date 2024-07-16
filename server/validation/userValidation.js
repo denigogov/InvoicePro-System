@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 const paramErrorMessage =
   "We detected an unauthorized attempt to access or modify data. Your request could not be processed. If you believe this is an error or need assistance, please contact our support team";
@@ -159,10 +160,40 @@ const validatePasswordChange = (req, res, next) => {
   }
 };
 
+const testSchema = Joi.object({
+  userId: Joi.number().greater(5).required(),
+});
+
+const validateTestSchema = handleTryCatch(async (req, res) => {
+  const { userId } = req.body;
+
+  const { error } = testSchema.validate({ userId }, { abortEarly: false });
+  if (error) throw error;
+});
+
+const testSchemaPOST = Joi.object({
+  name: Joi.string().min(3).max(30).required().messages({
+    "string.min": "Last Name Must have at least 3 characters",
+    "string.max": "Last Name Must have max 30 characters",
+    "string.required": "Last Name is required",
+  }),
+});
+
+const validateTestSchemaPOST = handleTryCatch(async (req, res, next) => {
+  const { name } = req.body;
+
+  const { error } = testSchemaPOST.validate({ name }, { abortEarly: false });
+  if (error) throw error;
+
+  next();
+});
+
 module.exports = {
   validateUserUpdate,
   validateUserCreate,
   validateParam,
   validatePassRequest,
   validatePasswordChange,
+  validateTestSchema,
+  validateTestSchemaPOST,
 };

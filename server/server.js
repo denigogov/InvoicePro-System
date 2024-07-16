@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
 const helmet = require("helmet");
-const ApiError = require("./router/errorHandle");
+const { CustomError } = require("./utility/customError");
 
 require("dotenv").config();
 
@@ -23,9 +23,10 @@ const invoicesettings = require("./router/invoiceSettingsRoute");
 const invoiceStatus = require("./router/invoiceStatusRoute");
 const userRoute = require("./router/userRoute");
 const departmentRoute = require("./router/departmentRoute");
+const { errorMiddleware } = require("./utility/errorMiddleware");
 
 app.get("/", (req, res) => {
-  res.send("Backend App Server v0.1.3");
+  res.send("Backend App Server v1.0.3");
 });
 
 app.use("/login", loginRoute);
@@ -37,21 +38,16 @@ app.use("/user", userRoute);
 app.use("/department", departmentRoute);
 app.use("/settings", invoicesettings);
 
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(new ApiError(404, "Not Found"));
+// Centralized Error Handling Middleware
+
+app.all("*", (req, res, next) => {
+  const err = CustomError.notFoundError(
+    "The requested URL was not found on this server"
+  );
+  next(err);
 });
 
-// Centralized Error Handling Middleware
-const errorHandler = (err, req, res, next) => {
-  console.error(err);
-  res.status(err.statusCode || 500).send({
-    status: err.statusCode,
-    message: err.message || "Internal Server Error",
-  });
-};
-
-app.use(errorHandler);
+app.use(errorMiddleware);
 
 app.listen(port, (err) => {
   err

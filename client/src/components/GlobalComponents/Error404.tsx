@@ -29,7 +29,7 @@ const Error404: React.FC = () => {
             <span className="error404Container__links-text">
               <p className="error404Container__links-title">Documentation</p>
               <p className="error404Container__links-subTitle">
-                Learn how to integreet our tool with your app
+                custom css inspire from tailwind
               </p>
             </span>
             <p className="error404Container__links-arrow"> &#62;</p>
@@ -40,22 +40,24 @@ const Error404: React.FC = () => {
             <span className="error404Container__links-text">
               <p className="error404Container__links-title">Setup</p>
               <p className="error404Container__links-subTitle">
-                Learn how to integreet our tool with your app
+                Work in progress
               </p>
             </span>
             <p className="error404Container__links-arrow"> &#62;</p>
           </li>
 
-          <li>
-            <img src={service3} alt="serviceICon" />
-            <span className="error404Container__links-text">
-              <p className="error404Container__links-title">Contact</p>
-              <p className="error404Container__links-subTitle">
-                Learn how to integreet our tool with your app
-              </p>
-            </span>
-            <p className="error404Container__links-arrow"> &#62;</p>
-          </li>
+          <Link to={"https://www.linkedin.com/in/dejangogov/"} target="blank">
+            <li>
+              <img src={service3} alt="serviceICon" />
+              <span className="error404Container__links-text">
+                <p className="error404Container__links-title">Contact</p>
+                <p className="error404Container__links-subTitle">
+                  Discover more about my professional journey
+                </p>
+              </span>
+              <p className="error404Container__links-arrow"> &#62;</p>
+            </li>
+          </Link>
         </ul>
       </div>
 

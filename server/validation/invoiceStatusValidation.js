@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const errorHandle = require("../router/errorHandle");
+const errorHandle = require("../utility/errorHandle");
 
 const paramErrorMessage =
   "We detected an unauthorized attempt to access or modify data. Your request could not be processed. If you believe this is an error or need assistance, please contact our support team";
