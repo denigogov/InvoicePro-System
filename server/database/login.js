@@ -2,29 +2,27 @@ const database = require("./database");
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("../auth/encript");
 const sgMail = require("@sendgrid/mail");
+const { handleTryCatch } = require("../utility/tryCatch");
+const { CustomError } = require("../utility/customError");
 
-const findUserData = async (req, res, next) => {
-  try {
-    const { email } = req.body;
+const findUserData = handleTryCatch(async (req, res, next) => {
+  const { email } = req.body;
 
-    const [findUser] = await database.query(
-      "select id, departmentId, email,password from users where email = ? ",
-      [email]
-    );
+  const [findUser] = await database.query(
+    "select id, departmentId, email,password from users where email = ? ",
+    [email]
+  );
 
-    if (findUser?.length) {
-      req.user = findUser[0];
+  if (findUser?.length) {
+    req.user = findUser[0];
 
-      next();
-    } else {
-      res.status(401).send("Unauthorized: Invalid credentials");
-    }
-  } catch (err) {
-    res.status(500).send(`user not valid , ${err.message}`);
+    next();
+  } else {
+    throw CustomError.unauthorizedError("Unauthorized: Invalid credentials");
   }
-};
+});
 
-const confirmCode = async (req, res) => {
+const confirmCode = handleTryCatch(async (req, res) => {
   const { sub, type, code } = req.decodedToken;
   const { auth } = req.body;
 
@@ -39,98 +37,84 @@ const confirmCode = async (req, res) => {
     expiresIn: "3h",
   });
 
-  try {
-    auth === decryptedCode || auth === "guest2FA"
-      ? res.status(200).send({ token })
-      : res.status(401).send({ error: "confirm code error" });
-  } catch (err) {
-    res.status(500).send("Wrong Credential");
+  if (auth === decryptedCode || auth === "guest2FA") {
+    res.status(200).send({ token });
+  } else {
+    throw CustomError.unauthorizedError("confirm code error");
   }
-};
+});
 
-const validateUser = async (req, res, next) => {
+const validateUser = handleTryCatch(async (req, res, next) => {
   const { sub, type } = req.decodedToken;
-  try {
-    if (sub && type) {
-      const [findUser] = await database.query(
-        "select id, firstName,departmentId from users where id = ? AND departmentId = ? ",
-        [sub, type]
-      );
-      const user = findUser[0] ?? false;
 
-      req.userInfo = {
-        id: user.id,
-        username: user.firstName,
-        type: user.departmentId,
-      };
-    } else res.status(404).send("Invalid User");
-
-    next();
-  } catch (err) {
-    res.status(500).send("Invalid User");
-  }
-};
-
-const sendUserInfo = async (req, res) => {
-  try {
-    req.userInfo
-      ? res.send({
-          success: true,
-          payload: req.userInfo,
-        })
-      : res.sendstatus(401);
-  } catch (err) {
-    res.status(500).send("something bad happen", err.message);
-  }
-};
-
-const resendCode = async (req, res) => {
-  try {
-    const { sub, type, code } = req.decodedToken;
-    const { email } = req.body;
-
-    const decodedCode = decrypt(code);
-
-    const [findEmail] = await database.query(
-      "select email from users where id = ? AND email = ?  ",
-      [sub, email]
+  if (sub && type) {
+    const [findUser] = await database.query(
+      "select id, firstName,departmentId from users where id = ? AND departmentId = ? ",
+      [sub, type]
     );
+    const user = findUser[0] ?? false;
 
-    if (findEmail.length) {
-      const message = {
-        from: {
-          email: process.env.EMAIL,
-        },
+    req.userInfo = {
+      id: user.id,
+      username: user.firstName,
+      type: user.departmentId,
+    };
+  } else throw CustomError.notFoundError("Invalid User");
 
-        personalizations: [
-          {
-            to: [
-              {
-                email: findEmail[0].email,
-              },
-            ],
+  next();
+});
 
-            dynamic_template_data: {
-              confirmCode: `${decodedCode}`,
-            },
-          },
-        ],
-        template_id: process.env.TEMPLATE_ID,
-      };
-
-      sgMail
-        .send(message)
-        .then(() => res.status(200).send({ ok: "code was send" }));
-    } else {
-      res.status(404).send("Invalid User");
-    }
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send(`Something Bad Happen, pleas try one more time or contact us`);
+const sendUserInfo = handleTryCatch(async (req, res) => {
+  if (req.userInfo) {
+    res.status(200).send({
+      success: true,
+      payload: req.userInfo,
+    });
+  } else {
+    throw CustomError.unauthorizedError(
+      "Something bad happen, can't recieve user info"
+    );
   }
-};
+});
+
+const resendCode = handleTryCatch(async (req, res) => {
+  const { sub, type, code } = req.decodedToken;
+  const { email } = req.body;
+
+  const decodedCode = decrypt(code);
+
+  const [findEmail] = await database.query(
+    "select email from users where id = ? AND email = ?  ",
+    [sub, email]
+  );
+
+  if (findEmail.length) {
+    const message = {
+      from: {
+        email: process.env.EMAIL,
+      },
+
+      personalizations: [
+        {
+          to: [
+            {
+              email: findEmail[0].email,
+            },
+          ],
+
+          dynamic_template_data: {
+            confirmCode: `${decodedCode}`,
+          },
+        },
+      ],
+      template_id: process.env.TEMPLATE_ID,
+    };
+
+    sgMail
+      .send(message)
+      .then(() => res.status(200).send({ ok: "code was send" }));
+  } else throw CustomError.notFoundError("Invalid User");
+});
 
 module.exports = {
   findUserData,

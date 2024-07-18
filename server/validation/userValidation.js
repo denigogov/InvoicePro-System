@@ -71,7 +71,7 @@ const passwordChangeSchema = Joi.object({
     ),
 });
 
-const validateUserUpdate = (req, res, next) => {
+const validateUserUpdate = handleTryCatch((req, res, next) => {
   const { firstName, lastName, email, password, departmentId } = req.body;
 
   const { error } = updateUserSchema.validate(
@@ -86,13 +86,13 @@ const validateUserUpdate = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
-const validateUserCreate = (req, res, next) => {
+const validateUserCreate = handleTryCatch((req, res, next) => {
   const { firstName, lastName, email, password, departmentId } = req.body;
 
   const { error } = createEmployerSchema.validate(
@@ -107,13 +107,13 @@ const validateUserCreate = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
-const validateParam = (req, res, next) => {
+const validateParam = handleTryCatch((req, res, next) => {
   const { id } = req.params;
 
   const { error } = paramSchema.validate(
@@ -124,13 +124,13 @@ const validateParam = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
-const validatePassRequest = (req, res, next) => {
+const validatePassRequest = handleTryCatch((req, res, next) => {
   const { email } = req.body;
 
   const { error } = resetPasswordSchema.validate(
@@ -139,13 +139,13 @@ const validatePassRequest = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
-const validatePasswordChange = (req, res, next) => {
+const validatePasswordChange = handleTryCatch((req, res, next) => {
   const { password } = req.body;
 
   const { error } = passwordChangeSchema.validate(
@@ -154,38 +154,10 @@ const validatePasswordChange = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
-
-const testSchema = Joi.object({
-  userId: Joi.number().greater(5).required(),
-});
-
-const validateTestSchema = handleTryCatch(async (req, res) => {
-  const { userId } = req.body;
-
-  const { error } = testSchema.validate({ userId }, { abortEarly: false });
-  if (error) throw error;
-});
-
-const testSchemaPOST = Joi.object({
-  name: Joi.string().min(3).max(30).required().messages({
-    "string.min": "Last Name Must have at least 3 characters",
-    "string.max": "Last Name Must have max 30 characters",
-    "string.required": "Last Name is required",
-  }),
-});
-
-const validateTestSchemaPOST = handleTryCatch(async (req, res, next) => {
-  const { name } = req.body;
-
-  const { error } = testSchemaPOST.validate({ name }, { abortEarly: false });
-  if (error) throw error;
-
-  next();
 });
 
 module.exports = {
@@ -194,6 +166,4 @@ module.exports = {
   validateParam,
   validatePassRequest,
   validatePasswordChange,
-  validateTestSchema,
-  validateTestSchemaPOST,
 };

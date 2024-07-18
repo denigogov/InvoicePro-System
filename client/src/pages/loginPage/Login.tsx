@@ -32,6 +32,7 @@ const Login: React.FC = () => {
 
       return data.token as string;
     } catch (err) {
+      console.log(err);
       const requestError = (err as Error).stack;
       setError(
         requestError?.includes("Too")

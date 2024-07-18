@@ -1,53 +1,57 @@
+const { CustomError } = require("../utility/customError");
+const { handleTryCatch, handleResponse } = require("../utility/tryCatch");
 const database = require("./database");
 
-const invoiceStatus = async (req, res) => {
+const invoiceStatus = handleTryCatch(async (req, res) => {
   const { id } = req.params;
 
-  try {
-    const [selectAllStatus] = await database.query(
-      "select * from invoicestatus"
-    );
-    const [findPriceTaxDiscount] = await database.query(
-      "select id, totalPrice,statusId,tax,discount from invoice where invoiceId = ? ",
-      [id]
-    );
+  const [selectAllStatus] = await database.query("select * from invoicestatus");
+  const [findPriceTaxDiscount] = await database.query(
+    "select id, totalPrice,statusId,tax,discount from invoice where invoiceId = ? ",
+    [id]
+  );
 
-    selectAllStatus.length || findPriceTaxDiscount.length
-      ? res.status(200).send({ selectAllStatus, findPriceTaxDiscount })
-      : res.sendstatus(404);
-  } catch (err) {
-    res.status(500).send(err?.message);
-  }
-};
+  handleResponse(
+    selectAllStatus || findPriceTaxDiscount,
+    () => res.status(200).send({ selectAllStatus, findPriceTaxDiscount }),
+    () => {
+      throw CustomError.notFoundError(
+        "Invoice Status Error, Not Found - Please try later"
+      );
+    }
+  );
+});
 
-const allInvoiceStatus = async (_, res) => {
-  try {
-    const [selectAllStatus] = await database.query(
-      "select * from invoicestatus"
-    );
+const allInvoiceStatus = handleTryCatch(async (_, res) => {
+  const [selectAllStatus] = await database.query("select * from invoicestatus");
 
-    selectAllStatus.length
-      ? res.status(200).send(selectAllStatus)
-      : res.sendstatus(404);
-  } catch (err) {
-    res.status(500).send(err?.message);
-  }
-};
+  handleResponse(
+    selectAllStatus,
+    () => res.status(200).send(selectAllStatus),
+    () => {
+      throw CustomError.notFoundError(
+        "Invoice Status Error, Not Found - Please try later"
+      );
+    }
+  );
+});
 
-const updateInvoiceStatus = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { statusName } = req.body;
+const updateInvoiceStatus = handleTryCatch(async (req, res) => {
+  const { id } = req.params;
+  const { statusName } = req.body;
 
-    const [updateQuery] = await database.query(
-      `UPDATE invoicestatus set statusName =? where id = ?`,
-      [statusName, id]
-    );
+  const [updateQuery] = await database.query(
+    `UPDATE invoicestatus set statusName =? where id = ?`,
+    [statusName, id]
+  );
 
-    updateQuery.affectedRows ? res.sendStatus(200) : res.sendStatus(400);
-  } catch (err) {
-    res.status(500).send(err?.message);
-  }
-};
+  handleResponse(
+    updateQuery,
+    () => res.sendStatus(200),
+    () => {
+      throw CustomError.badRequestError("Update failed. No rows affected");
+    }
+  );
+});
 
 module.exports = { invoiceStatus, allInvoiceStatus, updateInvoiceStatus };

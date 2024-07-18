@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 const updateInvoiceSettingsSchema = Joi.object({
   tax: Joi.number().positive().allow(0).less(101).messages({
@@ -9,7 +10,7 @@ const updateInvoiceSettingsSchema = Joi.object({
   }),
 });
 
-const validateUpdateInvoiceSettings = (req, res, next) => {
+const validateUpdateInvoiceSettings = handleTryCatch((req, res, next) => {
   const { tax, discount } = req.body;
 
   const { error } = updateInvoiceSettingsSchema.validate(
@@ -21,11 +22,11 @@ const validateUpdateInvoiceSettings = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 module.exports = {
   validateUpdateInvoiceSettings,

@@ -19,7 +19,7 @@ export const sendReportFilters = async (
     if (!res.ok) {
       const errorResponse = await res.json();
       console.log("erroprrrrr", errorResponse);
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return (await res.json()) as Partial<ReportDataTypes>;
     }

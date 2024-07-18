@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 const updateCompanyInfoSchema = Joi.object({
   companyName: Joi.string().min(3).max(40),
@@ -15,7 +16,7 @@ const updateCompanyInfoSchema = Joi.object({
   bic: Joi.string().min(8).max(11),
 });
 
-const validateUpdateCompanyInfo = (req, res, next) => {
+const validateUpdateCompanyInfo = handleTryCatch((req, res, next) => {
   const {
     companyName,
     country,
@@ -44,11 +45,11 @@ const validateUpdateCompanyInfo = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 module.exports = {
   validateUpdateCompanyInfo,

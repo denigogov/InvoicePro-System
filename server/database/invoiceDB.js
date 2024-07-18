@@ -331,11 +331,12 @@ const updateInvoiceDetails = handleTryCatch(async (req, res) => {
   )} WHERE id = ?`;
 
   if (price !== undefined) {
-    const data = await database.query(
+    await database.query(
       "UPDATE invoice SET totalPrice = ? WHERE invoiceId = ?",
       [totalPrice, invoiceId]
     );
   }
+
   const [updateTable] = await database.query(invoiceDetails, [
     ...updateValues,
     id,

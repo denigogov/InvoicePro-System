@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 const createInvoiceSchema = Joi.object({
   date: Joi.date(),
@@ -9,7 +10,7 @@ const createInvoiceSchema = Joi.object({
   discount: Joi.number().positive().allow(0),
 });
 
-const validateInvoiceCreate = (req, res, next) => {
+const validateInvoiceCreate = handleTryCatch((req, res, next) => {
   const { date, companyInfoId, customercompanyId, createdById, tax, discount } =
     req.body;
 
@@ -26,11 +27,11 @@ const validateInvoiceCreate = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 const createInvoiceDetail = Joi.object({
   invoiceID: Joi.number().positive().required(),
@@ -41,7 +42,7 @@ const createInvoiceDetail = Joi.object({
 // VALIDATING ARRAY !
 const createInvoiceDetails = Joi.array().items(createInvoiceDetail);
 
-const validateCreateInvoiceDetails = (req, res, next) => {
+const validateCreateInvoiceDetails = handleTryCatch((req, res, next) => {
   const invoiceDetails = req.body;
 
   const { error } = createInvoiceDetails.validate(invoiceDetails, {
@@ -49,11 +50,11 @@ const validateCreateInvoiceDetails = (req, res, next) => {
   });
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 const updateInvoiceSchema = Joi.object({
   invoiceId: Joi.string().min(2).max(50),
@@ -64,7 +65,7 @@ const updateInvoiceSchema = Joi.object({
   totalPrice: Joi.number().positive(),
 });
 
-const validateUpdateInvoice = (req, res, next) => {
+const validateUpdateInvoice = handleTryCatch((req, res, next) => {
   const {
     invoiceId,
     date,
@@ -87,11 +88,11 @@ const validateUpdateInvoice = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 const updateInvoiceDetailsSchema = Joi.object({
   description: Joi.string().min(2).max(200),
@@ -100,7 +101,7 @@ const updateInvoiceDetailsSchema = Joi.object({
   invoiceId: Joi.string().min(3).max(10),
 });
 
-const validateUpdateInvoiceDetails = (req, res, next) => {
+const validateUpdateInvoiceDetails = handleTryCatch((req, res, next) => {
   const { description, price, totalPrice, invoiceId } = req.body;
 
   const { error } = updateInvoiceDetailsSchema.validate(
@@ -114,11 +115,11 @@ const validateUpdateInvoiceDetails = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 module.exports = {
   validateInvoiceCreate,

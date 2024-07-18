@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 // const customerName = {
 //   min: "Customer Name should be min 3 letters",
@@ -192,14 +193,15 @@ const customerCompanySchema = createSchema([
 ]);
 const updateCustomerCompanySchema = createSchema();
 
-const validate = (schema) => (req, res, next) => {
-  const { error } = schema.validate(req.body, { abortEarly: false });
-  if (error) {
-    res.status(422).json({ validationErrors: error.details });
-  } else {
-    next();
-  }
-};
+const validate = (schema) =>
+  handleTryCatch((req, res, next) => {
+    const { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+      throw error;
+    } else {
+      next();
+    }
+  });
 
 module.exports = {
   validateCustomerCompany: validate(customerCompanySchema),

@@ -20,5 +20,6 @@ export const fetchInvoiceTotalMonthly = async (token?: string) => {
     );
   } catch (error) {
     console.log("vavava", error);
+    throw error;
   }
 };

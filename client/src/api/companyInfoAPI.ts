@@ -39,7 +39,7 @@ export const updateCompanyInfo = async (
 
       console.log(errorResponse);
 
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return await res.json();
     }

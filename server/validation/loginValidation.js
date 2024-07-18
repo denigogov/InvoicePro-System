@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 const loginCredential = Joi.object({
   email: Joi.string().email().required(),
@@ -18,7 +19,7 @@ const confirmCode = Joi.object({
   auth: Joi.string().length(8).required(),
 });
 
-const validateUserLogin = (req, res, next) => {
+const validateUserLogin = handleTryCatch((req, res, next) => {
   const { email, password } = req.body;
 
   const { error } = loginCredential.validate(
@@ -27,23 +28,23 @@ const validateUserLogin = (req, res, next) => {
   );
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
-const validateConfirmCode = (req, res, next) => {
+const validateConfirmCode = handleTryCatch((req, res, next) => {
   const { auth } = req.body;
 
   const { error } = confirmCode.validate({ auth }, { abortEarly: false });
 
   if (error) {
-    res.status(422).json({ validationErrors: error.details });
+    throw error;
   } else {
     next();
   }
-};
+});
 
 module.exports = {
   validateUserLogin,

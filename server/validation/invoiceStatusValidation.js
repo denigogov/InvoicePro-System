@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { handleTryCatch } = require("../utility/tryCatch");
 
 const paramErrorMessage =
   "We detected an unauthorized attempt to access or modify data. Your request could not be processed. If you believe this is an error or need assistance, please contact our support team";
@@ -15,7 +16,7 @@ const updateInvoiceStatusSchema = Joi.object({
   }),
 });
 
-const validateUpdateInvoiceStatus = (req, res, next) => {
+const validateUpdateInvoiceStatus = handleTryCatch((req, res, next) => {
   const { id } = req.params;
   const { statusName } = req.body;
 
@@ -32,7 +33,7 @@ const validateUpdateInvoiceStatus = (req, res, next) => {
   } else {
     next();
   }
-};
+});
 module.exports = {
   validateUpdateInvoiceStatus,
 };
