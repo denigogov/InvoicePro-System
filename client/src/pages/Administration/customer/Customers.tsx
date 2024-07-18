@@ -37,9 +37,6 @@ const Customers: React.FC<CustomersProps> = () => {
     fetchCustomerData(token ?? "")
   );
 
-  if (allCustomersDataError) return <p>allCustomersDataError.message</p>;
-  if (allCustomersDataLoading) return <p>allCustomersDataLoading</p>;
-
   return (
     <div>
       <CustomerTable

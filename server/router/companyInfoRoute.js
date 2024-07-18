@@ -11,6 +11,8 @@ const {
 } = require("../validation/companyInfoValidation");
 
 // need to add verifyToken - I remove to be able to work without token inside of the app
+
+// Route name = company-info
 router
   .get("/", verifyToken, companyData)
   .put("/:id", verifyToken, validateUpdateCompanyInfo, companyDetailsUpdate);

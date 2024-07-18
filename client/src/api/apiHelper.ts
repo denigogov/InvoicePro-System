@@ -39,21 +39,32 @@ export const apiFetcher = async <T>(url: string, token: string): Promise<T> => {
       },
     });
 
-    if (res.status === 404) {
-      throw new Response("Not Found", { status: 404 });
-    }
+    // if (res.status === 404) {
+    //   throw new Response("Not Found", { status: 404 });
+    // }
+
+    // if (!res.ok) {
+    //   throw Error(
+    //     res.status === 401
+    //       ? `API request failed, ${res.statusText}`
+    //       : `API request failed with status ${res.status} - ${res.statusText}`
+    //   );
+    // }
 
     if (!res.ok) {
-      throw Error(
-        res.status === 401
-          ? `API request failed, ${res.statusText}`
-          : `API request failed with status ${res.status} - ${res.statusText}`
-      );
+      // Attempt to parse the error response body
+      const errorData = await res.json();
+      const errorMessage =
+        errorData.message ||
+        `API request failed with status ${res.status} - ${res.statusText}`;
+
+      console.log(errorData);
+      throw new Error(errorMessage);
     }
     const data = await res.json();
     return data as T;
   } catch (err) {
-    console.log((err as Error)?.message);
-    throw new Error((err as Error).message);
+    console.error(`API request failed for URL ${url}:`, err);
+    throw new Error((err as Error).message || "An unknown error occurred");
   }
 };

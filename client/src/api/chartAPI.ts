@@ -13,5 +13,12 @@ import { apiFetcher } from "./apiHelper";
   },
  */
 export const fetchInvoiceTotalMonthly = async (token?: string) => {
-  return apiFetcher<InvoiceTotalMonthly[]>("invoice/totalMonthly", token || "");
+  try {
+    return apiFetcher<InvoiceTotalMonthly[]>(
+      "invoice/totalMonthly",
+      token || ""
+    );
+  } catch (error) {
+    console.log("vavava", error);
+  }
 };

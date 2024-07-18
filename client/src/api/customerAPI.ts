@@ -73,8 +73,7 @@ export const updateCustomerData = async (
 
     if (!res.ok) {
       const errorResponse = await res.json();
-      console.log("errorRes", errorResponse);
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     }
   } catch (err) {
     console.log("err", err);

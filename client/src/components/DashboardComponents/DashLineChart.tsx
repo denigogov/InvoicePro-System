@@ -123,7 +123,7 @@ const DashLineChart: React.FC<LineChartProps> = ({
     return (
       <ErrorMinimalDisplay
         errorMessage={
-          invoiceTotalMonthlyError?.message ?? "something went wrong"
+          invoiceTotalMonthlyError.message || "something went wrong"
         }
       />
     );
