@@ -46,7 +46,7 @@ export const createInvoice = async (
 
       console.log("erroprrrrr", errorResponse);
 
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return res;
     }
@@ -83,7 +83,7 @@ export const createInvoiceDetails = async (
 
       console.log("erroprrrrr", errorResponse);
 
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return res;
     }
@@ -219,7 +219,7 @@ export const updateInvoice = async <T>(
     if (!res.ok) {
       const errorResponse = await res.json();
 
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return res;
     }

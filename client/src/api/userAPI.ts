@@ -40,7 +40,7 @@ export const updateUser = async <T>(
     if (!res.ok) {
       const errorResponse = await res.json();
 
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return res;
     }
@@ -69,7 +69,7 @@ export const createUserAPI = async (
 
       console.log("erroprrrrr", errorResponse);
 
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     } else {
       return successRequest("Great", "Account Created Successfully!");
     }
@@ -122,7 +122,7 @@ export const requestNewPassword = async (queryData: { email: string }) => {
     if (!res.ok) {
       const errorResponse = await res.json();
       console.log("erroprrrrr", errorResponse);
-      throw new Error(`${errorResponse.validationErrors[0].message}`);
+      throw new Error(errorResponse.message);
     }
   } catch (err: unknown) {
     if ((err as Error).message.includes("Duplicate")) {

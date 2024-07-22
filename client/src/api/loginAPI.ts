@@ -41,6 +41,6 @@ export const changePasswordRequest = async (token: string, query: string) => {
 
   if (!res.ok) {
     const errorResponse = await res.json();
-    throw new Error(`${errorResponse.validationErrors[0].message}`);
+    throw new Error(errorResponse.message);
   }
 };
