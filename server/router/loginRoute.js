@@ -4,7 +4,7 @@ const rateLimit = require("express-rate-limit");
 const cron = require("node-cron");
 
 const router = express.Router();
-const { verifyPassword, verifyToken } = require("../auth/auth");
+const { verifyPassword, verifyToken, fetchIPadress } = require("../auth/auth");
 const {
   findUserData,
   confirmCode,
@@ -22,7 +22,13 @@ const { resendCodeLimit } = require("../auth/rateLimit");
 
 router
   .post("/", validateUserLogin, findUserData, verifyPassword)
-  .post("/confirm", validateConfirmCode, verifyToken, confirmCode)
+  .post(
+    "/confirm",
+    validateConfirmCode,
+    fetchIPadress,
+    verifyToken,
+    confirmCode
+  )
   .get("/", verifyToken, validateUser, sendUserInfo)
   .post("/resendcode", resendCodeLimit, verifyToken, resendCode);
 
