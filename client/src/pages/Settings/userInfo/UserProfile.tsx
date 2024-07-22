@@ -30,9 +30,7 @@ const UserProfile: React.FC = () => {
   );
 
   // Just for View Purpose I add id 1, by default this will be null
-  const findUser = allUserData?.find((user) =>
-    user.userId === auth.userInfo?.id ? auth.userInfo?.id : userID
-  );
+  const findUser = allUserData?.find((user) => user.userId === userID);
 
   const userDetails = [
     { label: "First Name", value: findUser?.firstName ?? "No Data" },

@@ -14,6 +14,7 @@ const {
 } = require("../database/customerCompany");
 
 // Route name customer
+
 router
   .get("/:id?", verifyToken, allCustomers)
   .post("/", verifyToken, validateCustomerCompany, createCustomerCompany)

@@ -5,6 +5,8 @@ import service1 from "../../assets/dashboardIcon.svg";
 import service2 from "../../assets/settingsIcon.svg";
 import service3 from "../../assets/userIcon.svg";
 
+const DOCUMENTSURL = import.meta.env.VITE_API_URL as string;
+
 const Error404: React.FC = () => {
   return (
     <div className="error404Container">
@@ -24,16 +26,18 @@ const Error404: React.FC = () => {
 
       <div className="error404Container__links">
         <ul>
-          <li>
-            <img src={service1} alt="serviceICon" />
-            <span className="error404Container__links-text">
-              <p className="error404Container__links-title">Documentation</p>
-              <p className="error404Container__links-subTitle">
-                custom css inspire from tailwind
-              </p>
-            </span>
-            <p className="error404Container__links-arrow"> &#62;</p>
-          </li>
+          <Link to={`${DOCUMENTSURL}/docs`} target="blank">
+            <li>
+              <img src={service1} alt="serviceICon" />
+              <span className="error404Container__links-text">
+                <p className="error404Container__links-title">Documentation</p>
+                <p className="error404Container__links-subTitle">
+                  Complete API Documentation
+                </p>
+              </span>
+              <p className="error404Container__links-arrow"> &#62;</p>
+            </li>
+          </Link>
 
           <li>
             <img src={service2} alt="serviceICon" />

@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: User Management API
+  version: 1.0.0
+  description: API for managing users, including retrieval, creation, updating, and deletion of user information.
+
+servers:
+  - url: /api/v1
+
+paths:
+  /user:
+    get:
+      tags:
+        - User
+      summary: Retrieve all users
+      description: Get a list of all users in the system.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfully retrieved the list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    firstName:
+                      type: string
+                      example: John
+                    lastName:
+                      type: string
+                      example: Doe
+                    email:
+                      type: string
+                      format: email
+                      example: john.doe@example.com
+                    departmentId:
+                      type: integer
+                      example: 2
+        401:
+          description: Unauthorized - invalid or missing token
+        500:
+          description: Internal server error
+
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: Add a new user to the system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: John
+                lastName:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  example: P@ssw0rd!
+                departmentId:
+                  type: integer
+                  example: 2
+              required:
+                - firstName
+                - lastName
+                - email
+                - password
+                - departmentId
+      responses:
+        201:
+          description: Successfully created a new user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  message:
+                    type: string
+                    example: User created successfully
+        400:
+          description: Bad request - invalid input data
+        401:
+          description: Unauthorized - invalid or missing token
+        500:
+          description: Internal server error
+
+  /user/{id}:
+    get:
+      tags:
+        - User
+      summary: Retrieve a specific user
+      description: Get details of a user by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfully retrieved the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  firstName:
+                    type: string
+                    example: John
+                  lastName:
+                    type: string
+                    example: Doe
+                  email:
+                    type: string
+                    format: email
+                    example: john.doe@example.com
+                  departmentId:
+                    type: integer
+                    example: 2
+        404:
+          description: User not found
+        401:
+          description: Unauthorized - invalid or missing token
+        500:
+          description: Internal server error
+
+    put:
+      tags:
+        - User
+      summary: Update a specific user
+      description: Update details of a user by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: John
+                lastName:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  example: NewP@ssw0rd!
+                departmentId:
+                  type: integer
+                  example: 2
+      responses:
+        200:
+          description: Successfully updated the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User updated successfully
+        400:
+          description: Bad request - invalid input data
+        404:
+          description: User not found
+        401:
+          description: Unauthorized - invalid or missing token
+        500:
+          description: Internal server error
+
+    delete:
+      tags:
+        - User
+      summary: Delete a specific user
+      description: Remove a user from the system by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: Successfully deleted the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted successfully
+        404:
+          description: User not found
+        401:
+          description: Unauthorized - invalid or missing token
+        500:
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

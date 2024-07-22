@@ -1,0 +1,108 @@
+# swagger/routes/companyInfo.js
+paths:
+  /company-info:
+    get:
+      tags:
+        - Company
+      summary: Get company data
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    companyName:
+                      type: string
+                      example: Example Company
+                    country:
+                      type: string
+                      example: USA
+                    city:
+                      type: string
+                      example: New York
+                    street:
+                      type: string
+                      example: 123 Main St
+                    zipcode:
+                      type: string
+                      example: 10001
+                    idNumber:
+                      type: string
+                      example: 123456789
+                    bankName:
+                      type: string
+                      example: Example Bank
+                    iban:
+                      type: string
+                      example: DE89370400440532013000
+                    bic:
+                      type: string
+                      example: COBADEFFXXX
+    put:
+      tags:
+        - Company
+      summary: Update company details
+      description: Update details of a specific company.
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The company ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyName:
+                  type: string
+                  example: Updated Company Name
+                country:
+                  type: string
+                  example: Germany
+                city:
+                  type: string
+                  example: Berlin
+                street:
+                  type: string
+                  example: 456 Another St
+                zipcode:
+                  type: string
+                  example: 10115
+                idNumber:
+                  type: string
+                  example: 987654321
+                bankName:
+                  type: string
+                  example: Updated Bank Name
+                iban:
+                  type: string
+                  example: DE89370400440532013001
+                bic:
+                  type: string
+                  example: COBADEFFXXX
+      responses:
+        200:
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Company data updated successfully
+        400:
+          description: Bad request
+        404:
+          description: Company not found

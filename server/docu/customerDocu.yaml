@@ -1,0 +1,170 @@
+paths:
+  /customer:
+    post:
+      tags:
+        - Customer
+      summary: Create a new customer company
+      description: Create a new customer company entry in the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customerName:
+                  type: string
+                  example: New Customer Company
+                country:
+                  type: string
+                  example: USA
+                city:
+                  type: string
+                  example: San Francisco
+                street:
+                  type: string
+                  example: 789 Market St
+                zipcode:
+                  type: string
+                  example: 94103
+                idNumber:
+                  type: string
+                  example: 1122334455
+      responses:
+        200:
+          description: Successful creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Customer company created successfully
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+  /customer/{id}:
+    get:
+      tags:
+        - Customer
+      summary: Retrieve customer company data
+      description: Retrieve customer company data. If `id` is provided, returns data for that specific customer company.
+      parameters:
+        - in: path
+          name: id
+          required: false
+          schema:
+            type: integer
+          description: The customer company ID
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    customerName:
+                      type: string
+                      example: Example Customer
+                    country:
+                      type: string
+                      example: USA
+                    city:
+                      type: string
+                      example: New York
+                    street:
+                      type: string
+                      example: 123 Broadway
+                    zipcode:
+                      type: string
+                      example: 10001
+                    idNumber:
+                      type: string
+                      example: 123456789
+        404:
+          description: No customers found
+    put:
+      tags:
+        - Customer
+      summary: Update customer company details
+      description: Update details of a specific customer company. Requires customer company ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The customer company ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customerName:
+                  type: string
+                  example: Updated Customer Name
+                country:
+                  type: string
+                  example: Canada
+                city:
+                  type: string
+                  example: Toronto
+                street:
+                  type: string
+                  example: 456 Queen St
+                zipcode:
+                  type: string
+                  example: M5A 1A1
+                idNumber:
+                  type: string
+                  example: 987654321
+      responses:
+        200:
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Customer data updated successfully
+        400:
+          description: Bad request
+        404:
+          description: Customer not found
+    delete:
+      tags:
+        - Customer
+      summary: Delete a customer company
+      description: Delete a specific customer company by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The customer company ID
+      responses:
+        200:
+          description: Successful deletion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Customer company deleted successfully
+        404:
+          description: Customer company not found

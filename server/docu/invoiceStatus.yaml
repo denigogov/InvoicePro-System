@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+  title: Invoice API
+  version: 1.0.0
+  description: API for managing invoice statuses and related data.
+
+paths:
+  /invoiceStatus/chart:
+    get:
+      tags:
+        - InvoiceStatus
+      summary: Retrieve invoice count by status
+      description: Get the count of invoices grouped by status, including total price and number of invoices.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successful response with invoice count by status
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    statusId:
+                      type: integer
+                      example: 1
+                    statusName:
+                      type: string
+                      example: Paid
+                    totalPrice:
+                      type: number
+                      format: float
+                      example: 1500.75
+                    totalInvoices:
+                      type: integer
+                      example: 10
+        404:
+          description: No invoice statuses found
+
+  /invoiceStatus:
+    get:
+      tags:
+        - InvoiceStatus
+      summary: Retrieve all invoice statuses
+      description: Get a list of all invoice statuses from the database.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successful response with the list of invoice statuses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    statusName:
+                      type: string
+                      example: Paid
+        404:
+          description: No invoice statuses found
+
+  /invoiceStatus/{id}:
+    get:
+      tags:
+        - InvoiceStatus
+      summary: Retrieve specific invoice status and associated invoice details
+      description: Get the details of a specific invoice status and related invoice information by ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the invoice
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successful response with the invoice status and details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  selectAllStatus:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        statusName:
+                          type: string
+                          example: Paid
+                  findPriceTaxDiscount:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 101
+                        totalPrice:
+                          type: number
+                          format: float
+                          example: 1500.75
+                        statusId:
+                          type: integer
+                          example: 1
+                        tax:
+                          type: number
+                          format: float
+                          example: 100.00
+                        discount:
+                          type: number
+                          format: float
+                          example: 50.00
+        404:
+          description: Invoice status or details not found
+
+    put:
+      tags:
+        - InvoiceStatus
+      summary: Update invoice status
+      description: Update the name of an invoice status.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of the invoice status to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                statusName:
+                  type: string
+                  example: Paid
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successful update of invoice status
+        400:
+          description: Update failed. No rows affected
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UpdateInvoiceStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        statusName:
+          type: string
+          example: Paid

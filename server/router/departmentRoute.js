@@ -4,6 +4,7 @@ const { verifyToken } = require("../auth/auth");
 
 const { selectAllDepartments } = require("../database/departments");
 
+// route name = department
 router.get("/", verifyToken, selectAllDepartments);
 
 module.exports = router;

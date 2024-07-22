@@ -18,7 +18,7 @@ import ReportFilter from "../../components/DashboardComponents/ReportFilter";
 
 const Dashboard: React.FC = () => {
   const [openReport, setOpenReport] = useState<boolean>(false);
-  const { token } = useAuth();
+  const { token, userInfo } = useAuth();
   const navigator = useNavigate();
 
   const {
@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>Welcome Back, User</h1>
+        <h1>Welcome Back, {userInfo?.username ?? "User"}</h1>
         <p>Manage and track your invoices efficiently</p>
         <div className="header-buttons">
           <button onClick={handleDownloadReport} className="btn">

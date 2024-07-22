@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: User Authentication API
+  version: 1.0.0
+  description: API for user authentication, including login, 2FA confirmation, and user info retrieval.
+servers:
+  - url: /api/v1
+paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticate user credentials and issue a JWT token.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  example: P@ssw0rd!
+      responses:
+        200:
+          description: Successfully authenticated, returns a JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        401:
+          description: Invalid credentials
+        500:
+          description: Internal server error
+
+  /login/confirm:
+    post:
+      tags:
+        - Authentication
+      summary: Confirm 2FA code
+      description: Confirm the 2FA code and issue a new JWT token.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: string
+                  example: "12345678"
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfully confirmed 2FA, returns a JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        401:
+          description: Invalid or expired 2FA code
+        500:
+          description: Internal server error
+
+  /login/userinfo:
+    get:
+      tags:
+        - Authentication
+      summary: Get user info
+      description: Retrieve user information based on the JWT token.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfully retrieved user information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  payload:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      username:
+                        type: string
+                        example: JohnDoe
+                      type:
+                        type: integer
+                        example: 2
+        401:
+          description: Unauthorized - invalid or missing token
+        500:
+          description: Internal server error
+
+  /login/resendcode:
+    post:
+      tags:
+        - Authentication
+      summary: Resend 2FA code
+      description: Resend the 2FA code to the user's email.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfully resent 2FA code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: string
+                    example: "code was sent"
+        401:
+          description: Unauthorized - invalid or missing token
+        404:
+          description: User not found
+        500:
+          description: Internal server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

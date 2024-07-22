@@ -4,6 +4,8 @@ const compression = require("compression");
 const helmet = require("helmet");
 const { CustomError } = require("./utility/customError");
 
+const { swaggerUi, specs } = require("./docu/swagger");
+
 require("dotenv").config();
 
 const app = express();
@@ -12,6 +14,8 @@ app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.disable("x-powered-by");
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 const port = process.env.SERVER_PORT || 4001;
 

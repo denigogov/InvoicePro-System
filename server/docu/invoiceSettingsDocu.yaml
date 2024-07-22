@@ -1,0 +1,93 @@
+tags:
+  - name: InvoiceSettings
+    description: Operations related to invoice settings
+
+paths:
+  /settings:
+    get:
+      tags:
+        - InvoiceSettings
+      summary: Get all invoice settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: A list of all invoice settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InvoiceSetting"
+        "400":
+          description: Bad request
+
+    put:
+      tags:
+        - InvoiceSettings
+      summary: Update invoice settings
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: Settings to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInvoiceSettingsRequest"
+      responses:
+        "200":
+          description: Invoice settings successfully updated
+        "400":
+          description: Bad request
+        "404":
+          description: Invoice settings not found
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    InvoiceSetting:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tax:
+          type: number
+          example: 10
+        discount:
+          type: number
+          example: 5
+
+    UpdateInvoiceSettingsRequest:
+      type: object
+      properties:
+        tax:
+          type: number
+          example: 12
+        discount:
+          type: number
+          example: 8
+      required:
+        - tax
+        - discount
+      description: Settings to update
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invoice Settings Failed to Load, please try again"

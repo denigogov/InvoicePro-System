@@ -1,0 +1,455 @@
+paths:
+  /invoice/totalMonthly:
+    get:
+      tags:
+        - Invoices
+      summary: Get total monthly invoices
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: A list of total monthly invoices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    InvoiceMonth:
+                      type: string
+                      example: "Jan"
+                    TotalSales:
+                      type: number
+                      example: 15000.00
+
+  /invoice/recent:
+    get:
+      tags:
+        - Invoices
+      summary: Get recent invoices
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: A list of recent invoices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    invoiceId:
+                      type: string
+                      example: "INV001"
+                    customerName:
+                      type: string
+                      example: "ABC Corp"
+                    date:
+                      type: string
+                      format: date
+                      example: "2024-07-01"
+                    totalPrice:
+                      type: number
+                      example: 5000.00
+                    statusName:
+                      type: string
+                      example: "Paid"
+                    statusId:
+                      type: integer
+                      example: 1
+
+  /invoice/pagination:
+    post:
+      tags:
+        - Invoices
+      summary: Get paginated list of invoices with filters
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Filters and pagination parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchInvoice:
+                  type: string
+                  example: "INV"
+                minPrice:
+                  type: number
+                  example: 100
+                maxPrice:
+                  type: number
+                  example: 5000
+                createdDate:
+                  type: string
+                  format: date
+                  example: "2024-07-01"
+                statusId:
+                  type: integer
+                  example: 1
+                field:
+                  type: string
+                  example: "totalPrice"
+                direction:
+                  type: string
+                  enum: [asc, desc]
+                  example: "asc"
+                page:
+                  type: integer
+                  example: 1
+                limit:
+                  type: integer
+                  example: 10
+      responses:
+        "200":
+          description: Paginated list of invoices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoiceData:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        invoiceId:
+                          type: string
+                          example: "INV001"
+                        customerName:
+                          type: string
+                          example: "ABC Corp"
+                        totalPrice:
+                          type: number
+                          example: 5000.00
+                        date:
+                          type: string
+                          format: date
+                          example: "2024-07-01"
+                        statusName:
+                          type: string
+                          example: "Paid"
+                        statusId:
+                          type: integer
+                          example: 1
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        example: 1
+                      limit:
+                        type: integer
+                        example: 10
+                      totalPages:
+                        type: integer
+                        example: 5
+
+  /invoice/lastId:
+    get:
+      tags:
+        - Invoices
+      summary: Get the last invoice ID
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: The last invoice ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lastId:
+                    type: string
+                    example: "INV999"
+
+  /invoice/{id}:
+    get:
+      tags:
+        - Invoices
+      summary: Get an invoice by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "INV001"
+      responses:
+        "200":
+          description: Details of the specified invoice
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  findInvoice:
+                    type: object
+                    properties:
+                      invoiceId:
+                        type: string
+                        example: "INV001"
+                      currentDate:
+                        type: string
+                        format: date
+                        example: "2024-07-01"
+                      totalPrice:
+                        type: number
+                        example: 5000.00
+                      statusName:
+                        type: string
+                        example: "Paid"
+                      customerName:
+                        type: string
+                        example: "ABC Corp"
+                      country:
+                        type: string
+                        example: "USA"
+                      city:
+                        type: string
+                        example: "New York"
+                      street:
+                        type: string
+                        example: "5th Ave"
+                      zipcode:
+                        type: string
+                        example: "10001"
+                      idNumber:
+                        type: string
+                        example: "123456789"
+                      tax:
+                        type: number
+                        example: 5
+                      discount:
+                        type: number
+                        example: 10
+                  findDetails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        description:
+                          type: string
+                          example: "Product A"
+                        price:
+                          type: number
+                          example: 100.00
+
+    put:
+      tags:
+        - Invoices
+      summary: Update an invoice by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "INV001"
+      requestBody:
+        description: Invoice details to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoiceId:
+                  type: string
+                  example: "INV001"
+                date:
+                  type: string
+                  format: date
+                  example: "2024-07-01"
+                companyInfoId:
+                  type: integer
+                  example: 1
+                customercompanyId:
+                  type: integer
+                  example: 1
+                statusId:
+                  type: integer
+                  example: 1
+                totalPrice:
+                  type: number
+                  example: 5000.00
+                tax:
+                  type: number
+                  example: 5
+                discount:
+                  type: number
+                  example: 10
+      responses:
+        "200":
+          description: Invoice successfully updated
+        "400":
+          description: Bad request
+        "404":
+          description: Invoice not found
+
+    delete:
+      tags:
+        - Invoices
+      summary: Delete an invoice by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "INV001"
+      responses:
+        "200":
+          description: Invoice successfully deleted
+        "404":
+          description: Invoice not found
+
+  /invoice/details:
+    post:
+      tags:
+        - Invoices
+      summary: Create invoice details
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Details of the invoice
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  invoiceID:
+                    type: integer
+                    example: 1
+                  description:
+                    type: string
+                    example: "Product A"
+                  price:
+                    type: number
+                    example: 100.00
+      responses:
+        "200":
+          description: Invoice details successfully created
+        "400":
+          description: Bad request
+
+  /invoice/details/{id}:
+    put:
+      tags:
+        - Invoices
+      summary: Update invoice details by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: Updated details of the invoice
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: "Updated description"
+                price:
+                  type: number
+                  example: 120.00
+                totalPrice:
+                  type: number
+                  example: 5200.00
+                invoiceId:
+                  type: string
+                  example: "INV001"
+      responses:
+        "200":
+          description: Invoice details successfully updated
+        "400":
+          description: Bad request
+        "404":
+          description: Invoice detail not found
+
+  /invoice/report:
+    post:
+      tags:
+        - Invoices
+      summary: Get report data based on filters
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Filters for report generation
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  format: date
+                  example: "2024-01-01"
+                endDate:
+                  type: string
+                  format: date
+                  example: "2024-12-31"
+                yearQuarter:
+                  type: string
+                  example: "Q1"
+                invoiceType:
+                  type: string
+                  example: "Sales"
+                customerId:
+                  type: integer
+                  example: 1
+      responses:
+        "200":
+          description: Report data based on the provided filters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reportData:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        invoiceId:
+                          type: string
+                          example: "INV001"
+                        customerName:
+                          type: string
+                          example: "ABC Corp"
+                        totalPrice:
+                          type: number
+                          example: 5000.00
+                        date:
+                          type: string
+                          format: date
+                          example: "2024-07-01"
