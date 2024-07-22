@@ -98,29 +98,8 @@ const verifyToken = handleTryCatch(async (req, res, next) => {
   });
 });
 
-const fetchIPadress = handleTryCatch(async (req, res, next) => {
-  const ipAddress =
-    req.headers["x-forwarded-for"]?.split(",")[0].trim() || // Extract the first IP if multiple
-    req.headers["cf-connecting-ip"] || // Cloudflare
-    req.headers["x-real-ip"] || // Some proxies
-    req.socket.remoteAddress || // Fallback for direct connections
-    req.connection.remoteAddress || // Legacy fallback
-    "unknown"; // Default value if no IP found
-
-  console.log("Request Headers:", req.headers);
-  console.log("Request IP:", req.ip);
-  console.log("Socket Remote Address:", req.socket.remoteAddress);
-  console.log("Connection Remote Address:", req.connection.remoteAddress);
-
-  req.clientIpAddress = ipAddress; // Attach IP to request object
-
-  console.log("Client IP Address:", ipAddress);
-  next();
-});
-
 module.exports = {
   hashedPassword,
   verifyPassword,
   verifyToken,
-  fetchIPadress,
 };
