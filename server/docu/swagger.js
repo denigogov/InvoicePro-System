@@ -8,10 +8,10 @@ const options = {
     openapi: "3.0.0",
     info: {
       title: "Nexigo API",
-      version: "1.0.3",
+      version: "2.0.0",
       description: `Nexigo API documentation for invoice management and generation. Demo Version 
       
-      ${process.env.BACKENDURLFORDCRONJOB} 
+      ${process.env.FRONTEND__URL} 
       `,
     },
     servers: [
