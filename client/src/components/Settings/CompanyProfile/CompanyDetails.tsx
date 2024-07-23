@@ -2,7 +2,6 @@ import "../../../Styling/Components/SettingsComponent/_companyDetails.scss";
 import { Link, To } from "react-router-dom";
 import React from "react";
 import { DetailItem } from "../../../pages/Settings/companyInfo/CompanyProfile";
-import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import SettingsInfoSkeletonLoading from "../../GlobalComponents/SkeletonLoading/SettingsInfoSkeletonLoading";
 
 interface CompanyDetailsProps {
@@ -22,8 +21,8 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({
   navigateTo,
   setPopupOpen,
 }) => {
-  if (companyDataError)
-    return <ErrorMinimalDisplay errorMessage={companyDataError?.message} />;
+  // Sending the Error to the global Route Error Element !
+  if (companyDataError) throw Error;
   if (companyDataLoading) return <SettingsInfoSkeletonLoading />;
 
   return (

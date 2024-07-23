@@ -3,10 +3,11 @@ import RootRouter from "./router/RootRouter";
 import { fetchTokenValidation } from "./api/apiHelper";
 import { UserInfoType } from "./types/AuthType";
 import { useAuth } from "./helpers/useAuth";
+import Error404 from "./components/GlobalComponents/Error404";
 
 const App = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const auth = useAuth();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const App = () => {
           auth.logout();
         }
         setLoading(false);
-        setError(null);
+        setErrorMessage(null);
       } catch (error) {
         console.error("Error fetching data:", error);
         if (retryCount < 3) {
@@ -33,7 +34,7 @@ const App = () => {
           }, 1000);
         } else {
           setLoading(false);
-          setError(
+          setErrorMessage(
             "Failed to validate token. Please refresh or try again later."
           );
         }
@@ -43,8 +44,12 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.token]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (errorMessage) {
+    <Error404
+      codeStatus={400}
+      messageTitle="Unexpected Error Occurred"
+      messageSubTitle={errorMessage}
+    />;
   }
 
   return (

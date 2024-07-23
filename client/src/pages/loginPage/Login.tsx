@@ -4,8 +4,10 @@ import LoginForm from "../../components/Login/LoginForm";
 import { CredentialsTypes } from "../../types/loginType";
 import { useAuth } from "../../helpers/useAuth";
 import { useNavigate } from "react-router-dom";
+import Error404 from "../../components/GlobalComponents/Error404";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
+const ERROR_MESSAGE = import.meta.env.VITE_SERVER_PROBLEM as string;
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,7 +34,6 @@ const Login: React.FC = () => {
 
       return data.token as string;
     } catch (err) {
-      console.log(err);
       const requestError = (err as Error).stack;
       setError(
         requestError?.includes("Too")
@@ -55,7 +56,18 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      <LoginForm loading={loading} error={error} handleLogin={handleLogin} />
+      {ERROR_MESSAGE.length ? (
+        <Error404
+          codeStatus={503}
+          messageTitle="Temporary Login Issue"
+          messageSubTitle={
+            ERROR_MESSAGE ||
+            "We’re currently experiencing server issues affecting login. Our team is working on resolving this as quickly as possible. Please check back shortly"
+          }
+        />
+      ) : (
+        <LoginForm loading={loading} error={error} handleLogin={handleLogin} />
+      )}
     </div>
   );
 };

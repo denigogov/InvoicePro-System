@@ -42,13 +42,35 @@ import PasswordChange from "../pages/loginPage/PasswordChange";
 import { RequireAuth } from "../helpers/RequireAuth";
 import TestPDF from "./TestPDF";
 
+export interface Error404Types {
+  codeStatus?: number;
+  messageTitle?: string;
+  messageSubTitle?: string;
+}
+
 const RootRouter = () => {
   // const auth = useAuth;
+
+  const errorMessages: Error404Types = {
+    codeStatus: 500,
+    messageTitle: "Unexpected Error Occurred",
+    messageSubTitle: "We're working to fix this issue. Please try again later.",
+  };
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route path="login" element={<LoginRoot />}>
+        <Route
+          path="login"
+          element={<LoginRoot />}
+          errorElement={
+            <Error404
+              codeStatus={errorMessages?.codeStatus}
+              messageTitle={errorMessages?.messageTitle}
+              messageSubTitle={errorMessages?.messageSubTitle}
+            />
+          }
+        >
           <Route
             index
             element={
@@ -86,9 +108,29 @@ const RootRouter = () => {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+            errorElement={
+              <Error404
+                codeStatus={errorMessages?.codeStatus}
+                messageTitle={errorMessages?.messageTitle}
+                messageSubTitle={errorMessages?.messageSubTitle}
+              />
+            }
+          />
 
-          <Route path="/invoices" element={<Invoices />}>
+          <Route
+            path="/invoices"
+            element={<Invoices />}
+            errorElement={
+              <Error404
+                codeStatus={errorMessages?.codeStatus}
+                messageTitle={errorMessages?.messageTitle}
+                messageSubTitle={errorMessages?.messageSubTitle}
+              />
+            }
+          >
             <Route index element={<AllInvoices />} />
             <Route path="all" element={<AllInvoices />}>
               <Route path="details/:invoiceId" element={<InvoiceDetails />} />
@@ -104,7 +146,17 @@ const RootRouter = () => {
           </Route>
 
           {/* Administration Route */}
-          <Route path="/administration" element={<Administration />}>
+          <Route
+            path="/administration"
+            element={<Administration />}
+            errorElement={
+              <Error404
+                codeStatus={errorMessages?.codeStatus}
+                messageTitle={errorMessages?.messageTitle}
+                messageSubTitle={errorMessages?.messageSubTitle}
+              />
+            }
+          >
             <Route index element={<EmployeesSettings />} />
             <Route path="employees" element={<EmployeesSettings />}>
               <Route path="edit/:id" element={<EditEmployer />} />
@@ -118,7 +170,17 @@ const RootRouter = () => {
           </Route>
 
           {/* settings Route */}
-          <Route path="/settings" element={<Settings />}>
+          <Route
+            path="/settings"
+            element={<Settings />}
+            errorElement={
+              <Error404
+                codeStatus={errorMessages?.codeStatus}
+                messageTitle={errorMessages?.messageTitle}
+                messageSubTitle={errorMessages?.messageSubTitle}
+              />
+            }
+          >
             <Route index element={<CompanyProfile />} />
             <Route path="company-profile" element={<CompanyProfile />}>
               <Route path="edit-info" element={<EditInfoCompany />} />

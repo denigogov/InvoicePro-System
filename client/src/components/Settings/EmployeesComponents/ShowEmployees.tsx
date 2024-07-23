@@ -2,7 +2,6 @@ import "../../../Styling/Components/AdministrationComponentsStyle/_showEmployees
 import { Link, useLocation } from "react-router-dom";
 import testIcon from "../../../assets/userIcon.svg";
 import { FetchAllUsersTypes } from "../../../types/userDataTypes";
-import ErrorMinimalDisplay from "../../GlobalComponents/ErrorMinimalDisplay";
 import EmployerInfoSkeletonLoading from "../../GlobalComponents/SkeletonLoading/EmployerInfoSkeletonLoading";
 interface ShowEmployeesProps {
   allUserData?: FetchAllUsersTypes[];
@@ -26,8 +25,7 @@ const ShowEmployees: React.FC<ShowEmployeesProps> = ({
   };
 
   if (allUserDataLoading) return <EmployerInfoSkeletonLoading />;
-  if (allUserDataError)
-    return <ErrorMinimalDisplay errorMessage={allUserDataError?.message} />;
+  if (allUserDataError) throw Error;
   return (
     <div className="showEmployees width500">
       <ul>
