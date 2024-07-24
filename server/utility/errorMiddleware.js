@@ -11,8 +11,8 @@ const { CustomError } = require("./customError");
  */
 exports.errorMiddleware = (error, req, res, next) => {
   // Determine the environment
-  const isProduction = process.env.NODE_ENV === "production";
-  const isDevelopment = process.env.NODE_ENV === "development";
+  const isProduction = process.env.NODE_ENV_TEST === "production";
+  const isDevelopment = process.env.NODE_ENV_TEST === "development";
 
   // Error details for development mode
   const devLog = {

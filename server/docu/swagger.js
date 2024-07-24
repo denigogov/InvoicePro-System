@@ -17,7 +17,7 @@ const options = {
     servers: [
       {
         url:
-          process.env.NODE_ENV === "production"
+          process.env.NODE_ENV_TEST === "production"
             ? process.env.BACKENDURLFORDCRONJOB
             : "http://localhost:4000",
       },

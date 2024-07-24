@@ -39,17 +39,21 @@ const Error404: React.FC<Error404Types> = ({
               <p className="error404Container__links-arrow"> &#62;</p>
             </li>
           </Link>
-
-          <li>
-            <img src={service2} alt="serviceICon" />
-            <span className="error404Container__links-text">
-              <p className="error404Container__links-title">Setup</p>
-              <p className="error404Container__links-subTitle">
-                Work in progress
-              </p>
-            </span>
-            <p className="error404Container__links-arrow"> &#62;</p>
-          </li>
+          <Link
+            to={"https://github.com/denigogov/InvoicePro-System"}
+            target="blank"
+          >
+            <li>
+              <img src={service2} alt="serviceICon" />
+              <span className="error404Container__links-text">
+                <p className="error404Container__links-title">Setup</p>
+                <p className="error404Container__links-subTitle">
+                  Access setup instructions and resources on GitHub
+                </p>
+              </span>
+              <p className="error404Container__links-arrow"> &#62;</p>
+            </li>
+          </Link>
 
           <Link to={"https://www.linkedin.com/in/dejangogov/"} target="blank">
             <li>
