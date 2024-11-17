@@ -73,6 +73,11 @@
   flex-direction: column;
   align-items: center;
 
+  @media (max-width: general.$lg) {
+    width: 80%;
+    height: 50%;
+  }
+
   @media (max-width: general.$md) {
     width: 90%;
     height: 70%;
@@ -91,5 +96,12 @@
   @media (max-width: general.$sm) {
     width: 90%;
     height: 60%;
+  }
+}
+
+.xlPopup-phone {
+  @media (max-width: general.$md) {
+    width: 90%;
+    height: 80%;
   }
 }

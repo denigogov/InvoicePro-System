@@ -4,8 +4,8 @@ import "../../../Styling/Components/AdministrationComponentsStyle/_customerDetai
 
 const DetailsCustomer: React.FC<DetailsCustomerProps> = () => {
   const customer = {
-    name: "John Doe",
-    email: "johndoe@example.com",
+    name: "User Company",
+    email: "user@nexigo.com",
     phone: "+1234567890",
     address: "123 Main St, City, Country",
     numInvoices: 10,

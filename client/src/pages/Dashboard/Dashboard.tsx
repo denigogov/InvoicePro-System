@@ -122,7 +122,10 @@ const Dashboard: React.FC = () => {
 
       {openReport && (
         <div className="overlay" onClick={openPopUp}>
-          <main className="popUp msPopup" onClick={(e) => e.stopPropagation()}>
+          <main
+            className="popUp msPopup xlPopup-phone"
+            onClick={(e) => e.stopPropagation()}
+          >
             <ReportFilter />
           </main>
         </div>
