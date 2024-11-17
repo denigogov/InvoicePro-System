@@ -29,18 +29,18 @@ import { styles } from "../../Styling/Components/InvoiceComponentStyle/invoiceSt
 Font.register({
   family: "customFontWeight400",
   src: customFontWeight400,
-  onError: (err: Error) => <p>{err.message},hello error font</p>,
+  onError: (err: Error) => <p>{err.message}, error font</p>,
 });
 
 Font.register({
   family: "customFontWeight500",
   src: customFontWeight500,
-  onError: (err: Error) => <p>{err.message},hello error font</p>,
+  onError: (err: Error) => <p>{err.message}, error font</p>,
 });
 Font.register({
   family: "customFontWeight700",
   src: customFontWeight700,
-  onError: (err: Error) => <p>{err.message},hello error font</p>,
+  onError: (err: Error) => <p>{err.message}, error font</p>,
 });
 
 interface InvoiceGeneratorTypes {
@@ -74,6 +74,7 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
   totalDiscount,
   totalPrice,
 }) => {
+  const language = invoiceDetailsData.language === "DE";
   const generateInvoiceID = generateInvoiceNumber(
     invoiceLastId ? invoiceLastId : invoiceDetailsData?.invoiceId
   );
@@ -85,32 +86,40 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
         <View style={styles.pageContainer}>
           <View style={styles.firstPageHalf}>
             <View style={styles.pageTitle}>
-              <Text>INVOICE</Text>
+              <Text>{language ? "RECHNUNG" : "INVOICE"}</Text>
             </View>
 
             {/* Invoice Seller Buyer Data */}
             <View style={styles.sellerBuyerData}>
               {/* seler DATA */}
               <View style={styles.sellerBuyerRowData}>
-                <Text style={styles.sellerBuyerTitle}>SELLER</Text>
+                <Text style={styles.sellerBuyerTitle}>
+                  {language ? "Absender" : "SELLER"}
+                </Text>
                 <View style={styles.gap4px}>
                   {filteredCompanyData?.map((data) => (
                     <React.Fragment key={data?.id}>
                       <Text>{data?.companyName ?? "Not Found"}</Text>
                       <Text>{data?.street ?? ""}</Text>
                       <Text>{`${data?.zipcode}, ${data?.city} - ${data?.country} `}</Text>
-                      <Text>Ust.Ident-Nr: {data?.idNumber ?? "Not Found"}</Text>
+                      <Text>
+                        {language ? "USt-IdNr" : "Ust.Ident-Nr"}:{" "}
+                        {data?.idNumber ?? "Not Found"}
+                      </Text>
                     </React.Fragment>
                   ))}
                 </View>
                 <Text style={styles.invoiceNumberDate}>
-                  Invoice number: #{generateInvoiceID}
+                  {language ? "Rechnungsnummer" : " Invoice number"}: #
+                  {generateInvoiceID}
                 </Text>
               </View>
 
               {/* Buyer DATA */}
               <View style={styles.sellerBuyerRowData}>
-                <Text style={styles.sellerBuyerTitle}>BILLED TO:</Text>
+                <Text style={styles.sellerBuyerTitle}>
+                  {language ? "Empfänger" : "BILLED TO"}:
+                </Text>
                 <View style={styles.gap4px}>
                   {filterBuyerData?.length ? (
                     <>
@@ -120,7 +129,8 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                           <Text>{buyer?.street ?? ""}</Text>
                           <Text>{`${buyer?.zipcode}, ${buyer?.city} - ${buyer?.country} `}</Text>
                           <Text>
-                            Ust.Ident-Nr: {buyer?.idNumber ?? "Not Found"}
+                            {language ? "USt-IdNr" : "Ust.Ident-Nr"}:{" "}
+                            {buyer?.idNumber ?? "Not Found"}
                           </Text>
                         </React.Fragment>
                       ))}
@@ -131,14 +141,14 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                       <Text>{buyerCompanyData?.street}</Text>
                       <Text>{`${buyerCompanyData?.zipcode}, ${buyerCompanyData?.city} - ${buyerCompanyData?.country} `}</Text>
                       <Text>
-                        Ust.Ident-Nr:{" "}
+                        {language ? "USt-IdNr" : "Ust.Ident-Nr"}:{" "}
                         {buyerCompanyData?.idNumber ?? "Not Found"}
                       </Text>
                     </>
                   )}
                 </View>
                 <Text style={styles.invoiceNumberDate}>
-                  Invoice Date:{" "}
+                  {language ? "Rechnungsdatum" : "Invoice Date"}:{" "}
                   {moment(invoiceDetailsData?.data).format("Do MMMM YYYY")}
                 </Text>
               </View>
@@ -150,8 +160,8 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
           <View style={styles.secoundPageHalf}>
             <View style={styles.mainTable}>
               <View style={styles.mainTableTitle}>
-                <Text>DESCRIPTION</Text>
-                <Text>PRICE</Text>
+                <Text>{language ? "Beschreibung" : "DESCRIPTION"}</Text>
+                <Text>{language ? "Gesamtbetrag" : "PRICE"}</Text>
               </View>
               <View style={styles.detailsContainer}>
                 {addDescriptionAndPrice.map((item) => (
@@ -164,25 +174,32 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
 
               {totalDiscount === 0.0 || (
                 <View style={styles.footerTableDiscount}>
-                  <Text>Discount {discountValue}%</Text>
+                  <Text>
+                    {language ? "Rabatt" : "Discount"} {discountValue}%
+                  </Text>
                   <Text>€ - {totalDiscount}</Text>
                 </View>
               )}
 
               {totalTax === 0.0 || (
                 <View style={styles.footerTableTax}>
-                  <Text>Tax {taxValue}%</Text>
+                  <Text>
+                    {language ? "zzgl." : "Tax"} {taxValue}%{" "}
+                    {language ? "USt." : ""}
+                  </Text>
                   <Text>€ {totalTax}</Text>
                 </View>
               )}
 
               <View style={styles.footerTable}>
-                <Text>TOTAL DUE</Text>
+                <Text>{language ? "Rechnungsbetrag" : "TOTAL DUE"}</Text>
                 <Text>€ {totalPrice?.toFixed(2) ?? "N/A"}</Text>
               </View>
               {checkboxSignature && (
                 <View>
-                  <Text style={styles.signature}>Signature:</Text>
+                  <Text style={styles.signature}>
+                    {language ? "Unterschrift" : "Signature"}:
+                  </Text>
                   <Image style={styles.signatureImage} src={signatureImg} />
                 </View>
               )}
@@ -191,9 +208,11 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
             {/* Footer */}
             <View style={styles.footerContainer}>
               <View style={styles.gap4px}>
-                <Text style={styles.fontBold}>Bank Data</Text>
+                <Text style={styles.fontBold}>
+                  {language ? "Bankdaten" : "Bank Data"}
+                </Text>
                 <Text>
-                  Bank Name:{" "}
+                  {language ? "Bankname" : "Bank Name"}:{" "}
                   <Text style={styles.fontBold}>
                     {filteredCompanyData?.length
                       ? filteredCompanyData[0]?.bankName
@@ -218,8 +237,10 @@ const InvoiceGenerator: React.FC<InvoiceGeneratorTypes> = ({
                 </Text>
               </View>
               <View style={styles.gap4px}>
-                <Text>Phone: +49 0152 222 222 22</Text>
-                <Text>email: comapny@gmail.com</Text>
+                <Text>
+                  {language ? "Telefon" : "Phone"}: +49 072 126 131 63
+                </Text>
+                <Text>email: comapnyname@nexigo.com</Text>
               </View>
             </View>
           </View>

@@ -15,6 +15,7 @@ export interface Step3initialDateTypes {
   totalPrice: number | null;
   tax: number | null;
   discount: number | null;
+  language: string;
 }
 
 export type Step4initialDateTypes = {
@@ -38,6 +39,7 @@ export const INITIAL_DATA_STEP3: Step3initialDateTypes = {
   totalPrice: null,
   tax: null,
   discount: null,
+  language: "",
 };
 
 export const INITIAL_DATA_STEP4: Step4initialDateTypes[] = [

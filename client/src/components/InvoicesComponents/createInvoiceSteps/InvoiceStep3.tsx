@@ -18,6 +18,7 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
   invoiceId,
   data,
   tax,
+  language,
   discount,
   updateFileds,
   generateInvoiceID,
@@ -82,6 +83,16 @@ const InvoiceStep3: React.FC<InvoiceStep3Props> = ({
           onChange={(e) => updateFileds({ discount: +e.target.value })}
         />
 
+        <label>Language</label>
+        <select
+          required
+          defaultValue={language}
+          onChange={(e) => updateFileds({ language: e.target.value })}
+        >
+          <option value="">choose language</option>
+          <option value="EN">English</option>
+          <option value="DE">German</option>
+        </select>
         <label>Date</label>
         <input
           type="date"
