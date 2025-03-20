@@ -26,6 +26,7 @@ const invoiceRoute = require("./router/invoiceRoute");
 const invoicesettings = require("./router/invoiceSettingsRoute");
 const invoiceStatus = require("./router/invoiceStatusRoute");
 const userRoute = require("./router/userRoute");
+const serviceRoute = require("./router/serviceRoute");
 const departmentRoute = require("./router/departmentRoute");
 const { errorMiddleware } = require("./utility/errorMiddleware");
 
@@ -41,6 +42,7 @@ app.use("/invoiceStatus", invoiceStatus);
 app.use("/user", userRoute);
 app.use("/department", departmentRoute);
 app.use("/settings", invoicesettings);
+app.use("/service", serviceRoute);
 
 // Centralized Error Handling Middleware
 

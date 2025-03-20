@@ -98,8 +98,17 @@ const verifyToken = handleTryCatch(async (req, res, next) => {
   });
 });
 
+const verifyApiKey = handleTryCatch(async (req, res, next) => {
+  const clientApiKey = req.headers["x-api-key"];
+
+  if (!clientApiKey) throw CustomError.unauthorizedError("Api key is missing");
+
+  next();
+});
+
 module.exports = {
   hashedPassword,
   verifyPassword,
   verifyToken,
+  verifyApiKey,
 };
