@@ -1,9 +1,9 @@
 const database = require("./database");
 const jwt = require("jsonwebtoken");
 const { decrypt } = require("../auth/encript");
-const sgMail = require("@sendgrid/mail");
 const { handleTryCatch } = require("../utility/tryCatch");
 const { CustomError } = require("../utility/customError");
+const EmailService = require("../utility/emailSender");
 
 const findUserData = handleTryCatch(async (req, res, next) => {
   const { email } = req.body;
@@ -89,30 +89,16 @@ const resendCode = handleTryCatch(async (req, res) => {
   );
 
   if (findEmail.length) {
-    const message = {
-      from: {
-        email: process.env.EMAIL,
+    await EmailService.sendTemplateEmail({
+      templateId: 2,
+      to: [{ email: findEmail[0].email, name: "user" }],
+      params: {
+        confirmCode: decodedCode,
+        tokenExpireTime: 5,
+        subjectline: "Resend: Nexigo Login Confirmation Code",
+        previewtext: "Secure login for your Nexigo account",
       },
-
-      personalizations: [
-        {
-          to: [
-            {
-              email: findEmail[0].email,
-            },
-          ],
-
-          dynamic_template_data: {
-            confirmCode: `${decodedCode}`,
-          },
-        },
-      ],
-      template_id: process.env.TEMPLATE_ID,
-    };
-
-    sgMail
-      .send(message)
-      .then(() => res.status(200).send({ ok: "code was send" }));
+    }).then(() => res.status(200).send({ ok: "code was send" }));
   } else throw CustomError.notFoundError("Invalid User");
 });
 

@@ -216,6 +216,10 @@ const allInvoicesPagination = handleTryCatch(async (req, res) => {
     orderByQuery.push(`${field} ${direction}`);
   }
 
+  if (!field) {
+    orderByQuery.push(`invoice.date DESC`);
+  }
+
   const offset = (page - 1) * limit;
 
   const whereClause = `${whereQuery.join(" AND ")}`;

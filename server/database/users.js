@@ -1,9 +1,9 @@
 const database = require("./database");
 const jwt = require("jsonwebtoken");
 const { decrypt, encrypt } = require("../auth/encript");
-const sgMail = require("@sendgrid/mail");
 const { handleTryCatch, handleResponse } = require("../utility/tryCatch");
 const { CustomError } = require("../utility/customError");
+const EmailService = require("../utility/emailSender");
 
 const selectAllUsers = handleTryCatch(async (req, res) => {
   const [fetchAllUsers] = await database.query(`
@@ -128,30 +128,18 @@ const passwordReset = handleTryCatch(async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_CODE, {
       expiresIn: "10min",
     });
-
-    const message = {
-      from: {
-        email: process.env.EMAIL,
-      },
-
-      personalizations: [
-        {
-          to: [
-            {
-              email: findUser?.[0].email,
-            },
-          ],
-
-          dynamic_template_data: {
-            tokenLink: `${process.env.FRONTEND__URL}/login/password-reset/confirm/${token}`,
-          },
+    if (email.length) {
+      await EmailService.sendTemplateEmail({
+        templateId: 1,
+        to: [{ email: findUser?.[0].email, name: findUser?.[0].lastName }],
+        params: {
+          tokenExpireTime: 10,
+          resetPasswordLink: `${process.env.FRONTEND__URL}/login/password-reset/confirm/${token}`,
+          subjectline: "Reset Your Nexigo Password",
+          previewtext: "Action required for your account.",
         },
-      ],
-      template_id: `${process.env.TEMPLATE_RESETPASSWORD}`,
-    };
-
-    sgMail.send(message).then(() => res.sendStatus(200));
-
+      }).then(() => res.sendStatus(200));
+    }
     // email.length ? res.status(200).send(token) : res.sendStatus(400);
   }
 });

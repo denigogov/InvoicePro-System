@@ -2,12 +2,10 @@ require("dotenv").config();
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const sgMail = require("@sendgrid/mail");
 const { encrypt } = require("./encript");
 const { handleTryCatch } = require("../utility/tryCatch");
 const { CustomError } = require("../utility/customError");
-
-sgMail.setApiKey(process.env.APIEMAILKEY);
+const EmailService = require("../utility/emailSender");
 
 const hashOption = {
   type: argon2.argon2id,
@@ -15,6 +13,8 @@ const hashOption = {
   timeCost: 5,
   parallelism: 1,
 };
+
+const tokenExpireTime = 5;
 
 // if I make admin to create user!
 const hashedPassword = handleTryCatch(async (req, res, next) => {
@@ -41,7 +41,7 @@ const verifyPassword = handleTryCatch(async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.JWT_CODE, {
-      expiresIn: "5m",
+      expiresIn: `${tokenExpireTime}m`,
     });
 
     const message = {
@@ -65,7 +65,16 @@ const verifyPassword = handleTryCatch(async (req, res) => {
       template_id: process.env.TEMPLATE_ID,
     };
     if (req.user.email !== "guest@nexigo.com") {
-      await sgMail.send(message).then(() => res.status(200).send({ token }));
+      await EmailService.sendTemplateEmail({
+        templateId: 2,
+        to: [{ email: req.user.email, name: "user" }],
+        params: {
+          confirmCode: randomBytes,
+          tokenExpireTime: tokenExpireTime,
+          subjectline: "Your Nexigo Login Confirmation Code",
+          previewtext: "Secure login for your Nexigo account",
+        },
+      }).then(() => res.status(200).send({ token }));
     } else {
       res.status(200).send({ token });
     }
