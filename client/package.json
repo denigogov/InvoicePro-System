@@ -10,6 +10,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": ">=18.18.0 <22.0.0"
+  },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.5",
     "chart.js": "^4.5.0",
